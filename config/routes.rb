@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :user_groups
+  resources :users
+
   namespace :api do
     namespace :v1, defaults: { format: 'json'} do
       get 'things', to: 'things#index'
