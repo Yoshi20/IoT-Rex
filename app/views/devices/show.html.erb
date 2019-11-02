@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @device.name %>
+</p>
+
+<p>
+  <strong>Device type:</strong>
+  <%= @device.device_type %>
+</p>
+
+<p>
+  <strong>Dev eui:</strong>
+  <%= @device.dev_eui %>
+</p>
+
+<p>
+  <strong>App eui:</strong>
+  <%= @device.app_eui %>
+</p>
+
+<p>
+  <strong>App key:</strong>
+  <%= @device.app_key %>
+</p>
+
+<p>
+  <strong>Hw version:</strong>
+  <%= @device.hw_version %>
+</p>
+
+<p>
+  <strong>Fw versioin:</strong>
+  <%= @device.fw_versioin %>
+</p>
+
+<%= link_to 'Edit', edit_device_path(@device) %> |
+<%= link_to 'Back', devices_path %>
