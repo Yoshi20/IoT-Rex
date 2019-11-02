@@ -19,7 +19,7 @@ class User < ApplicationRecord
   def validate_username
     if username == email
       errors.add(:username, "can not be the same as Email")
-    elsif username == email || User.where(email: username).exists?
+    elsif User.where(email: username).exists?
       errors.add(:username, :invalid)
     end
   end
