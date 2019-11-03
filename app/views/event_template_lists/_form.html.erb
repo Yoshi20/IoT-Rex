@@ -1,0 +1,37 @@
+<%= form_with(model: event_template_list, local: true) do |form| %>
+  <% if event_template_list.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event_template_list.errors.count, "error") %> prohibited this event_template_list from being saved:</h2>
+
+      <ul>
+      <% event_template_list.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :user_group %>
+    <%= text_field_tag :user_group %>
+  </div>
+
+  <div class="field">
+    <%= form.label :device_type %>
+    <%= form.text_field :device_type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :channel %>
+    <%= form.text_field :channel %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
