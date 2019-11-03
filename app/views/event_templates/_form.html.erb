@@ -1,0 +1,32 @@
+<%= form_with(model: event_template, local: true) do |form| %>
+  <% if event_template.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event_template.errors.count, "error") %> prohibited this event_template from being saved:</h2>
+
+      <ul>
+      <% event_template.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :user_group %>
+    <%= text_field_tag :user_group %>
+  </div>
+
+  <div class="field">
+    <%= form.label :static_data %>
+    <%= form.text_field :static_data %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
