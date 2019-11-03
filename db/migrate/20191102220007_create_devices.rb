@@ -8,6 +8,7 @@ class CreateDevices < ActiveRecord::Migration[5.2]
       t.string :app_key
       t.string :hw_version
       t.string :fw_versioin
+      t.integer :battery
 
       t.timestamps
     end

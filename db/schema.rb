@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2019_11_02_220007) do
     t.string "app_key"
     t.string "hw_version"
     t.string "fw_versioin"
+    t.integer "battery"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_group_id"
