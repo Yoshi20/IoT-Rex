@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_03_152300) do
+ActiveRecord::Schema.define(version: 2019_11_03_155200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2019_11_03_152300) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_group_id"
+    t.bigint "event_template_list_id"
   end
 
   create_table "event_template_lists", force: :cascade do |t|
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 2019_11_03_152300) do
     t.bigint "user_group_id"
   end
 
+  add_foreign_key "devices", "event_template_lists"
   add_foreign_key "devices", "user_groups"
   add_foreign_key "event_template_lists", "user_groups"
   add_foreign_key "event_templates", "event_template_lists"
