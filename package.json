@@ -13,11 +13,11 @@
     "react-router-dom": "^5.1.2",
     "react_ujs": "^2.6.0",
     "redux": "^4.0.4",
+    "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0"
   },
   "devDependencies": {
-    "redux-devtools-extension": "^2.13.8",
     "webpack-dev-server": "^3.9.0"
   }
 }
