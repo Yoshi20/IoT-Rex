@@ -1,21 +1,18 @@
 Rails.application.routes.draw do
-  resources :events
-  resources :event_template_lists
-  resources :event_templates
-  resources :devices
-  resources :user_groups
-  resources :users
-
   namespace :api do
-    namespace :v1, defaults: { format: 'json'} do
-      get 'things', to: 'things#index'
+    namespace :v1 do
+      resources :events
+      resources :event_template_lists
+      resources :event_templates
+      resources :devices
+      resources :user_groups
+      resources :users
+      get 'tests', to: 'tests#index'
     end
   end
-  # Forward all requests to StaticController#index
-  # All requests must be non-Ajax (!req.xhr?) and HTML Mime type (req.format.html?)
-  # This does not include the root ("/") path
-  get '*page', to: 'static#index', constraints: ->(req) do
-    !req.xhr? && req.format.html?
-  end
-  root 'static#index'
+
+  get '*path', to: 'application#frontend_index_html', constraints: lambda { |request|
+      !request.xhr? && request.format.html?
+    }
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
