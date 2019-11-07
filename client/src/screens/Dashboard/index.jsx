@@ -1,16 +1,22 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
 /* Components */
+import SiteHeader from '../../components/SiteHeader';
 
 /* Store */
 
 /* Styles */
-import "./Dashboard.css";
+import '../../styles/layout.scss';
+import './Dashboard.module.scss';
 
 class Dashboard extends React.Component {
   render() {
-    return <div className="dashboard_wrapper">Dashboard</div>;
+    return (
+      <div className="screen_wrapper">
+        <SiteHeader mainTitle="Dashboard" subTitle="Organisation" />
+      </div>
+    );
   }
 }
 

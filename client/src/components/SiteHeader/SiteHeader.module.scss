@@ -1,0 +1,23 @@
+@import '../../styles/typography.scss';
+@import '../../styles/colors.scss';
+
+.site_header {
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+
+  &__main {
+    font-size: $fontSizeSiteTitleMain;
+    font-weight: $fontWeightSiteTitleMain;
+    color: $siteHeaderTextColorMain;
+  }
+
+  &__sub {
+    font-size: $fontSizeSiteTitleSub;
+    font-weight: $fontWeightSiteTitleSub;
+    color: $siteHeaderTextColorSub;
+    background-color: $siteHeaderTextColorSub;
+    color: transparent;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+    background-clip: text;
+  }
+}

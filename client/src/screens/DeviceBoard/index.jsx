@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 /* Components */
+import SiteHeader from '../../components/SiteHeader';
 
 /* Store */
 
@@ -13,7 +14,7 @@ class DeviceBoard extends React.Component {
   render() {
     return (
       <div className="screen_wrapper">
-        <h1 className={styles.screen_title}>My Devices</h1>
+        <SiteHeader mainTitle="My Devices" />
         <div className={styles.device_cards}>Device Card</div>
       </div>
     );
