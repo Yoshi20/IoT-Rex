@@ -1,5 +1,16 @@
+@import './colors.scss';
+
 $fontSizeSiteTitleMain: 6rem;
 $fontWeightSiteTitleMain: 300;
 
 $fontSizeSiteTitleSub: 3.2rem;
 $fontWeightSiteTitleSub: 500;
+
+.header_big {
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 4rem;
+  font-weight: 400;
+  color: $headerBigTextColor;
+  margin: 2rem 0;
+}

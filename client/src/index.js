@@ -1,24 +1,35 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import * as serviceWorker from "./serviceWorker";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import * as serviceWorker from './serviceWorker';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 
 /* Components */
-import AppRouter from "./routers/AppRouter";
+import AppRouter from './routers/AppRouter';
 
 /* Store */
-import configureStore from "./store/configureStore";
+import configureStore from './store/configureStore';
 
 /* Styles */
-import "./index.css";
+import './index.css';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: '#6d7993' }, // Purple and green play nicely together.
+    secondary: { main: '#054b1a' }, // This is just green.A700 as hex.
+  },
+});
 
 const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <AppRouter />
+    <ThemeProvider theme={theme}>
+      <AppRouter />
+    </ThemeProvider>
   </Provider>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
