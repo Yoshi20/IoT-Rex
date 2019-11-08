@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 /* Store */
+import { userLogin } from '../../store/modules/user';
 
 /* Styles */
 import '../../styles/typography.scss';
@@ -85,7 +86,7 @@ class LoginScreen extends React.Component {
             label: classes.resize,
           }}
           className={classes.button}
-          onClick={() => console.log(eMail, password)}
+          onClick={() => this.props.userLogin()}
         >
           Login
         </Button>
@@ -94,11 +95,13 @@ class LoginScreen extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {};
 }
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  userLogin,
+};
 
 export default connect(
   mapStateToProps,

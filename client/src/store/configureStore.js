@@ -1,11 +1,11 @@
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import ReduxThunk from "redux-thunk";
-import logger from "redux-logger";
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import ReduxThunk from 'redux-thunk';
+import logger from 'redux-logger';
 
-import creep from "./modules/test";
+import user from './modules/user';
 
 const reducer = combineReducers({
-  creep
+  user,
 });
 
 const configureStore = initialState => {
