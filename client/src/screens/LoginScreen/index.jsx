@@ -32,8 +32,8 @@ class LoginScreen extends React.Component {
   render() {
     const { classes } = this.props;
 
-    let eMail = '';
-    let password = '';
+    // let eMail = '';
+    // let password = '';
 
     return (
       <div className={style.login}>
@@ -45,7 +45,9 @@ class LoginScreen extends React.Component {
             label="E-Mail"
             margin="normal"
             type="email"
-            onChange={e => (eMail = e.target.value)}
+            onChange={e => {
+              /*eMail = e.target.value*/
+            }}
             InputProps={{
               classes: {
                 input: classes.resize,
@@ -66,7 +68,9 @@ class LoginScreen extends React.Component {
             type="password"
             autoComplete="current-password"
             margin="normal"
-            onChange={e => (password = e.target.value)}
+            onChange={e => {
+              /*password = e.target.value*/
+            }}
             InputProps={{
               classes: {
                 input: classes.resize,
