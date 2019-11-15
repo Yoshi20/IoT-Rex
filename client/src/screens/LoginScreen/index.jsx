@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
 
 /* Components */
 import Button from '@material-ui/core/Button';
@@ -17,11 +18,11 @@ const styles = {
   button: {
     marginTop: '8rem',
     padding: '0 4rem',
-    width: 400,
+    width: '40rem',
   },
   textField: {
     marginTop: '4rem',
-    width: 400,
+    width: '40rem',
   },
   resize: {
     fontSize: '2rem',
@@ -30,7 +31,7 @@ const styles = {
 
 class LoginScreen extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
 
     // let eMail = '';
     // let password = '';
@@ -90,7 +91,10 @@ class LoginScreen extends React.Component {
             label: classes.resize,
           }}
           className={classes.button}
-          onClick={() => this.props.userLogin()}
+          onClick={() => {
+            this.props.userLogin();
+            history.replace('/');
+          }}
         >
           Login
         </Button>
@@ -110,4 +114,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(LoginScreen));
+)(withStyles(styles)(withRouter(LoginScreen)));

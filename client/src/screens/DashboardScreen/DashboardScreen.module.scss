@@ -1,0 +1,10 @@
+.dash_board_cards {
+  margin-top: 6rem;
+
+  display: grid;
+  grid-template-columns: repeat(3, 0.8fr);
+  grid-template-rows: repeat(2, 0.8fr);
+  justify-items: center;
+  grid-column-gap: 5vw;
+  grid-row-gap: 5vw;
+}

@@ -3,9 +3,17 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 /* Components */
+import PrivateRoute from './PrivateRoute';
+import TopBar from '../components/TopBar';
 import LoginScreen from '../screens/LoginScreen';
-import Dashboard from '../screens/Dashboard';
-import DeviceBoard from '../screens/DeviceBoard';
+import DashboardScreen from '../screens/DashboardScreen';
+import DevicesScreen from '../screens/DevicesScreen';
+import OrganisationScreen from '../screens/OrganisationScreen';
+import EventsScreen from '../screens/EventsScreen';
+import ZonesScreen from '../screens/ZonesScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import ErrorScreen from '../screens/ErrorScreen';
+import Footer from '../components/Footer';
 
 /* Store */
 
@@ -17,14 +25,33 @@ class AppRouter extends React.Component {
     return (
       <Router>
         <div className="app_root">
+          <TopBar />
           <Switch>
-            <Route
-              exact
-              path="/"
-              component={this.props.loggedIn ? Dashboard : LoginScreen}
-            />
-            <Route path="/device-board" component={DeviceBoard} />
+            <Route exact path="/login" component={LoginScreen} />
+
+            <PrivateRoute exact path="/">
+              <DashboardScreen />
+            </PrivateRoute>
+            <PrivateRoute path="/devices">
+              <DevicesScreen />
+            </PrivateRoute>
+            <PrivateRoute path="/organisation">
+              <OrganisationScreen />
+            </PrivateRoute>
+            <PrivateRoute path="/events">
+              <EventsScreen />
+            </PrivateRoute>
+            <PrivateRoute path="/zones">
+              <ZonesScreen />
+            </PrivateRoute>
+            <PrivateRoute path="/settings">
+              <SettingsScreen />
+            </PrivateRoute>
+            <PrivateRoute path="*">
+              <ErrorScreen />
+            </PrivateRoute>
           </Switch>
+          <Footer />
         </div>
       </Router>
     );
@@ -39,7 +66,4 @@ function mapStateToProps({ user }) {
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AppRouter);
+export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);

@@ -1,23 +1,44 @@
 @import '../../styles/typography.scss';
 @import '../../styles/colors.scss';
 
-.site_header {
-  text-transform: uppercase;
-  font-family: 'Montserrat', sans-serif;
+.dashBoardCardWrapper {
+  position: relative;
+  width: 100%;
+  // padding-top: 56.25%;
+  padding-top: 61.8%;
 
-  &__main {
-    font-size: $fontSizeSiteTitleMain;
-    font-weight: $fontWeightSiteTitleMain;
-    color: $siteHeaderTextColorMain;
+  &:active {
+    top: 1px;
+  }
+}
+
+.dashBoardCard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba($color: #ffffff, $alpha: 0.6);
+  box-shadow: 1rem 1rem 1rem grey;
+
+  display: flex;
+  flex-direction: column;
+
+  &:active {
+    box-shadow: 0.75rem 0.75rem 0.75rem grey;
   }
 
-  &__sub {
-    font-size: $fontSizeSiteTitleSub;
-    font-weight: $fontWeightSiteTitleSub;
-    color: $siteHeaderTextColorSub;
-    background-color: $siteHeaderTextColorSub;
-    color: transparent;
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
-    background-clip: text;
+  &__title {
+    font-size: 3rem;
+    color: #707070;
+    margin: 1rem 0 1rem 2rem;
+  }
+
+  &__image {
+    flex: 1;
+    margin: 5% 20%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: bottom;
   }
 }
