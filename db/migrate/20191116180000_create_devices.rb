@@ -13,7 +13,9 @@ class CreateDevices < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    add_column :devices, :user_group_id, :bigint
-    add_foreign_key :devices, :user_groups
+    add_column :devices, :event_template_list_id, :bigint
+    add_foreign_key :devices, :event_template_lists
+    add_column :devices, :organisation_id, :bigint
+    add_foreign_key :devices, :organisations
   end
 end

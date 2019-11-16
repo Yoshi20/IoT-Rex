@@ -8,7 +8,7 @@ class CreateEventTemplateLists < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    add_column :event_template_lists, :user_group_id, :bigint
-    add_foreign_key :event_template_lists, :user_groups
+    add_column :event_template_lists, :organisation_unit_id, :bigint
+    add_foreign_key :event_template_lists, :organisation_units
   end
 end

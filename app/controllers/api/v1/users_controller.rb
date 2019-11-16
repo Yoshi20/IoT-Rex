@@ -27,7 +27,7 @@ class Api::V1::UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-    @user.user_group = UserGroup.find_by(name: params[:user_group])
+    @user.organisation_unit = OrganisationUnit.find_by(name: params[:organisation_unit])
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }

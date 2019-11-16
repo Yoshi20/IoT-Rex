@@ -11,7 +11,5 @@ class CreateEvents < ActiveRecord::Migration[5.2]
     add_foreign_key :events, :devices
     add_column :events, :event_template_id, :bigint
     add_foreign_key :events, :event_templates
-    add_column :events, :user_group_id, :bigint
-    add_foreign_key :events, :user_groups
   end
 end

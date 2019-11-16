@@ -27,7 +27,7 @@ class Api::V1::EventTemplateListsController < ApplicationController
   # POST /event_template_lists.json
   def create
     @event_template_list = EventTemplateList.new(event_template_list_params)
-    @event_template_list.user_group = UserGroup.find_by(name: params[:user_group])
+    @event_template_list.organisation_unit = OrganisationUnit.find_by(name: params[:organisation_unit])
     respond_to do |format|
       if @event_template_list.save
         format.html { redirect_to @event_template_list, notice: 'Event template list was successfully created.' }

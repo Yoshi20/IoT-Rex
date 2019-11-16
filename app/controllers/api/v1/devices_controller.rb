@@ -27,7 +27,7 @@ class Api::V1::DevicesController < ApplicationController
   # POST /devices.json
   def create
     @device = Device.new(device_params)
-    @device.user_group = UserGroup.find_by(name: params[:user_group])
+    @device.organisation_unit = OrganisationUnit.find_by(name: params[:organisation_unit])
     respond_to do |format|
       if @device.save
         format.html { redirect_to @device, notice: 'Device was successfully created.' }

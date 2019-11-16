@@ -1,35 +1,24 @@
 class User < ApplicationRecord
-  belongs_to :user_group
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable,
+         :jwt_authenticatable,
+         jwt_revocation_strategy: JWTBlacklist
 
-  before_validation :strip_whitespace
+  belongs_to :organisation_unit
+  has_one :organisation, through: :organisation_unit
 
-  validates :username, :email,
-    presence: true,
-    uniqueness: { case_sensitive: false }
-
-  validates :encrypted_password, presence: true
-
-  validate :validate_username
-
-  def strip_whitespace
-    self.username.try(:strip!)
-    self.email.try(:strip!)
+  def ou
+    self.organisation_unit
   end
 
-  def validate_username
-    if username == email
-      errors.add(:username, "can not be the same as Email")
-    elsif User.where(email: username).exists?
-      errors.add(:username, :invalid)
-    end
+  def o
+    self.organisation
   end
 
-  def admin?
-    self.is_admin == true
-  end
-
-  def super_admin?
-    self.is_super_admin == true
+  def pw
+    self.password
   end
 
 end

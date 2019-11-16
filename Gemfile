@@ -16,6 +16,13 @@ gem 'puma', '~> 3.11'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# See: https://github.com/plataformatec/devise#getting-started
+gem 'devise'
+
+# For encoding and decoding JWT tokens
+# See: https://github.com/waiting-for-dev/devise-jwt
+gem 'devise-jwt'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
@@ -39,7 +46,6 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
-
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

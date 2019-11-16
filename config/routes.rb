@@ -1,13 +1,27 @@
 Rails.application.routes.draw do
+  devise_for :users,
+             path: '',
+             path_names: {
+               sign_in: 'login',
+               sign_out: 'logout',
+               registration: 'signup'
+             },
+             controllers: {
+               sessions: 'sessions',
+               registrations: 'registrations'
+             }
+
+  root to: 'home#index'
+
   namespace :api do
     namespace :v1 do
-      resources :events
+      resources :devices
       resources :event_template_lists
       resources :event_templates
-      resources :devices
-      resources :user_groups
+      resources :events
+      resources :organisation_units
+      resources :organisations
       resources :users
-      get 'tests', to: 'tests#index'
     end
   end
 
@@ -15,4 +29,5 @@ Rails.application.routes.draw do
       !request.xhr? && request.format.html?
     }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
 end

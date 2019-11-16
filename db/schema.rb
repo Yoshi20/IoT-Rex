@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_05_195447) do
+ActiveRecord::Schema.define(version: 2019_11_16_180400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 2019_11_05_195447) do
     t.integer "battery"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_group_id"
     t.bigint "event_template_list_id"
+    t.bigint "organisation_id"
   end
 
   create_table "event_template_lists", force: :cascade do |t|
@@ -36,15 +36,25 @@ ActiveRecord::Schema.define(version: 2019_11_05_195447) do
     t.string "channel"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_group_id"
+    t.bigint "organisation_unit_id"
+  end
+
+  create_table "event_template_organisation_units", id: false, force: :cascade do |t|
+    t.bigint "event_template_id", null: false
+    t.bigint "organisation_unit_id", null: false
+    t.index ["event_template_id"], name: "index_event_template_organisation_units_on_event_template_id"
+    t.index ["organisation_unit_id"], name: "index_event_template_organisation_units_on_organisation_unit_id"
   end
 
   create_table "event_templates", force: :cascade do |t|
     t.string "name", null: false
+    t.integer "position"
     t.string "static_data"
+    t.bigint "delay"
+    t.bigint "interval"
+    t.integer "number_of_times"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_group_id"
     t.bigint "event_template_list_id"
   end
 
@@ -55,10 +65,21 @@ ActiveRecord::Schema.define(version: 2019_11_05_195447) do
     t.datetime "updated_at", null: false
     t.bigint "device_id"
     t.bigint "event_template_id"
-    t.bigint "user_group_id"
   end
 
-  create_table "user_groups", force: :cascade do |t|
+  create_table "jwt_blacklist", id: :serial, force: :cascade do |t|
+    t.string "jti", null: false
+    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
+  end
+
+  create_table "organisation_units", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "organisation_id"
+  end
+
+  create_table "organisations", force: :cascade do |t|
     t.string "name", null: false
     t.string "phone_number"
     t.string "address"
@@ -67,25 +88,25 @@ ActiveRecord::Schema.define(version: 2019_11_05_195447) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "email", null: false
-    t.string "encrypted_password", null: false
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "last_sign_in_at"
-    t.boolean "is_admin"
-    t.boolean "is_super_admin"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_group_id"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "role"
+    t.bigint "organisation_unit_id"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "devices", "event_template_lists"
-  add_foreign_key "devices", "user_groups"
-  add_foreign_key "event_template_lists", "user_groups"
+  add_foreign_key "devices", "organisations"
+  add_foreign_key "event_template_lists", "organisation_units"
   add_foreign_key "event_templates", "event_template_lists"
-  add_foreign_key "event_templates", "user_groups"
   add_foreign_key "events", "devices"
   add_foreign_key "events", "event_templates"
-  add_foreign_key "events", "user_groups"
-  add_foreign_key "users", "user_groups"
+  add_foreign_key "organisation_units", "organisations"
+  add_foreign_key "users", "organisation_units"
 end
