@@ -30,6 +30,8 @@ class Api::V1::UsersController < ApplicationController
     @user.organisation_unit = OrganisationUnit.find_by(name: params[:organisation_unit])
     respond_to do |format|
       if @user.save
+        # Tell the UserMailer to send a welcome email after save
+        UserMailer.with(user: @user).welcome_email.deliver_later
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
