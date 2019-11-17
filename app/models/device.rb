@@ -9,14 +9,14 @@ class Device < ApplicationRecord
     case current_user.role.name
     when "Viewer", "User"
       etl_ids = current_user.ou.etls.map { |etl| etl.id }
-      Device.where(event_template_list_id: etl_ids)
+      self.where(event_template_list_id: etl_ids)
     when "Manager"
       etl_ids = current_user.ou.etls.map { |etl| etl.id }
-      Device.where(event_template_list_id: etl_ids).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
+      self.where(event_template_list_id: etl_ids).or(self.where(organisation: current_user.o, event_template_list_id: nil))
     when "Admin"
-      Device.where(organisation: current_user.o)
+      self.where(organisation: current_user.o)
     when "Super-Admin"
-      Device.all
+      self.all
     else
       raise "User with email = \"#{current_user.email}\" has an invalid role!"
     end

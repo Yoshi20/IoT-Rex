@@ -4,7 +4,11 @@ class Api::V1::EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    if current_user.present?
+      @events = current_user.ou.events
+    else #blup
+      @events = Event.all
+    end
     render json: @events.to_json
   end
 
