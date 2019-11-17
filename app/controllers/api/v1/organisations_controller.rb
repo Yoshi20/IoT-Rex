@@ -4,7 +4,11 @@ class Api::V1::OrganisationsController < ApplicationController
   # GET /organisations
   # GET /organisations.json
   def index
-    @organisations = Organisation.all
+    if current_user.present?
+      @organisations = current_user.o
+    else #blup
+      @organisations = Organisation.all
+    end
     render json: @organisations.to_json
   end
 

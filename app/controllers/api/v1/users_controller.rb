@@ -4,7 +4,11 @@ class Api::V1::UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    if current_user.present? && params[:ou_id].present?
+      @users = current_user.o.ous.find(params[:ou_id]).us
+    else #blup
+      @users = User.all
+    end
     render json: @users.to_json
   end
 
