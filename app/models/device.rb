@@ -1,6 +1,5 @@
 class Device < ApplicationRecord
   belongs_to :organisation
-  has_one :event_template_list
   has_many :events
 
   validates :name, :device_type, :dev_eui, presence: true
@@ -24,6 +23,14 @@ class Device < ApplicationRecord
 
   def o
     self.organisation
+  end
+
+  def ou
+    self.etl.organisation_unit if self.event_template_list_id.present?
+  end
+
+  def event_template_list
+    EventTemplateList.find(self.event_template_list_id) if self.event_template_list_id.present?
   end
 
   def etl

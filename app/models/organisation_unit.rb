@@ -24,4 +24,8 @@ class OrganisationUnit < ApplicationRecord
     self.users
   end
 
+  def es
+    self.events
+  end
+
 end
