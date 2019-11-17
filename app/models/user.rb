@@ -7,6 +7,7 @@ class User < ApplicationRecord
          jwt_revocation_strategy: JWTBlacklist
 
   belongs_to :organisation_unit
+  belongs_to :role
   has_one :organisation, through: :organisation_unit
 
   def ou

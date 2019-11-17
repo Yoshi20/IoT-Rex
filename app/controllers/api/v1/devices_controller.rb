@@ -4,7 +4,11 @@ class Api::V1::DevicesController < ApplicationController
   # GET /devices
   # GET /devices.json
   def index
-    @devices = Device.all
+    if current_user.present?
+      @devices = Device.all_of_current_user(current_user)
+    else #blup
+      @devices = Device.all
+    end
     render json: @devices.to_json
   end
 

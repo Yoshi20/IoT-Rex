@@ -12,6 +12,10 @@ class OrganisationUnit < ApplicationRecord
     self.organisation
   end
 
+  def etls
+    self.event_template_lists
+  end
+
   def ets
     self.event_templates
   end
