@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   def render_resource(resource)
     if resource.errors.empty?
@@ -24,6 +25,16 @@ class ApplicationController < ActionController::API
 
   def frontend_index_html
     render file: 'public/index.html'
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    #new
+    added_attrs = [:email, :password, :password_confirmation,
+      :remember_me, :organisation_unit_id, :role_id]
+    devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
+    devise_parameter_sanitizer.permit :account_update, keys: added_attrs
   end
 
 end

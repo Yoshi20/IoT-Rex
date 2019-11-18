@@ -4,11 +4,7 @@ class Api::V1::OrganisationsController < ApplicationController
   # GET /organisations
   # GET /organisations.json
   def index
-    if current_user.present?
-      @organisations = current_user.o
-    else #blup
-      @organisations = Organisation.all
-    end
+    @organisations = current_user.o
     render json: @organisations.to_json
   end
 
@@ -31,29 +27,20 @@ class Api::V1::OrganisationsController < ApplicationController
   # POST /organisations.json
   def create
     @organisation = Organisation.new(organisation_params)
-
-    respond_to do |format|
-      if @organisation.save
-        format.html { redirect_to @organisation, notice: 'User group was successfully created.' }
-        format.json { render :show, status: :created, location: @organisation }
-      else
-        format.html { render :new }
-        format.json { render json: @organisation.errors, status: :unprocessable_entity }
-      end
+    if @organisation.save
+      render json: @organisation.to_json, status: :created
+    else
+      render json: @organisation.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /organisations/1
   # PATCH/PUT /organisations/1.json
   def update
-    respond_to do |format|
-      if @organisation.update(organisation_params)
-        format.html { redirect_to @organisation, notice: 'User group was successfully updated.' }
-        format.json { render :show, status: :ok, location: @organisation }
-      else
-        format.html { render :edit }
-        format.json { render json: @organisation.errors, status: :unprocessable_entity }
-      end
+    if @organisation.update(organisation_params)
+      render json: @organisation.to_json, status: :ok
+    else
+      render json: @organisation.errors, status: :unprocessable_entity
     end
   end
 
@@ -61,10 +48,7 @@ class Api::V1::OrganisationsController < ApplicationController
   # DELETE /organisations/1.json
   def destroy
     @organisation.destroy
-    respond_to do |format|
-      format.html { redirect_to organisations_url, notice: 'User group was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    head :no_content
   end
 
   private

@@ -27,29 +27,20 @@ class Api::V1::EventTemplateListsController < ApplicationController
   # POST /event_template_lists.json
   def create
     @event_template_list = EventTemplateList.new(event_template_list_params)
-    @event_template_list.organisation_unit = OrganisationUnit.find_by(name: params[:organisation_unit])
-    respond_to do |format|
-      if @event_template_list.save
-        format.html { redirect_to @event_template_list, notice: 'Event template list was successfully created.' }
-        format.json { render :show, status: :created, location: @event_template_list }
-      else
-        format.html { render :new }
-        format.json { render json: @event_template_list.errors, status: :unprocessable_entity }
-      end
+    if @event_template_list.save
+      render json: @event_template_list.to_json, status: :created
+    else
+      render json: @event_template_list.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /event_template_lists/1
   # PATCH/PUT /event_template_lists/1.json
   def update
-    respond_to do |format|
-      if @event_template_list.update(event_template_list_params)
-        format.html { redirect_to @event_template_list, notice: 'Event template list was successfully updated.' }
-        format.json { render :show, status: :ok, location: @event_template_list }
-      else
-        format.html { render :edit }
-        format.json { render json: @event_template_list.errors, status: :unprocessable_entity }
-      end
+    if @event_template_list.update(event_template_list_params)
+      render json: @event_template_list.to_json, status: :ok
+    else
+      render json: @event_template_list.errors, status: :unprocessable_entity
     end
   end
 
@@ -57,10 +48,7 @@ class Api::V1::EventTemplateListsController < ApplicationController
   # DELETE /event_template_lists/1.json
   def destroy
     @event_template_list.destroy
-    respond_to do |format|
-      format.html { redirect_to event_template_lists_url, notice: 'Event template list was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    head :no_content
   end
 
   private
@@ -71,6 +59,6 @@ class Api::V1::EventTemplateListsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_template_list_params
-      params.require(:event_template_list).permit(:name, :device_type, :channel)
+      params.require(:event_template_list).permit(:name, :device_type, :channel, :organisation_unit_id)
     end
 end

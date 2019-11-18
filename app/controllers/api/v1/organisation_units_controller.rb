@@ -4,11 +4,7 @@ class Api::V1::OrganisationUnitsController < ApplicationController
   # GET /organisation_units
   # GET /organisation_units.json
   def index
-    if current_user.present?
-      @organisation_units = current_user.o.ous
-    else #blup
-      @organisation_units = OrganisationUnit.all
-    end
+    @organisation_units = current_user.o.ous
     render json: @organisation_units.to_json
   end
 
@@ -31,29 +27,20 @@ class Api::V1::OrganisationUnitsController < ApplicationController
   # POST /organisation_units.json
   def create
     @organisation_unit = OrganisationUnit.new(organisation_unit_params)
-
-    respond_to do |format|
-      if @organisation_unit.save
-        format.html { redirect_to @organisation_unit, notice: 'User group was successfully created.' }
-        format.json { render :show, status: :created, location: @organisation_unit }
-      else
-        format.html { render :new }
-        format.json { render json: @organisation_unit.errors, status: :unprocessable_entity }
-      end
+    if @organisation_unit.save
+      render json: @organisation_unit.to_json, status: :created
+    else
+      render json: @organisation_unit.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /organisation_units/1
   # PATCH/PUT /organisation_units/1.json
   def update
-    respond_to do |format|
-      if @organisation_unit.update(organisation_unit_params)
-        format.html { redirect_to @organisation_unit, notice: 'User group was successfully updated.' }
-        format.json { render :show, status: :ok, location: @organisation_unit }
-      else
-        format.html { render :edit }
-        format.json { render json: @organisation_unit.errors, status: :unprocessable_entity }
-      end
+    if @organisation_unit.update(organisation_unit_params)
+      render json: @organisation_unit.to_json, status: :ok
+    else
+      render json: @organisation_unit.errors, status: :unprocessable_entity
     end
   end
 
@@ -61,10 +48,7 @@ class Api::V1::OrganisationUnitsController < ApplicationController
   # DELETE /organisation_units/1.json
   def destroy
     @organisation_unit.destroy
-    respond_to do |format|
-      format.html { redirect_to organisation_units_url, notice: 'User group was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    head :no_content
   end
 
   private
@@ -75,6 +59,6 @@ class Api::V1::OrganisationUnitsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def organisation_unit_params
-      params.require(:organisation_unit).permit(:name, :phone_number, :address)
+      params.require(:organisation_unit).permit(:name, :organisation_id)
     end
 end

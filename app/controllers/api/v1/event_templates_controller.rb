@@ -23,44 +23,32 @@ class Api::V1::EventTemplatesController < ApplicationController
   def edit
   end
 
-  # POST /event_templates
-  # POST /event_templates.json
+  # POST /event_templatess
+  # POST /event_templatess.json
   def create
-    @event_template = EventTemplate.new(event_template_params)
-    @event_template.organisation_unit = OrganisationUnit.find_by(name: params[:organisation_unit])
-    respond_to do |format|
-      if @event_template.save
-        format.html { redirect_to @event_template, notice: 'Event template was successfully created.' }
-        format.json { render :show, status: :created, location: @event_template }
-      else
-        format.html { render :new }
-        format.json { render json: @event_template.errors, status: :unprocessable_entity }
-      end
+    @event_templates = EventTemplate.new(event_templates_params)
+    if @event_templates.save
+      render json: @event_templates.to_json, status: :created
+    else
+      render json: @event_templates.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /event_templates/1
-  # PATCH/PUT /event_templates/1.json
+  # PATCH/PUT /event_templatess/1
+  # PATCH/PUT /event_templatess/1.json
   def update
-    respond_to do |format|
-      if @event_template.update(event_template_params)
-        format.html { redirect_to @event_template, notice: 'Event template was successfully updated.' }
-        format.json { render :show, status: :ok, location: @event_template }
-      else
-        format.html { render :edit }
-        format.json { render json: @event_template.errors, status: :unprocessable_entity }
-      end
+    if @event_templates.update(event_templates_params)
+      render json: @event_templates.to_json, status: :ok
+    else
+      render json: @event_templates.errors, status: :unprocessable_entity
     end
   end
 
-  # DELETE /event_templates/1
-  # DELETE /event_templates/1.json
+  # DELETE /event_templatess/1
+  # DELETE /event_templatess/1.json
   def destroy
-    @event_template.destroy
-    respond_to do |format|
-      format.html { redirect_to event_templates_url, notice: 'Event template was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    @event_templates.destroy
+    head :no_content
   end
 
   private
@@ -71,6 +59,6 @@ class Api::V1::EventTemplatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_template_params
-      params.require(:event_template).permit(:name, :static_data)
+      params.require(:event_template).permit(:name, :position, :static_data, :delay, :interval, :number_of_times, :event_template_list_id)
     end
 end

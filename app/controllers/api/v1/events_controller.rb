@@ -4,11 +4,7 @@ class Api::V1::EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    if current_user.present?
-      @events = current_user.ou.events
-    else #blup
-      @events = Event.all
-    end
+    @events = current_user.ou.events
     render json: @events.to_json
   end
 
@@ -31,29 +27,20 @@ class Api::V1::EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(event_params)
-
-    respond_to do |format|
-      if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render :show, status: :created, location: @event }
-      else
-        format.html { render :new }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
+    if @event.save
+      render json: @event.to_json, status: :created
+    else
+      render json: @event.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
   def update
-    respond_to do |format|
-      if @event.update(event_params)
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
-        format.json { render :show, status: :ok, location: @event }
-      else
-        format.html { render :edit }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
+    if @event.update(event_params)
+      render json: @event.to_json, status: :ok
+    else
+      render json: @event.errors, status: :unprocessable_entity
     end
   end
 
@@ -61,10 +48,7 @@ class Api::V1::EventsController < ApplicationController
   # DELETE /events/1.json
   def destroy
     @event.destroy
-    respond_to do |format|
-      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    head :no_content
   end
 
   private
@@ -75,6 +59,6 @@ class Api::V1::EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:data, :live_time)
+      params.require(:event).permit(:data, :live_time, :event_template_id, :device_id)
     end
 end

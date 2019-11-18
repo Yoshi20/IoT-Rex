@@ -52,6 +52,7 @@ group :development do
   # For security tests -> run 'brakeman' in the rails application
   # See: https://github.com/presidentbeef/brakeman
   gem 'brakeman'
+  gem 'pry'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

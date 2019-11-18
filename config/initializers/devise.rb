@@ -298,15 +298,20 @@ Devise.setup do |config|
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
 
+
   config.jwt do |jwt|
     jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
-    jwt.dispatch_requests = [
-      ['POST', %r{^/login$}]
-    ]
-    jwt.revocation_requests = [
-      ['DELETE', %r{^/logout$}]
-    ]
+    warn('warning: jwt.secret can not be nil') if jwt.secret.nil?
+    #  You need to tell which requests will dispatch tokens for the user that has been previously
+    #  authenticated (usually through some other warden strategy, such as one requiring username and email parameters).
+    #  To configure it, you can add the the request path to dispath_requests
+    jwt.dispatch_requests = [['POST', %r{^api/v1/login$}]]
+
+    #  You need to tell which requests will revoke incoming JWT tokens, and you can add the the request path to revocation_requests
+    jwt.revocation_requests = [['DELETE', %r{^api/v1/logout$}]]
     jwt.expiration_time = 1.day.to_i
   end
+  # config.remember_for = 1.day.to_i
+  # config.timeout_in = 1.day.to_i
 
 end
