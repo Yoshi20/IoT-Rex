@@ -13,6 +13,10 @@ export function apiLogin(userName, password) {
   });
 }
 
+export function apiLogout() {
+  return axios.delete('/api/v1/logout');
+}
+
 /* Function to connect the api with the Redux store.
    This is needed because we use the auth token for the requests */
 export default function configureApi(store) {

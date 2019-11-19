@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 /* Components */
 import Button from '@material-ui/core/Button';
@@ -31,80 +32,90 @@ const styles = {
 
 class LoginScreen extends React.Component {
   render() {
-    const { classes, history } = this.props;
+    const { classes, history, location } = this.props;
 
-    // let eMail = '';
-    // let password = '';
+    let eMail = '';
+    let password = '';
 
-    return (
-      <div className={style.login}>
-        <h1 className="header_big">Login</h1>
-        <div>
-          <TextField
-            id="standard-basic"
-            className={classes.textField}
-            label="E-Mail"
-            margin="normal"
-            type="email"
-            onChange={e => {
-              /*eMail = e.target.value*/
-            }}
-            InputProps={{
-              classes: {
-                input: classes.resize,
-              },
-            }}
-            InputLabelProps={{
-              classes: {
-                root: classes.resize,
-              },
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            id="standard-password-input"
-            label="Password"
-            className={classes.textField}
-            type="password"
-            autoComplete="current-password"
-            margin="normal"
-            onChange={e => {
-              /*password = e.target.value*/
-            }}
-            InputProps={{
-              classes: {
-                input: classes.resize,
-              },
-            }}
-            InputLabelProps={{
-              classes: {
-                root: classes.resize,
-              },
-            }}
-          />
-        </div>
-        <Button
-          variant="contained"
-          color="primary"
-          classes={{
-            label: classes.resize,
+    if (this.props.loggedIn) {
+      return (
+        <Redirect
+          to={{
+            pathname: '/',
+            state: { from: location },
           }}
-          className={classes.button}
-          onClick={() => {
-            this.props.userLogin();
-            history.replace('/');
-          }}
-        >
-          Login
-        </Button>
-      </div>
-    );
+        />
+      );
+    } else {
+      return (
+        <div className={style.login}>
+          <h1 className="header_big">Login</h1>
+          <div>
+            <TextField
+              id="standard-basic"
+              className={classes.textField}
+              label="E-Mail"
+              margin="normal"
+              type="email"
+              onChange={e => {
+                eMail = e.target.value;
+              }}
+              InputProps={{
+                classes: {
+                  input: classes.resize,
+                },
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: classes.resize,
+                },
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              id="standard-password-input"
+              label="Password"
+              className={classes.textField}
+              type="password"
+              autoComplete="current-password"
+              margin="normal"
+              onChange={e => {
+                password = e.target.value;
+              }}
+              InputProps={{
+                classes: {
+                  input: classes.resize,
+                },
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: classes.resize,
+                },
+              }}
+            />
+          </div>
+          <Button
+            variant="contained"
+            color="primary"
+            classes={{
+              label: classes.resize,
+            }}
+            className={classes.button}
+            onClick={() => {
+              this.props.userLogin(eMail, password).then(() => history.replace('/'));
+            }}
+          >
+            Login
+          </Button>
+        </div>
+      );
+    }
   }
 }
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps({ user }) {
+  return { loggedIn: user.loggedIn };
 }
 
 const mapDispatchToProps = {

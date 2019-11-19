@@ -10,6 +10,7 @@ import AppRouter from './routers/AppRouter';
 
 /* Store */
 import configureStore from './store/configureStore';
+import { userLoad } from './store/modules/user';
 
 /* Styles */
 import './index.css';
@@ -22,6 +23,8 @@ const theme = createMuiTheme({
 });
 
 const store = configureStore();
+
+store.dispatch(userLoad());
 
 ReactDOM.render(
   <Provider store={store}>
