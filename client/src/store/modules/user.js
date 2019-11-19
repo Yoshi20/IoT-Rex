@@ -4,6 +4,7 @@ const USER_LOGOUT = 'USER_LOGOUT';
 
 const initialState = {
   loggedIn: false,
+  authToken: '',
 };
 
 /* Reducer */
@@ -12,7 +13,7 @@ export default function reducer(state = initialState, action = {}) {
     case USER_LOGIN:
       return { ...state, loggedIn: true };
     case USER_LOGOUT:
-      return { ...state, loggedIn: false };
+      return { ...initialState };
 
     default:
       return state;
@@ -20,10 +21,32 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 /* Action Creators */
-export function userLogin() {
+function login() {
   return { type: USER_LOGIN };
 }
 
-export function userLogout() {
+function logout() {
   return { type: USER_LOGOUT };
+}
+
+export function userLogin() {
+  return async dispatch => {
+    try {
+      // await switchCodeEditor();
+      dispatch(login());
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function userLogout() {
+  return async dispatch => {
+    try {
+      // await switchCodeEditor();
+      dispatch(logout());
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
 }
