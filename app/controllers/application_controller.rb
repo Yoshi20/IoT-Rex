@@ -24,7 +24,10 @@ class ApplicationController < ActionController::API
   end
 
   def frontend_index_html
-    render file: 'public/index.html'
+    headers["Cache-Control"] = "no-cache, no-store, must-revalidate" # HTTP 1.1.
+    headers["Pragma"] = "no-cache" # HTTP 1.0.
+    headers["Expires"] = "0" # Proxies.
+    render html: File.read(Rails.root + 'public' + 'index.html').html_safe
   end
 
   protected
