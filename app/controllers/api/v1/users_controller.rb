@@ -4,14 +4,65 @@ class Api::V1::UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = current_user.o.ous.find(params[:ou_id]).us
-    render json: @users.to_json
+    case current_user.role.name
+    when "Viewer", "User"
+      head :no_content
+      return
+    when "Manager"
+      @users = current_user.ou.us
+    when "Admin"
+      @users = current_user.o.us
+    when "Super-Admin"
+      @users = User.all
+    else
+      raise "User with email = \"#{current_user.email}\" has an invalid role!"
+    end
+    render json: @users.includes(:role).includes(:organisation_unit).as_json(
+      only: [:id, :name, :email],
+      include: {
+        organisation_unit: { only: [:id, :name] },
+        role: { only: [:id, :name, :rights] }
+      }
+    )
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
-    render json: @user.to_json
+    case current_user.role.name
+    when "Viewer", "User"
+      if @user != current_user
+        head :no_content
+        return
+      end
+    when "Manager"
+      if !current_user.ou.us.include?(@user)
+        head :no_content
+        return
+      end
+    when "Admin"
+      if !current_user.o.us.include?(@user)
+        head :no_content
+        return
+      end
+    when "Super-Admin"
+    else
+      raise "User with email = \"#{current_user.email}\" has an invalid role!"
+    end
+    render json: @user.as_json(
+      only: [:id, :name, :email],
+      include: {
+        organisation: {
+          only: [:id, :name],
+          #blup: TODO
+          # include: {
+          #   contact: { only: [:phone_number, ...] }
+          # }
+        },
+        organisation_unit: { only: [:id, :name] },
+        role: { only: [:id, :name, :rights] }
+      }
+    )
   end
 
   # GET /users/new
@@ -59,6 +110,6 @@ class Api::V1::UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:email, :encrypted_password, :organisation_unit_id, :role_id)
+      params.require(:user).permit(:email, :encrypted_password, :organisation_unit_id, :role_id, :name)
     end
 end
