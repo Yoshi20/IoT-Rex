@@ -30,11 +30,11 @@ yarn build
 - heroku pg:pull <postgresql-name> iot-rex_development --app iot-rex
 - heroku pg:reset --app iot-rex-stage --confirm iot-rex-stage
 - heroku pg:push iot-rex_development <postgresql-name> --app iot-rex-stage
-- git push prod master
-- heroku logs --tail --remote prod
-- heroku run rake db:migrate --remote prod
-- heroku run rails c --remote prod
-- heroku restart --remote prod
+- git push heroku master
+- heroku logs --tail
+- heroku run rake db:migrate
+- heroku run rails c
+- heroku restart
 
 
 ## Tutorials:
