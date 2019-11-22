@@ -12,19 +12,57 @@ class Api::V1::DevicesController < ApplicationController
       etl_ids = current_user.ou.etls.map { |etl| etl.id }
       @devices = Device.where(event_template_list_id: etl_ids).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
     when "Admin"
-      @devices = Device.where(organisation: current_user.o)
+      @devices = current_user.o.ds
     when "Super-Admin"
       @devices = Device.all
     else
       raise "User with email = \"#{current_user.email}\" has an invalid role!"
     end
-    render json: @devices.to_json
+    render json: @devices.as_json(
+      only: [:id, :name, :device_type, :battery]
+    )
   end
 
   # GET /devices/1
   # GET /devices/1.json
   def show
-    render json: @device.to_json
+    case current_user.role.name
+    when "Viewer", "User"
+      etl_ids = current_user.ou.etls.map { |etl| etl.id }
+      devices = Device.where(event_template_list_id: etl_ids)
+      if !devices.include?(@device)
+        head :no_content
+        return
+      end
+    when "Manager"
+      etl_ids = current_user.ou.etls.map { |etl| etl.id }
+      devices = Device.where(event_template_list_id: etl_ids).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
+      if !devices.include?(@device)
+        head :no_content
+        return
+      end
+    when "Admin"
+      devices = current_user.o.ds
+      if !devices.include?(@device)
+        head :no_content
+        return
+      end
+    when "Super-Admin"
+    else
+      raise "User with email = \"#{current_user.email}\" has an invalid role!"
+    end
+    render json: @device.as_json(
+      only: [:id, :name, :device_type, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery],
+      include: {
+        event_template_list: { only: [:id, :name] },
+        events: {
+          only: [:id, :name, :rights],
+          include: {
+            event_template: { only: [:id, :name, :static_data] }
+          }
+        }
+      }
+    )
   end
 
   # GET /devices/new
@@ -72,6 +110,6 @@ class Api::V1::DevicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def device_params
-      params.require(:device).permit(:name, :device_type, :dev_eui, :app_eui, :app_key, :hw_version, :fw_versioin, :battery, :event_template_list_id, :organisation_id)
+      params.require(:device).permit(:name, :device_type, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery, :event_template_list_id, :organisation_id)
     end
 end
