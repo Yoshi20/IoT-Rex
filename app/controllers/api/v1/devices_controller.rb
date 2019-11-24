@@ -7,10 +7,10 @@ class Api::V1::DevicesController < ApplicationController
     case current_user.role.name
     when "Viewer", "User"
       etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
-      @devices = Device.where(event_template_list_id: etl_ids.unitq)
+      @devices = Device.where(event_template_list_id: etl_ids.uniq)
     when "Manager"
       etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
-      @devices = Device.where(event_template_list_id: etl_ids.unitq).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
+      @devices = Device.where(event_template_list_id: etl_ids.uniq).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
     when "Admin"
       @devices = current_user.o.ds
     when "Super-Admin"
@@ -19,7 +19,15 @@ class Api::V1::DevicesController < ApplicationController
       raise "User with email = \"#{current_user.email}\" has an invalid role!"
     end
     render json: @devices.as_json(
-      only: [:id, :name, :device_type, :battery]
+      only: [:id, :name, :device_type, :battery],
+      include: {
+        event_template_list: {
+          # only: [:id, :name],
+          include: {
+            organisation_unit: { only: [:id, :name] }
+          }
+        }
+      }
     )
   end
 
@@ -29,14 +37,14 @@ class Api::V1::DevicesController < ApplicationController
     case current_user.role.name
     when "Viewer", "User"
       etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
-      devices = Device.where(event_template_list_id: etl_ids.unitq)
+      devices = Device.where(event_template_list_id: etl_ids.uniq)
       if !devices.include?(@device)
         head :no_content
         return
       end
     when "Manager"
       etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
-      devices = Device.where(event_template_list_id: etl_ids.unitq).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
+      devices = Device.where(event_template_list_id: etl_ids.uniq).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
       if !devices.include?(@device)
         head :no_content
         return
@@ -57,6 +65,7 @@ class Api::V1::DevicesController < ApplicationController
         event_template_list: {
           only: [:id, :name, :device_type, :channel],
           include: {
+            organisation_unit: { only: [:id, :name] },
             event_templates: { only: [:id, :name, :position, :static_data, :delay, :interval, :number_of_times] }
           }
         },
@@ -76,11 +85,15 @@ class Api::V1::DevicesController < ApplicationController
   # POST /devices
   # POST /devices.json
   def create
-    @device = Device.new(device_params)
-    if @device.save
-      render json: @device.to_json, status: :created
+    if !current_user.super_admin?
+      head :forbidden
     else
-      render json: @device.errors, status: :unprocessable_entity
+      @device = Device.new(device_params)
+      if @device.save
+        render json: @device.to_json, status: :created
+      else
+        render json: @device.errors, status: :unprocessable_entity
+      end
     end
   end
 
@@ -97,8 +110,12 @@ class Api::V1::DevicesController < ApplicationController
   # DELETE /devices/1
   # DELETE /devices/1.json
   def destroy
-    @device.destroy
-    head :no_content
+    if !current_user.super_admin?
+      head :forbidden
+    else
+      @device.destroy
+      head :no_content
+    end
   end
 
   private

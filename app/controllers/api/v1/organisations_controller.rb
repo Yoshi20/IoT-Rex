@@ -53,29 +53,41 @@ class Api::V1::OrganisationsController < ApplicationController
   # POST /organisations
   # POST /organisations.json
   def create
-    @organisation = Organisation.new(organisation_params)
-    if @organisation.save
-      render json: @organisation.to_json, status: :created
+    if !current_user.super_admin?
+      head :forbidden
     else
-      render json: @organisation.errors, status: :unprocessable_entity
+      @organisation = Organisation.new(organisation_params)
+      if @organisation.save
+        render json: @organisation.to_json, status: :created
+      else
+        render json: @organisation.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # PATCH/PUT /organisations/1
   # PATCH/PUT /organisations/1.json
   def update
-    if @organisation.update(organisation_params)
-      render json: @organisation.to_json, status: :ok
+    if !current_user.admin?
+      head :forbidden
     else
-      render json: @organisation.errors, status: :unprocessable_entity
+      if @organisation.update(organisation_params)
+        render json: @organisation.to_json, status: :ok
+      else
+        render json: @organisation.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # DELETE /organisations/1
   # DELETE /organisations/1.json
   def destroy
-    @organisation.destroy
-    head :no_content
+    if !current_user.super_admin?
+      head :forbidden
+    else
+      @organisation.destroy
+      head :no_content
+    end
   end
 
   private

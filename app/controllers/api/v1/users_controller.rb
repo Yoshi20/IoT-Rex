@@ -4,26 +4,32 @@ class Api::V1::UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    case current_user.role.name
-    when "Viewer", "User"
-      head :no_content
-      return
-    when "Manager"
-      @users = current_user.ou.us
-    when "Admin"
-      @users = current_user.o.us
-    when "Super-Admin"
-      @users = User.all
+    if current_user.super_admin?
+      @users = Users.all
+      render json: @users.to_json
     else
-      raise "User with email = \"#{current_user.email}\" has an invalid role!"
+      head :no_content
     end
-    render json: @users.includes(:role).includes(:organisation_unit).as_json(
-      only: [:id, :name, :email],
-      include: {
-        organisation_unit: { only: [:id, :name] },
-        role: { only: [:id, :name, :rights] }
-      }
-    )
+    # case current_user.role.name
+    # when "Viewer", "User"
+    #   head :no_content
+    #   return
+    # when "Manager"
+    #   @users = current_user.ou.us
+    # when "Admin"
+    #   @users = current_user.o.us
+    # when "Super-Admin"
+    #   @users = User.all
+    # else
+    #   raise "User with email = \"#{current_user.email}\" has an invalid role!"
+    # end
+    # render json: @users.includes(:role).includes(:organisation_unit).as_json(
+    #   only: [:id, :name, :email],
+    #   include: {
+    #     organisation_unit: { only: [:id, :name] },
+    #     role: { only: [:id, :name, :rights] }
+    #   }
+    # )
   end
 
   # GET /users/1
@@ -32,17 +38,17 @@ class Api::V1::UsersController < ApplicationController
     case current_user.role.name
     when "Viewer", "User"
       if @user != current_user
-        head :no_content
+        head :forbidden
         return
       end
     when "Manager"
       if !current_user.ou.us.include?(@user)
-        head :no_content
+        head :forbidden
         return
       end
     when "Admin"
       if !current_user.o.us.include?(@user)
-        head :no_content
+        head :forbidden
         return
       end
     when "Super-Admin"
@@ -52,14 +58,6 @@ class Api::V1::UsersController < ApplicationController
     render json: @user.as_json(
       only: [:id, :name, :email],
       include: {
-        organisation: {
-          only: [:id, :name],
-          #blup: TODO
-          # include: {
-          #   contact: { only: [:phone_number, ...] }
-          # }
-        },
-        organisation_unit: { only: [:id, :name] },
         role: { only: [:id, :name, :rights] }
       }
     )
@@ -77,29 +75,41 @@ class Api::V1::UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
-    if @user.save
-      render json: @user.to_json, status: :created
+    if current_user.role.rights < Role.find(user_params[:role_id]).rights
+      head :forbidden
     else
-      render json: @user.errors, status: :unprocessable_entity
+      @user = User.new(user_params)
+      if @user.save
+        render json: @user.to_json, status: :created
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    if @user.update(user_params)
-      render json: @user.to_json, status: :ok
+    if current_user.role.rights < @user.role.rights
+      head :forbidden
     else
-      render json: @user.errors, status: :unprocessable_entity
+      if @user.update(user_params)
+        render json: @user.to_json, status: :ok
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
-    head :no_content
+    if current_user.role.rights < @user.role.rights
+      head :forbidden
+    else
+      @user.destroy
+      head :no_content
+    end
   end
 
   private
@@ -110,6 +120,6 @@ class Api::V1::UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:email, :encrypted_password, :organisation_unit_id, :role_id, :name)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :organisation_unit_id, :role_id)
     end
 end
