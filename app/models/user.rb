@@ -22,4 +22,13 @@ class User < ApplicationRecord
     self.password
   end
 
+  def admin?
+    role_name = self.role.name
+    role_name == "Admin" || role_name == "Super-Admin"
+  end
+
+  def super_admin?
+    self.role.name == "Super-Admin"
+  end
+
 end

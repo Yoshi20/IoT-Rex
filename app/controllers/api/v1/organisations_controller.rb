@@ -4,14 +4,41 @@ class Api::V1::OrganisationsController < ApplicationController
   # GET /organisations
   # GET /organisations.json
   def index
-    @organisations = current_user.o
-    render json: @organisations.to_json
+    if current_user.super_admin?
+      @organisations = Organisation.all
+      render json: @organisations.to_json
+    else
+      head :no_content
+    end
   end
 
   # GET /organisations/1
   # GET /organisations/1.json
   def show
-    render json: @organisation.to_json
+    case current_user.role.name
+    when "Viewer", "User"
+      head :no_content
+      return
+    when "Manager", "Admin", "Super-Admin"
+    else
+      raise "User with email = \"#{current_user.email}\" has an invalid role!"
+    end
+    render json: @organisation.as_json(
+      only: [:id, :name],
+      include: {
+        organisation_units: {
+          only: [:id, :name],
+          include: {
+            users: {
+              only: [:id, :name],
+              include: {
+                role: { only: [:name] }
+              }
+            }
+          }
+        },
+      }
+    )
   end
 
   # GET /organisations/new
