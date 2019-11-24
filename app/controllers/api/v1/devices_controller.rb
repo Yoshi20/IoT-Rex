@@ -6,11 +6,11 @@ class Api::V1::DevicesController < ApplicationController
   def index
     case current_user.role.name
     when "Viewer", "User"
-      etl_ids = current_user.ou.etls.map { |etl| etl.id }
-      @devices = Device.where(event_template_list_id: etl_ids)
+      etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
+      @devices = Device.where(event_template_list_id: etl_ids.unitq)
     when "Manager"
-      etl_ids = current_user.ou.etls.map { |etl| etl.id }
-      @devices = Device.where(event_template_list_id: etl_ids).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
+      etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
+      @devices = Device.where(event_template_list_id: etl_ids.unitq).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
     when "Admin"
       @devices = current_user.o.ds
     when "Super-Admin"
@@ -28,15 +28,15 @@ class Api::V1::DevicesController < ApplicationController
   def show
     case current_user.role.name
     when "Viewer", "User"
-      etl_ids = current_user.ou.etls.map { |etl| etl.id }
-      devices = Device.where(event_template_list_id: etl_ids)
+      etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
+      devices = Device.where(event_template_list_id: etl_ids.unitq)
       if !devices.include?(@device)
         head :no_content
         return
       end
     when "Manager"
-      etl_ids = current_user.ou.etls.map { |etl| etl.id }
-      devices = Device.where(event_template_list_id: etl_ids).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
+      etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
+      devices = Device.where(event_template_list_id: etl_ids.unitq).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
       if !devices.include?(@device)
         head :no_content
         return
@@ -54,13 +54,12 @@ class Api::V1::DevicesController < ApplicationController
     render json: @device.as_json(
       only: [:id, :name, :device_type, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery],
       include: {
-        event_template_list: { only: [:id, :name] },
-        events: {
-          only: [:id, :name, :rights],
+        event_template_list: {
+          only: [:id, :name, :device_type, :channel],
           include: {
-            event_template: { only: [:id, :name, :static_data] }
+            event_templates: { only: [:id, :name, :position, :static_data, :delay, :interval, :number_of_times] }
           }
-        }
+        },
       }
     )
   end
