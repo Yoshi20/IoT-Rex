@@ -1,5 +1,6 @@
 class Device < ApplicationRecord
   belongs_to :organisation
+  belongs_to :device_type
   has_many :events
 
   validates :name, :device_type, :dev_eui, presence: true

@@ -10,14 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_22_084400) do
+ActiveRecord::Schema.define(version: 2019_11_24_204900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "device_types", force: :cascade do |t|
+    t.string "name"
+    t.integer "number_of_buttons"
+  end
+
   create_table "devices", force: :cascade do |t|
     t.string "name", null: false
-    t.string "device_type", null: false
     t.string "dev_eui", null: false
     t.string "app_eui"
     t.string "app_key"
@@ -28,11 +32,11 @@ ActiveRecord::Schema.define(version: 2019_11_22_084400) do
     t.datetime "updated_at", null: false
     t.bigint "event_template_list_id"
     t.bigint "organisation_id"
+    t.bigint "device_type_id"
   end
 
   create_table "event_template_lists", force: :cascade do |t|
     t.string "name", null: false
-    t.string "device_type"
     t.string "channel"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -107,6 +111,7 @@ ActiveRecord::Schema.define(version: 2019_11_22_084400) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "devices", "device_types"
   add_foreign_key "devices", "event_template_lists"
   add_foreign_key "devices", "organisations"
   add_foreign_key "event_template_lists", "organisation_units"

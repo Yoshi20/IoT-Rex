@@ -14,6 +14,13 @@ Role.create([
   { name: 'Super-Admin', rights: 9001 }
 ])
 
+DeviceType.create([
+  { name: 'LoRa-Panel', number_of_buttons: 6 },
+  { name: 'LoRa-EPD-4Btns', number_of_buttons: 4 },
+  { name: 'LoRa-EPD-2Btns', number_of_buttons: 2 },
+  { name: 'LoRa-Wristband', number_of_buttons: 1 }
+])
+
 # Super Admins
 Organisation.create(name: 'Embedded Science')
 OrganisationUnit.create(name: 'IoT-Rex', organisation: Organisation.find_by(name: 'Embedded Science'))
@@ -38,9 +45,9 @@ OrganisationUnit.create(name: 'TestOrganisationUnit13', organisation: Organisati
 User.create(name: 'TestUser131', email: 'testUser@131.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'User'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit13'))
 User.create(name: 'TestUser132', email: 'testUser@132.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Manager'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit13'))
 User.create(name: 'TestUser133', email: 'testUser@133.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Admin'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit13'))
-# Device.create(name: 'TestDevice1', device_type: 'ble_lora', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'))
-# Device.create(name: 'TestDevice2', device_type: 'ble_lora', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'))
-# Device.create(name: 'TestDevice3', device_type: 'ble_lora', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'))
+# Device.create(name: 'TestDevice1', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'), device_type: DeviceType.find_by(name: 'LoRa-Panel'))
+# Device.create(name: 'TestDevice2', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'), device_type: DeviceType.find_by(name: 'LoRa-Panel'))
+# Device.create(name: 'TestDevice3', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'), device_type: DeviceType.find_by(name: 'LoRa-Panel'))
 
 Organisation.create(name: 'TestOrganisation2')
 OrganisationUnit.create(name: 'TestOrganisationUnit21', organisation: Organisation.find_by(name: 'TestOrganisation2'))

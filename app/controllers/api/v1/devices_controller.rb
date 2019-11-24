@@ -126,6 +126,6 @@ class Api::V1::DevicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def device_params
-      params.require(:device).permit(:name, :device_type, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery, :event_template_list_id, :organisation_id)
+      params.require(:device).permit(:name, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery, :device_type_id, :event_template_list_id, :organisation_id)
     end
 end
