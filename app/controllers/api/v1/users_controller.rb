@@ -5,7 +5,7 @@ class Api::V1::UsersController < ApplicationController
   # GET /users.json
   def index
     if current_user.super_admin?
-      @users = Users.all
+      @users = User.all
       render json: @users.to_json
     else
       head :no_content
