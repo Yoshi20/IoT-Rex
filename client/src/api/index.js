@@ -4,6 +4,7 @@ const api = {
   authToken: '',
 };
 
+/* User */
 export function apiLogin(userName, password) {
   return axios.post('/api/v1/login', {
     user: {
@@ -15,6 +16,15 @@ export function apiLogin(userName, password) {
 
 export function apiLogout() {
   return axios.delete('/api/v1/logout');
+}
+
+/* Devices */
+export async function apiGetDevices() {
+  return await axios.get('/api/v1/devices', {
+    headers: {
+      Authorization: api.authToken,
+    },
+  });
 }
 
 /* Function to connect the api with the Redux store.

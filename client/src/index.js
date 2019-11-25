@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
+import configureApi from './api';
 
 /* Components */
 import AppRouter from './routers/AppRouter';
@@ -23,6 +24,7 @@ const theme = createMuiTheme({
 });
 
 const store = configureStore();
+configureApi(store);
 
 store.dispatch(userLoad());
 
