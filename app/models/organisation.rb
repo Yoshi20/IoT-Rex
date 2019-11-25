@@ -1,4 +1,5 @@
 class Organisation < ApplicationRecord
+  belongs_to :contact
   has_many :devices, dependent: :destroy
   has_many :organisation_units, dependent: :destroy
   has_many :users, through: :organisation_units

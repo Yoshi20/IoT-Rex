@@ -22,14 +22,16 @@ DeviceType.create([
 ])
 
 # Super Admins
-Organisation.create(name: 'Embedded Science')
+Contact.create(company: "Embedded Science", first_name: "Jascha", last_name: "Haldemann", email: "jh@oxon.ch", delivery_address: "OXON AG, Waldeggstrasse 47, 3097 Liebefeld")
+Organisation.create(name: 'Embedded Science', contact: Contact.find_by(email: "jh@oxon.ch"))
 OrganisationUnit.create(name: 'IoT-Rex', organisation: Organisation.find_by(name: 'Embedded Science'))
 User.create(name: 'Jascha Haldemann', email: 'jh@oxon.ch', password: ENV['MY_PASSWORD'], password_confirmation: ENV['MY_PASSWORD'], role: Role.find_by(name: 'Super-Admin'), organisation_unit: OrganisationUnit.find_by(name: 'IoT-Rex'))
 User.create(name: 'Tobias Meerstetter', email: 'tm@oxon.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Super-Admin'), organisation_unit: OrganisationUnit.find_by(name: 'IoT-Rex'))
 User.create(name: 'Simon Scheurer', email: 'ss@oxon.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Super-Admin'), organisation_unit: OrganisationUnit.find_by(name: 'IoT-Rex'))
 
 # Test entries:
-Organisation.create(name: 'TestOrganisation1')
+Contact.create(company: "TestOrganisation1", first_name: "bla", last_name: "blup", email: "testUser@111.ch", delivery_address: "asdf")
+Organisation.create(name: 'TestOrganisation1', contact: Contact.find_by(email: "testUser@111.ch"))
 OrganisationUnit.create(name: 'TestOrganisationUnit11', organisation: Organisation.find_by(name: 'TestOrganisation1'))
 User.create(name: 'TestUser111', email: 'testUser@111.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'User'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit11'))
 User.create(name: 'TestUser112', email: 'testUser@112.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Manager'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit11'))
@@ -49,7 +51,8 @@ User.create(name: 'TestUser133', email: 'testUser@133.ch', password: '123456', p
 # Device.create(name: 'TestDevice2', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'), device_type: DeviceType.find_by(name: 'LoRa-Panel'))
 # Device.create(name: 'TestDevice3', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'), device_type: DeviceType.find_by(name: 'LoRa-Panel'))
 
-Organisation.create(name: 'TestOrganisation2')
+Contact.create(company: "TestOrganisation2", first_name: "bla", last_name: "blup", email: "testUser@211.ch", delivery_address: "asdf")
+Organisation.create(name: 'TestOrganisation2', contact: Contact.find_by(email: "testUser@211.ch"))
 OrganisationUnit.create(name: 'TestOrganisationUnit21', organisation: Organisation.find_by(name: 'TestOrganisation2'))
 User.create(name: 'TestUser211', email: 'testUser@211.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'User'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit21'))
 User.create(name: 'TestUser212', email: 'testUser@212.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Manager'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit21'))
@@ -63,7 +66,8 @@ User.create(name: 'TestUser231', email: 'testUser@231.ch', password: '123456', p
 User.create(name: 'TestUser232', email: 'testUser@232.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Manager'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit23'))
 User.create(name: 'TestUser233', email: 'testUser@233.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Admin'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit23'))
 
-Organisation.create(name: 'TestOrganisation3')
+Contact.create(company: "TestOrganisation3", first_name: "bla", last_name: "blup", email: "testUser@311.ch", delivery_address: "asdf")
+Organisation.create(name: 'TestOrganisation3', contact: Contact.find_by(email: "testUser@311.ch"))
 OrganisationUnit.create(name: 'TestOrganisationUnit31', organisation: Organisation.find_by(name: 'TestOrganisation3'))
 User.create(name: 'TestUser311', email: 'testUser@311.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'User'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit31'))
 User.create(name: 'TestUser312', email: 'testUser@312.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Manager'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit31'))
