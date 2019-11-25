@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { apiGetOrganisation } from '../../api';
+
 /* Components */
 import SiteHeader from '../../components/SiteHeader';
 
@@ -12,6 +14,8 @@ import '../../styles/layout.scss';
 
 class OrganisationScreen extends React.Component {
   render() {
+    apiGetOrganisation(1).then(res => console.log(res));
+
     return (
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>

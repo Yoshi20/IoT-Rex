@@ -25,8 +25,7 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case USER_LOGIN:
-      const { id, email, authToken } = action.payload;
-      return { ...state, id, email, authToken, loggedIn: true };
+      return { ...state, ...action.payload, loggedIn: true };
     case USER_LOGOUT:
       return { ...initialState };
     default:
@@ -48,7 +47,8 @@ export function userLogin(email, password) {
     try {
       const response = await apiLogin(email, password);
       const user = { ...response.data, authToken: response.headers.authorization };
-      localStorage.setItem('user', JSON.stringify(user));
+      console.log(user);
+      // localStorage.setItem('user', JSON.stringify(user));
       dispatch(login(user));
     } catch (e) {
       console.log(e);

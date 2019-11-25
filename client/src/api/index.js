@@ -18,6 +18,15 @@ export function apiLogout() {
   return axios.delete('/api/v1/logout');
 }
 
+/* Organisations */
+export async function apiGetOrganisation(id) {
+  return await axios.get(`/api/v1/organisations/${id}`, {
+    headers: {
+      Authorization: api.authToken,
+    },
+  });
+}
+
 /* Devices */
 export async function apiGetDevices() {
   return await axios.get('/api/v1/devices', {
