@@ -4,10 +4,12 @@ import logger from 'redux-logger';
 
 import user from './modules/user';
 import devices from './modules/devices';
+import organisation from './modules/organisation';
 
 const reducer = combineReducers({
   user,
   devices,
+  organisation,
 });
 
 const configureStore = initialState => {

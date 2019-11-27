@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { apiGetOrganisation } from '../../api';
-
 /* Components */
 import SiteHeader from '../../components/SiteHeader';
 
 /* Store */
+import { organisationGet } from '../../store/modules/organisation';
 
 /* Styles */
 import '../../styles/layout.scss';
@@ -14,13 +13,13 @@ import '../../styles/layout.scss';
 
 class OrganisationScreen extends React.Component {
   render() {
-    apiGetOrganisation(1).then(res => console.log(res));
+    this.props.organisationGet(this.props.userOrganisationId);
 
     return (
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
-          <SiteHeader mainTitle="Organisation" />
+          <SiteHeader mainTitle="Organisation" subTitle={this.props.organisationName} />
         </div>
         <div className="screen_wrapper__right"></div>
       </div>
@@ -28,10 +27,15 @@ class OrganisationScreen extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {};
+function mapStateToProps({ user, organisation }) {
+  return {
+    userOrganisationId: user.organisation.id,
+    organisationName: organisation.name,
+  };
 }
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  organisationGet,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrganisationScreen);
