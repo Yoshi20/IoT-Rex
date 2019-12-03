@@ -5,13 +5,26 @@ class Api::V1::OrganisationUnitsController < ApplicationController
   # GET /organisation_units
   # GET /organisation_units.json
   def index
-    @organisation_units = current_user.o.ous
+    if current_user.super_admin?
+      @organisation_units = OrganisationUnit.all.order(:id)
+    else
+      @organisation_units = current_user.o.ous
+    end
     render json: @organisation_units.to_json
   end
 
   # GET /organisation_units/1
   # GET /organisation_units/1.json
   def show
+    if current_user.super_admin?
+      organisation_units = OrganisationUnit.all
+    else
+      organisation_units = current_user.o.ous
+    end
+    if !organisation_units.include?(@organisation_unit)
+      head :no_content
+      return
+    end
     render json: @organisation_unit.to_json
   end
 
@@ -27,29 +40,52 @@ class Api::V1::OrganisationUnitsController < ApplicationController
   # POST /organisation_units
   # POST /organisation_units.json
   def create
-    @organisation_unit = OrganisationUnit.new(organisation_unit_params)
-    if @organisation_unit.save
-      render json: @organisation_unit.to_json, status: :created
+    if !current_user.admin?
+      head :forbidden
     else
-      render json: @organisation_unit.errors, status: :unprocessable_entity
+      @organisation_unit = OrganisationUnit.new(organisation_unit_params)
+      @organisation_unit.organisation = current_user.o unless organisation_unit_params[:organisation_id].present? && current_user.super_admin?
+      if @organisation_unit.save
+        render json: @organisation_unit.to_json, status: :created
+      else
+        render json: @organisation_unit.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # PATCH/PUT /organisation_units/1
   # PATCH/PUT /organisation_units/1.json
   def update
-    if @organisation_unit.update(organisation_unit_params)
-      render json: @organisation_unit.to_json, status: :ok
+    if !current_user.admin?
+      head :forbidden
     else
-      render json: @organisation_unit.errors, status: :unprocessable_entity
+      if @organisation_unit.name == "Administration"
+        @organisation_unit.errors.add(:name, "You can not update the Administration organisation unit")
+        render json: @organisation_unit.errors, status: :unprocessable_entity
+      else
+        if @organisation_unit.update(organisation_unit_params)
+          render json: @organisation_unit.to_json, status: :ok
+        else
+          render json: @organisation_unit.errors, status: :unprocessable_entity
+        end
+      end
     end
   end
 
   # DELETE /organisation_units/1
   # DELETE /organisation_units/1.json
   def destroy
-    @organisation_unit.destroy
-    head :no_content
+    if !current_user.admin?
+      head :forbidden
+    else
+      if @organisation_unit.name == "Administration"
+        @organisation_unit.errors.add(:name, "You can not delete the Administration organisation unit")
+        render json: @organisation_unit.errors, status: :unprocessable_entity
+      else
+        @organisation_unit.destroy
+        head :no_content
+      end
+    end
   end
 
   private

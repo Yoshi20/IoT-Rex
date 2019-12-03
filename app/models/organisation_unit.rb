@@ -6,7 +6,7 @@ class OrganisationUnit < ApplicationRecord
   has_many :events, through: :event_templates, dependent: :destroy
   has_many :users, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true
 
   def o
     self.organisation

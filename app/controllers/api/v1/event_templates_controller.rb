@@ -5,7 +5,7 @@ class Api::V1::EventTemplatesController < ApplicationController
   # GET /event_templates
   # GET /event_templates.json
   def index
-    @event_templates = EventTemplate.all
+    @event_templates = EventTemplate.all.order(:id)
     render json: @event_templates.to_json
   end
 
@@ -27,18 +27,29 @@ class Api::V1::EventTemplatesController < ApplicationController
   # POST /event_templatess
   # POST /event_templatess.json
   def create
-    @event_templates = EventTemplate.new(event_templates_params)
-    if @event_templates.save
-      render json: @event_templates.to_json, status: :created
-    else
-      render json: @event_templates.errors, status: :unprocessable_entity
+    ActiveRecord::Base.transaction do
+      @event_template = EventTemplate.new(event_template_params)
+      if @event_template.save
+        if params[:event_template][:organisation_unit_ids].present?
+          params[:event_template][:organisation_unit_ids].each do |ou_id|
+            EventTemplateOrganisationUnit.create!(event_template_id: @event_template.id, organisation_unit_id: ou_id)
+          end
+        end
+        render json: @event_template.to_json, status: :created
+      else
+        puts '=> @event_template.save failed!'
+        raise @event_template.errors
+      end
+    rescue => errors
+      render json: errors, status: :unprocessable_entity
     end
+
   end
 
   # PATCH/PUT /event_templatess/1
   # PATCH/PUT /event_templatess/1.json
   def update
-    if @event_templates.update(event_templates_params)
+    if @event_templates.update(event_template_params)
       render json: @event_templates.to_json, status: :ok
     else
       render json: @event_templates.errors, status: :unprocessable_entity

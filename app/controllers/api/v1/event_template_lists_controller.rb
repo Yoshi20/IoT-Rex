@@ -5,7 +5,7 @@ class Api::V1::EventTemplateListsController < ApplicationController
   # GET /event_template_lists
   # GET /event_template_lists.json
   def index
-    @event_template_lists = EventTemplateList.all
+    @event_template_lists = EventTemplateList.all.order(:id)
     render json: @event_template_lists.to_json
   end
 
@@ -27,11 +27,15 @@ class Api::V1::EventTemplateListsController < ApplicationController
   # POST /event_template_lists
   # POST /event_template_lists.json
   def create
-    @event_template_list = EventTemplateList.new(event_template_list_params)
-    if @event_template_list.save
-      render json: @event_template_list.to_json, status: :created
+    if !current_user.manager?
+      head :forbidden
     else
-      render json: @event_template_list.errors, status: :unprocessable_entity
+      @event_template_list = EventTemplateList.new(event_template_list_params)
+      if @event_template_list.save
+        render json: @event_template_list.to_json, status: :created
+      else
+        render json: @event_template_list.errors, status: :unprocessable_entity
+      end
     end
   end
 

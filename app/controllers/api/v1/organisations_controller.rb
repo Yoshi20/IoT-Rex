@@ -6,7 +6,7 @@ class Api::V1::OrganisationsController < ApplicationController
   # GET /organisations.json
   def index
     if current_user.super_admin?
-      @organisations = Organisation.all
+      @organisations = Organisation.all.order(:id)
       render json: @organisations.to_json
     else
       head :no_content

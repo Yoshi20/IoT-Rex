@@ -15,7 +15,7 @@ class Api::V1::DevicesController < ApplicationController
     when "Admin"
       @devices = current_user.o.ds
     when "Super-Admin"
-      @devices = Device.all
+      @devices = Device.all.order(:id)
     else
       raise "User with email = \"#{current_user.email}\" has an invalid role!"
     end
@@ -101,10 +101,20 @@ class Api::V1::DevicesController < ApplicationController
   # PATCH/PUT /devices/1
   # PATCH/PUT /devices/1.json
   def update
-    if @device.update(device_params)
-      render json: @device.to_json, status: :ok
+    if current_user.super_admin?
+      if @device.update(device_params)
+        render json: @device.to_json, status: :ok
+      else
+        render json: @device.errors, status: :unprocessable_entity
+      end
+    elsif current_user.manager?
+      if @device.update(reduced_device_params)
+        render json: @device.to_json, status: :ok
+      else
+        render json: @device.errors, status: :unprocessable_entity
+      end
     else
-      render json: @device.errors, status: :unprocessable_entity
+      head :forbidden
     end
   end
 
@@ -128,5 +138,9 @@ class Api::V1::DevicesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def device_params
       params.require(:device).permit(:name, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery, :device_type_id, :event_template_list_id, :organisation_id)
+    end
+
+    def reduced_device_params
+      params.require(:device).permit(:name, :event_template_list_id)
     end
 end
