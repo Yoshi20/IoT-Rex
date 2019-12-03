@@ -36,9 +36,14 @@ OrganisationUnit.create(name: 'TestOrganisationUnit11', organisation: Organisati
 User.create(name: 'TestUser111', email: 'testUser@111.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'User'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit11'))
 User.create(name: 'TestUser112', email: 'testUser@112.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Manager'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit11'))
 User.create(name: 'TestUser113', email: 'testUser@113.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Admin'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit11'))
-# EventTemplateList.create(name: 'TestEventTemplateList111', device_type: 'ble_lora', channel: 'email', organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit11'))
-# EventTemplate.create(name: 'TestEventTemplate1111', event_template_list: EventTemplateList.find_by(name: 'TestEventTemplateList111'), organisation_units: [OrganisationUnit.find_by(name: 'TestOrganisationUnit11')])
-# EventTemplate.create(name: 'TestEventTemplate1112', event_template_list: EventTemplateList.find_by(name: 'TestEventTemplateList111'), organisation_units: [OrganisationUnit.find_by(name: 'TestOrganisationUnit11'), OrganisationUnit.find_by(name: 'TestOrganisationUnit12')])
+EventTemplateList.create(name: 'TestEventTemplateList111', channel: 'email', organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit11')) unless EventTemplateList.find_by(name: 'TestEventTemplateList111').present?
+EventTemplate.create(name: 'TestEventTemplate1111', event_template_list: EventTemplateList.find_by(name: 'TestEventTemplateList111'), organisation_units: [OrganisationUnit.find_by(name: 'TestOrganisationUnit11')]) unless EventTemplate.find_by(name: 'TestEventTemplate1111').present?
+EventTemplate.create(name: 'TestEventTemplate1112', event_template_list: EventTemplateList.find_by(name: 'TestEventTemplateList111'), organisation_units: [OrganisationUnit.find_by(name: 'TestOrganisationUnit11'), OrganisationUnit.find_by(name: 'TestOrganisationUnit12')]) unless EventTemplate.find_by(name: 'TestEventTemplate1112').present?
+EventTemplate.create(name: 'TestEventTemplate1113', event_template_list: EventTemplateList.find_by(name: 'TestEventTemplateList111'), organisation_units: [OrganisationUnit.find_by(name: 'TestOrganisationUnit11'), OrganisationUnit.find_by(name: 'TestOrganisationUnit12'), OrganisationUnit.find_by(name: 'TestOrganisationUnit13')]) unless EventTemplate.find_by(name: 'TestEventTemplate1113').present?
+Device.create(name: 'TestDevice1', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'), device_type: DeviceType.find_by(name: 'LoRa-Panel'), event_template_list_id: EventTemplateList.find_by(name: 'TestEventTemplateList111').id) unless Device.find_by(name: 'TestDevice1').present?
+Device.create(name: 'TestDevice2', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'), device_type: DeviceType.find_by(name: 'LoRa-Panel')) unless Device.find_by(name: 'TestDevice2').present?
+Device.create(name: 'TestDevice3', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'), device_type: DeviceType.find_by(name: 'LoRa-Panel')) unless Device.find_by(name: 'TestDevice3').present?
+
 OrganisationUnit.create(name: 'TestOrganisationUnit12', organisation: Organisation.find_by(name: 'TestOrganisation1'))
 User.create(name: 'TestUser121', email: 'testUser@121.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'User'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit12'))
 User.create(name: 'TestUser122', email: 'testUser@122.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Manager'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit12'))
@@ -47,9 +52,6 @@ OrganisationUnit.create(name: 'TestOrganisationUnit13', organisation: Organisati
 User.create(name: 'TestUser131', email: 'testUser@131.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'User'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit13'))
 User.create(name: 'TestUser132', email: 'testUser@132.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Manager'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit13'))
 User.create(name: 'TestUser133', email: 'testUser@133.ch', password: '123456', password_confirmation: '123456', role: Role.find_by(name: 'Admin'), organisation_unit: OrganisationUnit.find_by(name: 'TestOrganisationUnit13'))
-# Device.create(name: 'TestDevice1', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'), device_type: DeviceType.find_by(name: 'LoRa-Panel'))
-# Device.create(name: 'TestDevice2', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'), device_type: DeviceType.find_by(name: 'LoRa-Panel'))
-# Device.create(name: 'TestDevice3', dev_eui: '123', organisation: Organisation.find_by(name: 'TestOrganisation1'), device_type: DeviceType.find_by(name: 'LoRa-Panel'))
 
 Contact.create(company: "TestOrganisation2", first_name: "bla", last_name: "blup", email: "testUser@211.ch", delivery_address: "asdf")
 Organisation.create(name: 'TestOrganisation2', contact: Contact.find_by(email: "testUser@211.ch"))
