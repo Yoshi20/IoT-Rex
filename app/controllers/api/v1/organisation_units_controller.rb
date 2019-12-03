@@ -1,4 +1,5 @@
 class Api::V1::OrganisationUnitsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_organisation_unit, only: [:show, :edit, :update, :destroy]
 
   # GET /organisation_units

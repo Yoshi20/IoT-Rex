@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resources :contacts
       resources :devices
       resources :event_template_lists
       resources :event_templates

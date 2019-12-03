@@ -9,6 +9,10 @@
       <%= t('users.mailer.signed_up') %><br>
     </p>
     <p>
+      <%= t('users.mailer.your_username')%><strong><%= @user.email %></strong><br>
+      <%= t('users.mailer.your_password')%><strong><%= @pw %></strong><br>
+    </p>
+    <p>
       <%= t('users.mailer.to_join', link: link_to(t('users.mailer.this_link'), @url)).html_safe %>
     </p>
     <p><%= t('users.mailer.thanks') %></p>

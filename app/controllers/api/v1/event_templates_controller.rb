@@ -1,4 +1,5 @@
 class Api::V1::EventTemplatesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_event_template, only: [:show, :edit, :update, :destroy]
 
   # GET /event_templates

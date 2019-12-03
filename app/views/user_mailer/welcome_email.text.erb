@@ -3,7 +3,10 @@
 
 <%= t('users.mailer.signed_up') %>
 
+<%= t('users.mailer.your_username') %> <%= @user.email %>
+<%= t('users.mailer.your_password') %> <%= @pw %>
+
 <%= t('users.mailer.to_join2') %>
-  <%= @url %>.
+  <%= @url %>
 
 <%= t('users.mailer.thanks') %>

@@ -33,8 +33,10 @@ en:
   users:
     mailer:
       welcome: "Welcome to IoT-Rex"
-      signed_up: "You have successfully signed up."
+      signed_up: "We've created your administrator user."
+      your_username: "Your username is:"
+      your_password: "Your password is:"
       to_join: "To check out your dashboard, just follow %{link}."
       to_join2: "To check out your dashboard, just follow this link:"
       this_link: "this link"
-      thanks: "Thanks for your registration. We hope you'll enjoy IoT-Rex as much as we do!"
+      thanks: "We hope you'll enjoy IoT-Rex as much as we do!"
