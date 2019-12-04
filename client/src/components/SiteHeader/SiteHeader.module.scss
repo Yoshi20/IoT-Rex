@@ -8,17 +8,13 @@
   &__main {
     font-size: $fontSizeSiteTitleMain;
     font-weight: $fontWeightSiteTitleMain;
-    color: $siteHeaderTextColorMain;
+    color: $primaryColor;
   }
 
   &__sub {
     font-size: $fontSizeSiteTitleSub;
     font-weight: $fontWeightSiteTitleSub;
-    color: $siteHeaderTextColorSub;
-    background-color: $siteHeaderTextColorSub;
-    color: transparent;
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
-    background-clip: text;
+    color: $accentColor1;
     margin-left: 0.5rem;
   }
 }

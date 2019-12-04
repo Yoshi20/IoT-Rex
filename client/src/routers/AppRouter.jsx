@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 /* Components */
 import PrivateRoute from './PrivateRoute';
-import TopBar from '../components/TopBar';
 import LoginScreen from '../screens/LoginScreen';
+import Navigation from '../components/Navigation';
 import DashboardScreen from '../screens/DashboardScreen';
 import DevicesScreen from '../screens/DevicesScreen';
 import OrganisationScreen from '../screens/OrganisationScreen';
@@ -25,33 +25,36 @@ class AppRouter extends React.Component {
     return (
       <Router>
         <div className="app_root">
-          <TopBar />
-          <Switch>
-            <Route exact path="/login" component={LoginScreen} />
+          <Navigation />
 
-            <PrivateRoute exact path="/">
-              <DashboardScreen />
-            </PrivateRoute>
-            <PrivateRoute path="/devices">
-              <DevicesScreen />
-            </PrivateRoute>
-            <PrivateRoute path="/organisation">
-              <OrganisationScreen />
-            </PrivateRoute>
-            <PrivateRoute path="/events">
-              <EventsScreen />
-            </PrivateRoute>
-            <PrivateRoute path="/zones">
-              <ZonesScreen />
-            </PrivateRoute>
-            <PrivateRoute path="/settings">
-              <SettingsScreen />
-            </PrivateRoute>
-            <PrivateRoute path="*">
-              <ErrorScreen />
-            </PrivateRoute>
-          </Switch>
-          <Footer />
+          <div className="app_main">
+            <Switch>
+              <Route exact path="/login" component={LoginScreen} />
+
+              <PrivateRoute exact path="/">
+                <DashboardScreen />
+              </PrivateRoute>
+              <PrivateRoute path="/devices">
+                <DevicesScreen />
+              </PrivateRoute>
+              <PrivateRoute path="/organisation">
+                <OrganisationScreen />
+              </PrivateRoute>
+              <PrivateRoute path="/events">
+                <EventsScreen />
+              </PrivateRoute>
+              <PrivateRoute path="/zones">
+                <ZonesScreen />
+              </PrivateRoute>
+              <PrivateRoute path="/settings">
+                <SettingsScreen />
+              </PrivateRoute>
+              <PrivateRoute path="*">
+                <ErrorScreen />
+              </PrivateRoute>
+            </Switch>
+            <Footer />
+          </div>
         </div>
       </Router>
     );

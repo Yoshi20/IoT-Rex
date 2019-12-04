@@ -4,12 +4,7 @@
 .dashBoardCardWrapper {
   position: relative;
   width: 100%;
-  // padding-top: 56.25%;
   padding-top: 61.8%;
-
-  &:hover {
-    top: -1px;
-  }
 
   &:active {
     top: 1px;
@@ -22,23 +17,30 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba($color: #ffffff, $alpha: 0.6);
-  box-shadow: 1rem 1rem 1rem grey;
+  border: 2px solid $primaryColor;
+  border-radius: 3px;
+  background-color: $primaryBackgroundColor;
+  box-shadow: 0.6rem 0.6rem 0.8rem $shadowColor;
 
   display: flex;
   flex-direction: column;
 
   &:hover {
-    box-shadow: 1.25rem 1.25rem 1.25rem grey;
+    border-color: $accentColor1;
+    color: $accentColor1;
+
+    & .dashBoardCard__title {
+      color: $accentColor1;
+    }
   }
 
   &:active {
-    box-shadow: 0.75rem 0.75rem 0.75rem grey;
+    box-shadow: 0.3rem 0.3rem 0.3rem $shadowColor;
   }
 
   &__title {
     font-size: 3rem;
-    color: #707070;
+    color: $primaryColor;
     margin: 1rem 0 1rem 2rem;
     user-select: none;
   }

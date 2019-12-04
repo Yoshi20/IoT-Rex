@@ -27,6 +27,10 @@ const styles = {
   },
   resize: {
     fontSize: '2rem',
+    color: 'white',
+  },
+  input: {
+    color: 'white',
   },
 };
 
@@ -56,6 +60,7 @@ class LoginScreen extends React.Component {
               className={classes.textField}
               label="E-Mail"
               margin="normal"
+              color="secondary"
               type="email"
               onChange={e => {
                 eMail = e.target.value;
@@ -80,6 +85,7 @@ class LoginScreen extends React.Component {
               type="password"
               autoComplete="current-password"
               margin="normal"
+              color="secondary"
               onChange={e => {
                 password = e.target.value;
               }}
@@ -97,7 +103,7 @@ class LoginScreen extends React.Component {
           </div>
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             classes={{
               label: classes.resize,
             }}

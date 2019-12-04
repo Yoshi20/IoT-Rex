@@ -18,8 +18,8 @@ import './index.css';
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: '#6d7993' }, // Purple and green play nicely together.
-    secondary: { main: '#054b1a' }, // This is just green.A700 as hex.
+    primary: { main: '#1f262b' }, // Purple and green play nicely together.
+    secondary: { main: '#417cce', contrastText: '#e1e1e1' }, // This is just green.A700 as hex.
   },
 });
 
