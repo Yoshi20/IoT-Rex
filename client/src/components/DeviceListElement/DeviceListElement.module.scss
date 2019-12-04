@@ -1,0 +1,21 @@
+@import '../../styles/typography.scss';
+@import '../../styles/colors.scss';
+
+.deviceListElement {
+  background-color: rgba($color: #ffffff, $alpha: 0.6);
+  box-shadow: 1rem 1rem 1rem grey;
+  margin: 1rem 0;
+
+  display: flex;
+
+  &__name {
+    font-size: 2rem;
+    margin: 0.5rem 3rem 0.5rem 1rem;
+  }
+
+  &__type {
+    font-size: 2rem;
+    color: lightslategray;
+    margin: 0.5rem 3rem 0.5rem 1rem;
+  }
+}

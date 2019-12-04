@@ -7,16 +7,25 @@ const USER_LOGOUT = 'USER_LOGOUT';
 const initialState = {
   loggedIn: false,
   authToken: null,
-  email: '',
   id: -1,
+  email: '',
+  name: '',
+  organisation: {
+    id: -1,
+    name: '',
+  },
+  role: {
+    id: -1,
+    name: '',
+    rights: 0,
+  },
 };
 
 /* Reducer */
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case USER_LOGIN:
-      const { id, email, authToken } = action.payload;
-      return { ...state, id, email, authToken, loggedIn: true };
+      return { ...state, ...action.payload, loggedIn: true };
     case USER_LOGOUT:
       return { ...initialState };
     default:
@@ -38,7 +47,8 @@ export function userLogin(email, password) {
     try {
       const response = await apiLogin(email, password);
       const user = { ...response.data, authToken: response.headers.authorization };
-      localStorage.setItem('user', JSON.stringify(user));
+      console.log(user);
+      // localStorage.setItem('user', JSON.stringify(user));
       dispatch(login(user));
     } catch (e) {
       console.log(e);
@@ -50,7 +60,6 @@ export function userLogin(email, password) {
 export function userLoad() {
   return dispatch => {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
     if (user) {
       dispatch(login(user));
     }
