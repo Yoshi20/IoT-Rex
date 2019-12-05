@@ -48,7 +48,7 @@ export function userLogin(email, password) {
       const response = await apiLogin(email, password);
       const user = { ...response.data, authToken: response.headers.authorization };
       console.log(user);
-      // localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(user));
       dispatch(login(user));
     } catch (e) {
       console.log(e);
