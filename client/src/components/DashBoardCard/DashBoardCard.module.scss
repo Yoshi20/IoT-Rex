@@ -28,10 +28,6 @@
   &:hover {
     border-color: $accentColor1;
     color: $accentColor1;
-
-    & .dashBoardCard__title {
-      color: $accentColor1;
-    }
   }
 
   &:active {
@@ -41,8 +37,9 @@
   &__title {
     font-size: 3rem;
     color: $primaryColor;
-    margin: 1rem 0 1rem 2rem;
+    padding: 1rem 0 1rem 2rem;
     user-select: none;
+    background-color: $accentColor1Dark;
   }
 
   &__image {
