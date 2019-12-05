@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
+import DashboardIcon from '@material-ui/icons/Apps';
 import FileCopyIcon from '@material-ui/icons/Apps';
 import SaveIcon from '@material-ui/icons/Save';
 import PrintIcon from '@material-ui/icons/Print';
@@ -22,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     width: '80px',
     height: '80px',
   },
-  SpeedDialfabIcon: {
+  SpeedDialFabIcon: {
     height: '60px',
   },
   fab: {
@@ -60,8 +61,8 @@ export default function Navigation() {
         hidden={false}
         icon={
           <SpeedDialIcon
-            classes={{ root: classes.SpeedDialfabIcon }}
-            icon={<FileCopyIcon style={{ fontSize: 60 }} />}
+            classes={{ root: classes.SpeedDialFabIcon }}
+            icon={<DashboardIcon style={{ fontSize: 60 }} />}
           />
         }
         onClose={handleClose}
