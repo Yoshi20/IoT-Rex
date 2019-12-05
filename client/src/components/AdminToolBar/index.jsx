@@ -35,6 +35,11 @@ class AdminToolBar extends React.Component {
   render() {
     const { classes } = this.props;
 
+    const value =
+      this.props.selectedOrganisation > 0 && this.props.organisations.length
+        ? this.props.selectedOrganisation
+        : '';
+
     return (
       <div className={style.admin_tool_bar_wrapper}>
         <FormControl className={classes.formControl}>
@@ -42,7 +47,7 @@ class AdminToolBar extends React.Component {
           <Select
             labelId="organisation_select_label"
             id="demo-simple-select"
-            value={this.props.selectedOrganisation}
+            value={value}
             onChange={this.handleChange}
           >
             {this.props.organisations.map((org, i) => (
