@@ -35,8 +35,6 @@ class AdminToolBar extends React.Component {
   render() {
     const { classes } = this.props;
 
-    console.log(this.props.organisations);
-
     return (
       <div className={style.admin_tool_bar_wrapper}>
         <FormControl className={classes.formControl}>

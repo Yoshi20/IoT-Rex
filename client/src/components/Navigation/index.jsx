@@ -1,19 +1,18 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import DashboardIcon from '@material-ui/icons/Apps';
-import FileCopyIcon from '@material-ui/icons/Apps';
-import SaveIcon from '@material-ui/icons/Save';
-import PrintIcon from '@material-ui/icons/Print';
-import ShareIcon from '@material-ui/icons/Share';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 /* Components */
 
 /* Store */
+import { userLogout } from '../../store/modules/user';
 
 /* Styles */
 import styles from './Navigation.module.scss';
@@ -32,16 +31,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const actions = [
-  { icon: <FileCopyIcon />, name: 'Copy' },
-  { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' },
-  { icon: <FavoriteIcon />, name: 'Like' },
-];
-
 export default function Navigation() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const loggedIn = useSelector(state => state.user.loggedIn);
 
   const [open, setOpen] = React.useState(false);
 
@@ -53,12 +46,16 @@ export default function Navigation() {
     setOpen(true);
   };
 
+  const actions = [
+    { icon: <ExitToAppIcon />, name: 'Logout', onClick: () => dispatch(userLogout()) },
+  ];
+
   return (
     <div className={styles.navigation_wrapper}>
       <SpeedDial
         ariaLabel="SpeedDial example"
         classes={{ fab: classes.SpeedDialfab }}
-        hidden={false}
+        hidden={!loggedIn}
         icon={
           <SpeedDialIcon
             classes={{ root: classes.SpeedDialFabIcon }}
@@ -67,7 +64,7 @@ export default function Navigation() {
         }
         onClose={handleClose}
         onOpen={handleOpen}
-        open={open}
+        open={open && loggedIn}
         direction="up"
       >
         {actions.map(action => (
@@ -76,7 +73,7 @@ export default function Navigation() {
             icon={action.icon}
             tooltipPlacement="right"
             tooltipTitle={action.name}
-            onClick={handleClose}
+            onClick={action.onClick}
             classes={{ fab: classes.fab }}
           />
         ))}
