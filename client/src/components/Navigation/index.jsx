@@ -1,15 +1,15 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+
+/* Components */
+import Tooltip from '@material-ui/core/Tooltip';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import DashboardIcon from '@material-ui/icons/Apps';
-
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-
-/* Components */
 
 /* Store */
 import { userLogout } from '../../store/modules/user';
@@ -32,6 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Navigation() {
+  let history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
   const loggedIn = useSelector(state => state.user.loggedIn);
@@ -59,13 +60,22 @@ export default function Navigation() {
         icon={
           <SpeedDialIcon
             classes={{ root: classes.SpeedDialFabIcon }}
-            icon={<DashboardIcon style={{ fontSize: 60 }} />}
+            icon={
+              <Tooltip title="Dashboard" aria-label="Go to Dashboard" placement="right">
+                <DashboardIcon style={{ fontSize: 60 }} />
+              </Tooltip>
+            }
           />
         }
         onClose={handleClose}
         onOpen={handleOpen}
         open={open && loggedIn}
         direction="up"
+        FabProps={{
+          onClick: () => {
+            history.push('/');
+          },
+        }}
       >
         {actions.map(action => (
           <SpeedDialAction
