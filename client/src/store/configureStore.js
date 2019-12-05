@@ -4,11 +4,13 @@ import logger from 'redux-logger';
 
 import user from './modules/user';
 import devices from './modules/devices';
+import organisations from './modules/organisations';
 import organisation from './modules/organisation';
 
 const reducer = combineReducers({
   user,
   devices,
+  organisations,
   organisation,
 });
 

@@ -19,6 +19,15 @@ export function apiLogout() {
 }
 
 /* Organisations */
+
+export async function apiGetOrganisations() {
+  return await axios.get(`/api/v1/organisations/`, {
+    headers: {
+      Authorization: api.authToken,
+    },
+  });
+}
+
 export async function apiGetOrganisation(id) {
   return await axios.get(`/api/v1/organisations/${id}`, {
     headers: {

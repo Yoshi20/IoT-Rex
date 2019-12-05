@@ -3,6 +3,7 @@ import { apiLogin, apiLogout } from '../../api';
 /* Actions */
 const USER_LOGIN = 'USER_LOGIN';
 const USER_LOGOUT = 'USER_LOGOUT';
+const USER_SET_ORGANISATION = 'USER_SET_ORGANISATION';
 
 const initialState = {
   loggedIn: false,
@@ -28,6 +29,8 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state, ...action.payload, loggedIn: true };
     case USER_LOGOUT:
       return { ...initialState };
+    case USER_SET_ORGANISATION:
+      return { ...state, organisation: action.payload };
     default:
       return state;
   }
@@ -40,6 +43,10 @@ function login(user) {
 
 function logout() {
   return { type: USER_LOGOUT };
+}
+
+export function userSetOrganisation(id, name) {
+  return { type: USER_SET_ORGANISATION, payload: { id, name } };
 }
 
 export function userLogin(email, password) {

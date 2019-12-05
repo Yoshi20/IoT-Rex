@@ -17,6 +17,11 @@ import { userLoad } from './store/modules/user';
 import './index.css';
 
 const theme = createMuiTheme({
+  typography: {
+    // Tell Material-UI what's the font-size on the html element is.
+    htmlFontSize: 10,
+    fontSize: 18,
+  },
   palette: {
     primary: { main: '#1f262b' }, // Purple and green play nicely together.
     secondary: { main: '#417cce', contrastText: '#e1e1e1' }, // This is just green.A700 as hex.
