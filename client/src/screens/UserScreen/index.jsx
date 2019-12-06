@@ -8,15 +8,15 @@ import SiteHeader from '../../components/SiteHeader';
 
 /* Styles */
 import '../../styles/layout.scss';
-// import styles from './SettingsScreen.module.scss';
+// import styles from './UserScreen.module.scss';
 
-class SettingsScreen extends React.Component {
+class UserScreen extends React.Component {
   render() {
     return (
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
-          <SiteHeader mainTitle="Einstellungen" subTitle="IoT-Rex" />
+          <SiteHeader mainTitle={this.props.userName} subTitle={this.props.organisationName} />
         </div>
         <div className="screen_wrapper__right"></div>
       </div>
@@ -24,10 +24,13 @@ class SettingsScreen extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {};
+function mapStateToProps({ user }) {
+  return {
+    organisationName: user.organisation.name,
+    userName: user.name,
+  };
 }
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(UserScreen);

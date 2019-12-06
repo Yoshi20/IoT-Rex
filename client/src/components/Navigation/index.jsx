@@ -10,6 +10,8 @@ import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import DashboardIcon from '@material-ui/icons/Apps';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PersonIcon from '@material-ui/icons/Person';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 /* Store */
 import { userLogout } from '../../store/modules/user';
@@ -48,6 +50,8 @@ export default function Navigation() {
   };
 
   const actions = [
+    { icon: <SettingsIcon />, name: 'Einstellungen', onClick: () => history.push('/settings') },
+    { icon: <PersonIcon />, name: 'Benutzer', onClick: () => history.push('/user') },
     { icon: <ExitToAppIcon />, name: 'Logout', onClick: () => dispatch(userLogout()) },
   ];
 

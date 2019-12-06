@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import DeviceIcon from '../../assets/icons/dashBoard/dash-board_dev.svg';
 import EventIcon from '../../assets/icons/dashBoard/dash-board_event.svg';
 import OrganisationIcon from '../../assets/icons/dashBoard/dash-board_org.svg';
-import SettingsIcon from '../../assets/icons/dashBoard/dash-board_settings.svg';
-import ZoneIcon from '../../assets/icons/dashBoard/dash-board_zone.svg';
 
 /* Components */
 import SiteHeader from '../../components/SiteHeader';
@@ -33,8 +31,6 @@ class DashboardScreen extends React.Component {
               targetPath="/organisation"
             />
             <DashBoardCard title="Events" icon={EventIcon} targetPath="/events" />
-            <DashBoardCard title="Zonen" icon={ZoneIcon} targetPath="/zones" />
-            <DashBoardCard title="Einstellungen" icon={SettingsIcon} targetPath="/settings" />
           </div>
         </div>
         <div className="screen_wrapper__right"></div>
