@@ -1,0 +1,26 @@
+@import '../../styles/typography.scss';
+@import '../../styles/colors.scss';
+
+.user_list_element {
+  margin: 1rem 0;
+
+  display: flex;
+
+  &:hover {
+    background-color: $accentColor1Dark;
+  }
+
+  &__name {
+    color: $primaryColor;
+    width: 20rem;
+    font-size: 2rem;
+    margin: 0.5rem 3rem 0.5rem 1rem;
+  }
+
+  &__role {
+    flex: 1;
+    font-size: 2rem;
+    color: $accentColor2;
+    margin: 0.5rem 3rem 0.5rem 1rem;
+  }
+}

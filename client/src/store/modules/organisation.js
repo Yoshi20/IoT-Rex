@@ -3,13 +3,18 @@ import { apiGetOrganisation } from '../../api';
 /* Actions */
 const ORGANISATION_SET = 'ORGANISATION_SET';
 
-const initialState = {};
+const initialState = {
+  id: -1,
+  name: '',
+  organisationUnits: [],
+};
 
 /* Reducer */
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case ORGANISATION_SET:
-      return { ...state, ...action.payload };
+      const { id, name, organisation_units } = action.payload;
+      return { ...state, id, name, organisationUnits: organisation_units };
     default:
       return state;
   }
