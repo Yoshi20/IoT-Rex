@@ -12,9 +12,11 @@ import '../../styles/layout.scss';
 // import styles from './OrganisationScreen.module.scss';
 
 class OrganisationScreen extends React.Component {
-  render() {
+  componentDidMount() {
     this.props.organisationGet(this.props.userOrganisationId);
+  }
 
+  render() {
     return (
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
