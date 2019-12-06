@@ -7,6 +7,7 @@ import PrivateRoute from './PrivateRoute';
 import LoginScreen from '../screens/LoginScreen';
 import Navigation from '../components/Navigation';
 import AdminToolBar from '../components/AdminToolBar';
+import Header from '../components/Header';
 import DashboardScreen from '../screens/DashboardScreen';
 import DevicesScreen from '../screens/DevicesScreen';
 import OrganisationScreen from '../screens/OrganisationScreen';
@@ -30,6 +31,7 @@ class AppRouter extends React.Component {
 
           <div className="app_main">
             {this.props.userRights > 9000 && <AdminToolBar />}
+            <Header />
             <Switch>
               <Route exact path="/login" component={LoginScreen} />
 
