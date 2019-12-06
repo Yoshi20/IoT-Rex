@@ -4,6 +4,7 @@
 .site_header {
   text-transform: uppercase;
   font-family: 'Montserrat', sans-serif;
+  user-select: none;
 
   &__main {
     font-size: $fontSizeSiteTitleMain;

@@ -9,11 +9,6 @@
     font-size: 2.4rem;
     color: $accentColor1;
     margin-bottom: 1rem;
-  }
-
-  &_user {
-    margin: 1rem;
-    color: $primaryColor;
-    font-size: 1.6rem;
+    user-select: none;
   }
 }
