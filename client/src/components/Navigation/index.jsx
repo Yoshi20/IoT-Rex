@@ -4,14 +4,14 @@ import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 /* Components */
-import Tooltip from '@material-ui/core/Tooltip';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import DashboardIcon from '@material-ui/icons/Apps';
+import MenuIcon from '@material-ui/icons/Menu';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PersonIcon from '@material-ui/icons/Person';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ViewQuiltIcon from '@material-ui/icons/ViewQuilt';
 
 /* Store */
 import { userLogout } from '../../store/modules/user';
@@ -50,6 +50,7 @@ export default function Navigation() {
   };
 
   const actions = [
+    { icon: <ViewQuiltIcon />, name: 'Dashboard', onClick: () => history.push('/') },
     { icon: <SettingsIcon />, name: 'Einstellungen', onClick: () => history.push('/settings') },
     { icon: <PersonIcon />, name: 'Benutzer', onClick: () => history.push('/user') },
     { icon: <ExitToAppIcon />, name: 'Logout', onClick: () => dispatch(userLogout()) },
@@ -64,22 +65,13 @@ export default function Navigation() {
         icon={
           <SpeedDialIcon
             classes={{ root: classes.SpeedDialFabIcon }}
-            icon={
-              <Tooltip title="Dashboard" aria-label="Go to Dashboard" placement="right">
-                <DashboardIcon style={{ fontSize: 60 }} />
-              </Tooltip>
-            }
+            icon={<MenuIcon style={{ fontSize: 60 }} />}
           />
         }
         onClose={handleClose}
         onOpen={handleOpen}
         open={open && loggedIn}
         direction="up"
-        FabProps={{
-          onClick: () => {
-            history.push('/');
-          },
-        }}
       >
         {actions.map(action => (
           <SpeedDialAction
