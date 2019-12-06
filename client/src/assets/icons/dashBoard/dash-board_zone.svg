@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 159.61 76.63"><defs><style>.cls-1,.cls-2{fill:none;stroke:#e1e1e1;}.cls-2{stroke-miterlimit:10;}</style></defs><title>Asset 3</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><line id="Line_11" data-name="Line 11" class="cls-1" y1="76.13" x2="159" y2="76.13"/><polyline id="Line_11-2" data-name="Line 11" class="cls-1" points="0.5 76.13 20.5 56.13 21 56.13 43 56.13"/><polyline id="Line_11-3" data-name="Line 11" class="cls-1" points="117 56.13 139 56.13 139.26 56.21 159.26 76.21"/><path class="cls-2" d="M79.31,61.5S63.08,49.8,57.18,34a23.66,23.66,0,0,1-.61-15.25C60.36,6.47,71.77.5,79.31.5H80c7.55,0,19,6,22.74,18.22a23.68,23.68,0,0,1-.61,15.21C96.23,49.8,80,61.5,80,61.5Z"/><circle class="cls-2" cx="79.5" cy="24.13" r="8"/></g></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 240 150" style="enable-background:new 0 0 240 150;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#E1E1E1;stroke-width:2;}
+	.st1{fill:none;stroke:#E1E1E1;stroke-width:2;stroke-miterlimit:10;}
+</style>
+<title>test4Artboard 1</title>
+<line id="Line_11" class="st0" x1="6" y1="141.1" x2="233.6" y2="141.1"/>
+<polyline id="Line_11-2" class="st0" points="6.7,141.1 22.4,77.4 23.1,77.4 54.6,77.4 "/>
+<polyline id="Line_11-3" class="st0" points="185.5,77.4 217,77.4 217.4,77.6 234,141.2 "/>
+<path class="st1" d="M119.5,94.1c0,0-23.2-16.8-31.7-39.4c-2.7-7-3-14.7-0.8-21.8c5.4-17.6,21.8-26.1,32.6-26.1h1
+	c10.8,0,27.2,8.6,32.6,26.1c2.1,7.2,1.8,14.8-0.9,21.8c-8.4,22.7-31.7,39.5-31.7,39.5H119.5z"/>
+<circle class="st1" cx="120" cy="40.6" r="11.4"/>
+</svg>

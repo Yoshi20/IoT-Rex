@@ -1,1 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 79"><defs><style>.cls-1,.cls-2{fill:none;stroke:#e1e1e1;}.cls-1{stroke-miterlimit:10;}</style></defs><title>Asset 1</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="Rectangle_24" data-name="Rectangle 24"><rect class="cls-1" x="52.5" y="0.5" width="61" height="25"/><rect class="cls-2" x="53" y="1" width="60" height="24"/></g><g id="Rectangle_25" data-name="Rectangle 25"><rect class="cls-1" x="0.5" y="53.5" width="61" height="25"/><rect class="cls-2" x="1" y="54" width="60" height="24"/></g><g id="Rectangle_26" data-name="Rectangle 26"><rect class="cls-1" x="98.5" y="53.5" width="61" height="25"/><rect class="cls-2" x="99" y="54" width="60" height="24"/></g><line id="Line_9" data-name="Line 9" class="cls-2" x1="83" y1="25" x2="29" y2="54"/><line id="Line_10" data-name="Line 10" class="cls-2" x1="83" y1="25" x2="137" y2="54"/></g></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 240 150" style="enable-background:new 0 0 240 150;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#E1E1E1;stroke-width:2;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#E1E1E1;stroke-width:2;}
+</style>
+<title>test4Artboard 1</title>
+<rect x="75.5" y="4.4" class="st0" width="89" height="36.5"/>
+<rect x="4" y="108.7" class="st0" width="89" height="36.5"/>
+<rect x="147" y="108.7" class="st0" width="89" height="36.5"/>
+<line id="Line_9" class="st1" x1="120.5" y1="40.5" x2="41.6" y2="108.5"/>
+<line id="Line_10" class="st1" x1="120.5" y1="40.5" x2="191.5" y2="108.5"/>
+</svg>
