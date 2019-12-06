@@ -54,7 +54,7 @@ class AppRouter extends React.Component {
               <PrivateRoute path="/settings">
                 <SettingsScreen />
               </PrivateRoute>
-              <PrivateRoute path="/user">
+              <PrivateRoute path="/user/:id">
                 <UserScreen />
               </PrivateRoute>
               <PrivateRoute path="*">

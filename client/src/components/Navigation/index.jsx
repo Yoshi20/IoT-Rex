@@ -38,6 +38,7 @@ export default function Navigation() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const loggedIn = useSelector(state => state.user.loggedIn);
+  const userID = useSelector(state => state.user.id);
 
   const [open, setOpen] = React.useState(false);
 
@@ -52,7 +53,7 @@ export default function Navigation() {
   const actions = [
     { icon: <ViewQuiltIcon />, name: 'Dashboard', onClick: () => history.push('/') },
     { icon: <SettingsIcon />, name: 'Einstellungen', onClick: () => history.push('/settings') },
-    { icon: <PersonIcon />, name: 'Benutzer', onClick: () => history.push('/user') },
+    { icon: <PersonIcon />, name: 'Benutzer', onClick: () => history.push(`/user/${userID}`) },
     { icon: <ExitToAppIcon />, name: 'Logout', onClick: () => dispatch(userLogout()) },
   ];
 

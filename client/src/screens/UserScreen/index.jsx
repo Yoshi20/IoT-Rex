@@ -1,16 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 /* Components */
 import SiteHeader from '../../components/SiteHeader';
 
 /* Store */
+import { userInfoGet } from '../../store/modules/userInfo';
 
 /* Styles */
 import '../../styles/layout.scss';
 // import styles from './UserScreen.module.scss';
 
 class UserScreen extends React.Component {
+  componentDidMount() {
+    const id = this.props.match.params.id;
+
+    this.props.userInfoGet(id);
+  }
+
   render() {
     return (
       <div className="screen_wrapper">
@@ -24,13 +32,15 @@ class UserScreen extends React.Component {
   }
 }
 
-function mapStateToProps({ user }) {
+function mapStateToProps({ user, userInfo }) {
   return {
     organisationName: user.organisation.name,
-    userName: user.name,
+    userName: userInfo.name,
   };
 }
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  userInfoGet,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserScreen));

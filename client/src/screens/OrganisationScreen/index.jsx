@@ -33,7 +33,7 @@ class OrganisationScreen extends React.Component {
             <div className={styles.organisatioin_unit} key={i}>
               <div className={styles.organisatioin_unit_name}>{ou.name}</div>
               {ou.users.map((user, n) => (
-                <UserListElement key={n} name={user.name} role={user.role.name} />
+                <UserListElement key={n} name={user.name} role={user.role.name} id={user.id} />
               ))}
             </div>
           ))}

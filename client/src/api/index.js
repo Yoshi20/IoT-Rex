@@ -18,6 +18,14 @@ export function apiLogout() {
   return axios.delete('/api/v1/logout');
 }
 
+export async function apiGetUser(id) {
+  return await axios.get(`/api/v1/users/${id}`, {
+    headers: {
+      Authorization: api.authToken,
+    },
+  });
+}
+
 /* Organisations */
 
 export async function apiGetOrganisations() {
