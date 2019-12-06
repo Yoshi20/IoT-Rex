@@ -10,13 +10,20 @@ html {
   /* This defines what 1rem is */
   font-size: 62.5%; /* 1 rem = 10px; 10px/16px = 62.5% */
   -webkit-text-size-adjust: 100%;
+  overflow: hidden;
 }
 
-/* @media only screen and (max-width: 430px) {
+@media only screen and (max-width: 1024px) {
+  html {
+    font-size: 56.25%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
   html {
     font-size: 50%;
   }
-} */
+}
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -28,4 +35,5 @@ body {
 #root {
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }

@@ -21,15 +21,15 @@ import styles from './Navigation.module.scss';
 
 const useStyles = makeStyles(theme => ({
   SpeedDialfab: {
-    width: '80px',
-    height: '80px',
+    width: '8rem',
+    height: '8rem',
   },
   SpeedDialFabIcon: {
-    height: '60px',
+    height: '6rem',
   },
   fab: {
-    width: '60px',
-    height: '60px',
+    width: '6rem',
+    height: '6rem',
   },
 }));
 
@@ -65,7 +65,7 @@ export default function Navigation() {
         icon={
           <SpeedDialIcon
             classes={{ root: classes.SpeedDialFabIcon }}
-            icon={<MenuIcon style={{ fontSize: 60 }} />}
+            icon={<MenuIcon style={{ fontSize: '6rem' }} />}
           />
         }
         onClose={handleClose}

@@ -1,5 +1,6 @@
 .screen_wrapper {
   flex: 1;
+  overflow: hidden;
 
   display: flex;
 
@@ -15,6 +16,7 @@
 
   &__center {
     flex: 1;
+    overflow: auto;
 
     display: flex;
     flex-direction: column;
