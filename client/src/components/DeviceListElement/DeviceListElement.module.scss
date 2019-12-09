@@ -7,15 +7,21 @@
 
   display: flex;
 
+  &:hover {
+    background-color: $accentColor1Dark;
+  }
+
   &__name {
     color: $primaryColor;
+    width: 20rem;
     font-size: 2rem;
     margin: 0.5rem 3rem 0.5rem 1rem;
   }
 
   &__type {
+    flex: 1;
     font-size: 2rem;
-    color: lightslategray;
+    color: $accentColor2;
     margin: 0.5rem 3rem 0.5rem 1rem;
   }
 }

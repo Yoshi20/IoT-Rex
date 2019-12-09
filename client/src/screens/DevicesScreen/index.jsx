@@ -22,13 +22,13 @@ class DevicesScreen extends React.Component {
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
-          <SiteHeader mainTitle="Meine Geräte" />
+          <SiteHeader mainTitle="Geräte Übersicht" subTitle={this.props.organisationName} />
           {this.props.devices.map((device, i) => (
             <DeviceListElement
               key={i}
               name={device.name}
-              type={device.device_type}
-              onClick={() => console.log('Click')}
+              // type={device.device_type}
+              id={device.id}
             />
           ))}
         </div>
@@ -38,8 +38,12 @@ class DevicesScreen extends React.Component {
   }
 }
 
-function mapStateToProps({ devices }) {
-  return { devices: devices.devices };
+function mapStateToProps({ user, devices }) {
+  return {
+    userOrganisationId: user.organisation.id,
+    organisationName: user.organisation.name,
+    devices: devices.allDevices,
+  };
 }
 
 const mapDispatchToProps = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 /* Components */
 
@@ -7,11 +8,13 @@ import React from 'react';
 /* Styles */
 import styles from './DeviceListElement.module.scss';
 
-export default function DeviceListElement({ name, type, onClick }) {
+export default function DeviceListElement({ name, id }) {
+  let history = useHistory();
+
   return (
-    <div className={styles.deviceListElement} onClick={onClick}>
+    <div className={styles.deviceListElement} onClick={() => history.push(`/device/${id}`)}>
       <div className={styles.deviceListElement__name}>{name}</div>
-      <div className={styles.deviceListElement__name}>{type}</div>
+      {/* <div className={styles.deviceListElement__name}>{type}</div> */}
     </div>
   );
 }

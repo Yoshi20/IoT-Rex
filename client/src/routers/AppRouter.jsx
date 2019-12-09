@@ -15,6 +15,7 @@ import EventsScreen from '../screens/EventsScreen';
 import ZonesScreen from '../screens/ZonesScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import UserScreen from '../screens/UserScreen';
+import DeviceScreen from '../screens/DeviceScreen';
 import ErrorScreen from '../screens/ErrorScreen';
 import Footer from '../components/Footer';
 
@@ -56,6 +57,9 @@ class AppRouter extends React.Component {
               </PrivateRoute>
               <PrivateRoute path="/user/:id">
                 <UserScreen />
+              </PrivateRoute>
+              <PrivateRoute path="/device/:id">
+                <DeviceScreen />
               </PrivateRoute>
               <PrivateRoute path="*">
                 <ErrorScreen />

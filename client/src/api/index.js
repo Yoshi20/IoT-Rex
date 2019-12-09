@@ -53,6 +53,14 @@ export async function apiGetDevices() {
   });
 }
 
+export async function apiGetDevice(id) {
+  return await axios.get(`/api/v1/devices/${id}`, {
+    headers: {
+      Authorization: api.authToken,
+    },
+  });
+}
+
 /* Function to connect the api with the Redux store.
    This is needed because we use the auth token for the requests */
 export default function configureApi(store) {
