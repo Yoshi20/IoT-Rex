@@ -64,7 +64,7 @@ class AdminToolBar extends React.Component {
 
 function mapStateToProps({ organisations, user }) {
   return {
-    organisations: organisations.orgs,
+    organisations: organisations.allOrganisations,
     selectedOrganisation: user.organisation.id,
   };
 }

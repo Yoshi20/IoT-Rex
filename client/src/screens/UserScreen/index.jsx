@@ -10,21 +10,28 @@ import { userInfoGet } from '../../store/modules/userInfo';
 
 /* Styles */
 import '../../styles/layout.scss';
-// import styles from './UserScreen.module.scss';
+import styles from './UserScreen.module.scss';
 
 class UserScreen extends React.Component {
   componentDidMount() {
-    const id = this.props.match.params.id;
+    this.props.userInfoGet(this.props.match.params.id);
+  }
 
-    this.props.userInfoGet(id);
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.props.userInfoGet(this.props.match.params.id);
+    }
   }
 
   render() {
+    const { user } = this.props;
     return (
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
-          <SiteHeader mainTitle={this.props.userName} subTitle={this.props.organisationName} />
+          <SiteHeader mainTitle={user.name} subTitle={this.props.organisationName} />
+          <p className={styles.email}>{`Email: ${user.email}`}</p>
+          <p className={styles.role}>{`Role: ${user.role.name}`}</p>
         </div>
         <div className="screen_wrapper__right"></div>
       </div>
@@ -35,7 +42,7 @@ class UserScreen extends React.Component {
 function mapStateToProps({ user, userInfo }) {
   return {
     organisationName: user.organisation.name,
-    userName: userInfo.name,
+    user: userInfo,
   };
 }
 

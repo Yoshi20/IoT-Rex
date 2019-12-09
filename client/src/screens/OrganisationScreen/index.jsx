@@ -6,7 +6,7 @@ import SiteHeader from '../../components/SiteHeader';
 import UserListElement from '../../components/UserListElement';
 
 /* Store */
-import { organisationGet } from '../../store/modules/organisation';
+import { organisationGet } from '../../store/modules/organisations';
 
 /* Styles */
 import '../../styles/layout.scss';
@@ -44,11 +44,11 @@ class OrganisationScreen extends React.Component {
   }
 }
 
-function mapStateToProps({ user, organisation }) {
+function mapStateToProps({ user, organisations }) {
   return {
     userOrganisationId: user.organisation.id,
-    organisationName: organisation.name,
-    organisationUnits: organisation.organisationUnits,
+    organisationName: organisations.selectedOrganisation.name,
+    organisationUnits: organisations.selectedOrganisation.organisationUnits,
   };
 }
 
