@@ -9,8 +9,12 @@ class Device < ApplicationRecord
     self.organisation
   end
 
+  def organisation_unit
+    OrganisationUnit.find(self.organisation_unit_id) if self.organisation_unit_id.present?
+  end
+
   def ou
-    self.etl.organisation_unit if self.event_template_list_id.present?
+    self.organisation_unit
   end
 
   def event_template_list

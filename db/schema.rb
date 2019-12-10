@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_24_213800) do
+ActiveRecord::Schema.define(version: 2019_12_10_222500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2019_11_24_213800) do
     t.bigint "event_template_list_id"
     t.bigint "organisation_id"
     t.bigint "device_type_id"
+    t.bigint "organisation_unit_id"
   end
 
   create_table "event_template_lists", force: :cascade do |t|

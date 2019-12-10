@@ -26,13 +26,14 @@ class Api::V1::DevicesController < ApplicationController
     render json: @devices.as_json(
       only: [:id, :name, :device_type, :battery],
       include: {
+        device_type: { only: [:id, :name] },
+        organisation_unit: { only: [:id, :name] },
         event_template_list: {
-          # only: [:id, :name],
+          only: [:id, :name, :channel],
           include: {
             organisation_unit: { only: [:id, :name] }
           }
         },
-        device_type: { only: [:id, :name] }
       }
     )
   end
@@ -68,14 +69,15 @@ class Api::V1::DevicesController < ApplicationController
     render json: @device.as_json(
       only: [:id, :name, :device_type, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery],
       include: {
+        device_type: { only: [:id, :name, :number_of_buttons] },
+        organisation_unit: { only: [:id, :name] },
         event_template_list: {
-          only: [:id, :name, :device_type, :channel],
+          only: [:id, :name, :channel],
           include: {
             organisation_unit: { only: [:id, :name] },
             event_templates: { only: [:id, :name, :position, :static_data, :delay, :interval, :number_of_times] }
           }
         },
-        device_type: { only: [:id, :name, :number_of_buttons] }
       }
     )
   end
@@ -143,7 +145,7 @@ class Api::V1::DevicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def device_params
-      params.require(:device).permit(:name, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery, :device_type_id, :event_template_list_id, :organisation_id)
+      params.require(:device).permit(:name, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery, :device_type_id, :event_template_list_id, :organisation_id, :organisation_unit_id)
     end
 
     def reduced_device_params
