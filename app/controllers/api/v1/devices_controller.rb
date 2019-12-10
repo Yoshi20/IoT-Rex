@@ -31,7 +31,8 @@ class Api::V1::DevicesController < ApplicationController
           include: {
             organisation_unit: { only: [:id, :name] }
           }
-        }
+        },
+        device_type: { only: [:id, :name] }
       }
     )
   end
@@ -74,6 +75,7 @@ class Api::V1::DevicesController < ApplicationController
             event_templates: { only: [:id, :name, :position, :static_data, :delay, :interval, :number_of_times] }
           }
         },
+        device_type: { only: [:id, :name, :number_of_buttons] }
       }
     )
   end
