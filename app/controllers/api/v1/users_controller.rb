@@ -6,7 +6,11 @@ class Api::V1::UsersController < ApplicationController
   # GET /users.json
   def index
     if current_user.super_admin?
-      @users = User.all.order(:id)
+      if params[:organisation_id].present?
+        @users = Organisation.find(params[:organisation_id]).users.order(:id)
+      else
+        @users = User.all.order(:id)
+      end
       render json: @users.to_json
     else
       head :no_content
