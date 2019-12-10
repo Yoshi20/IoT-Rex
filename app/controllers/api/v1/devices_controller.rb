@@ -15,7 +15,11 @@ class Api::V1::DevicesController < ApplicationController
     when "Admin"
       @devices = current_user.o.ds
     when "Super-Admin"
-      @devices = Device.all.order(:id)
+      if params[:organisation_id].present?
+        @devices = Device.where(organisation_id: params[:organisation_id]).order(:id)
+      else
+        @devices = Device.all.order(:id)
+      end
     else
       raise "User with email = \"#{current_user.email}\" has an invalid role!"
     end
