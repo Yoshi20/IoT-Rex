@@ -64,6 +64,6 @@ class Api::V1::EventTemplateListsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_template_list_params
-      params.require(:event_template_list).permit(:name, :channel, :organisation_unit_id)
+      params.require(:event_template_list).permit(:name, :channel, :organisation_unit_id, :device_type_id)
     end
 end

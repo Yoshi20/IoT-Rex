@@ -1,4 +1,5 @@
 class EventTemplateList < ApplicationRecord
+  belongs_to :device_type
   belongs_to :organisation_unit
   has_many :devices
   has_many :event_templates, dependent: :destroy
