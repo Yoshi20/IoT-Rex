@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resources :organisation_units
       resources :organisations
       resources :users
+      post 'uplink' => 'events#uplink'
     end
   end
 
