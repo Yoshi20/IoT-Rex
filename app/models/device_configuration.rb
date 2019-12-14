@@ -1,8 +1,8 @@
-class EventTemplateList < ApplicationRecord
+class DeviceConfiguration < ApplicationRecord
   belongs_to :device_type
   belongs_to :organisation_unit
   has_many :devices
-  has_many :event_templates, dependent: :destroy
+  has_many :event_triggers, dependent: :destroy
 
   validates :name, presence: true
 
@@ -15,7 +15,7 @@ class EventTemplateList < ApplicationRecord
   end
 
   def ets
-    self.event_templates
+    self.event_triggers
   end
 
 end

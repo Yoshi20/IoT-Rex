@@ -8,6 +8,9 @@ class User < ApplicationRecord
 
   belongs_to :organisation_unit
   belongs_to :role
+
+  validates :name, presence: true
+
   has_one :organisation, through: :organisation_unit
 
   def ou
@@ -24,16 +27,16 @@ class User < ApplicationRecord
 
   def manager?
     role_name = self.role.name
-    role_name == "Manager" || role_name == "Admin" || role_name == "Super-Admin"
+    role_name == "Manager" || role_name == "Admin" || role_name == "SuperAdmin"
   end
 
   def admin?
     role_name = self.role.name
-    role_name == "Admin" || role_name == "Super-Admin"
+    role_name == "Admin" || role_name == "SuperAdmin"
   end
 
   def super_admin?
-    self.role.name == "Super-Admin"
+    self.role.name == "SuperAdmin"
   end
 
 end

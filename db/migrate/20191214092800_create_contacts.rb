@@ -13,10 +13,5 @@ class CreateContacts < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-
-    remove_column :organisations, :phone_number
-    remove_column :organisations, :address
-    add_column :organisations, :contact_id, :bigint
-    add_foreign_key :organisations, :contacts
   end
 end

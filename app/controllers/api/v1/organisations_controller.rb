@@ -20,7 +20,7 @@ class Api::V1::OrganisationsController < ApplicationController
     when "Viewer", "User"
       head :no_content
       return
-    when "Manager", "Admin", "Super-Admin"
+    when "Manager", "Admin", "SuperAdmin"
     else
       raise "User with email = \"#{current_user.email}\" has an invalid role!"
     end

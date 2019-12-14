@@ -7,14 +7,14 @@ class Api::V1::DevicesController < ApplicationController
   def index
     case current_user.role.name
     when "Viewer", "User"
-      etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
-      @devices = Device.where(event_template_list_id: etl_ids.uniq)
+      etl_ids = current_user.ou.ets.map { |et| etl.device_configuration_id }
+      @devices = Device.where(device_configuration_id: etl_ids.uniq)
     when "Manager"
-      etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
-      @devices = Device.where(event_template_list_id: etl_ids.uniq).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
+      etl_ids = current_user.ou.ets.map { |et| etl.device_configuration_id }
+      @devices = Device.where(device_configuration_id: etl_ids.uniq).or(Device.where(organisation: current_user.o, device_configuration_id: nil))
     when "Admin"
       @devices = current_user.o.ds
-    when "Super-Admin"
+    when "SuperAdmin"
       if params[:organisation_id].present?
         @devices = Device.where(organisation_id: params[:organisation_id]).order(:id)
       else
@@ -28,8 +28,8 @@ class Api::V1::DevicesController < ApplicationController
       include: {
         device_type: { only: [:id, :name] },
         organisation_unit: { only: [:id, :name] },
-        event_template_list: {
-          only: [:id, :name, :channel],
+        device_configuration: {
+          only: [:id, :name],
           include: {
             organisation_unit: { only: [:id, :name] }
           }
@@ -43,15 +43,15 @@ class Api::V1::DevicesController < ApplicationController
   def show
     case current_user.role.name
     when "Viewer", "User"
-      etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
-      devices = Device.where(event_template_list_id: etl_ids.uniq)
+      etl_ids = current_user.ou.ets.map { |et| etl.device_configuration_id }
+      devices = Device.where(device_configuration_id: etl_ids.uniq)
       if !devices.include?(@device)
         head :no_content
         return
       end
     when "Manager"
-      etl_ids = current_user.ou.ets.map { |et| etl.event_template_list_id }
-      devices = Device.where(event_template_list_id: etl_ids.uniq).or(Device.where(organisation: current_user.o, event_template_list_id: nil))
+      etl_ids = current_user.ou.ets.map { |et| etl.device_configuration_id }
+      devices = Device.where(device_configuration_id: etl_ids.uniq).or(Device.where(organisation: current_user.o, device_configuration_id: nil))
       if !devices.include?(@device)
         head :no_content
         return
@@ -62,7 +62,7 @@ class Api::V1::DevicesController < ApplicationController
         head :no_content
         return
       end
-    when "Super-Admin"
+    when "SuperAdmin"
     else
       raise "User with email = \"#{current_user.email}\" has an invalid role!"
     end
@@ -71,8 +71,8 @@ class Api::V1::DevicesController < ApplicationController
       include: {
         device_type: { only: [:id, :name, :number_of_buttons] },
         organisation_unit: { only: [:id, :name] },
-        event_template_list: {
-          only: [:id, :name, :channel],
+        device_configuration: {
+          only: [:id, :name],
           include: {
             organisation_unit: { only: [:id, :name] },
             event_templates: { only: [:id, :name, :position, :static_data, :delay, :interval, :number_of_times] }
@@ -145,10 +145,10 @@ class Api::V1::DevicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def device_params
-      params.require(:device).permit(:name, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery, :device_type_id, :event_template_list_id, :organisation_id, :organisation_unit_id)
+      params.require(:device).permit(:name, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery, :device_type_id, :device_configuration_id, :organisation_id, :organisation_unit_id)
     end
 
     def reduced_device_params
-      params.require(:device).permit(:name, :event_template_list_id)
+      params.require(:device).permit(:name, :device_configuration_id)
     end
 end

@@ -14,13 +14,14 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :contacts
+      resources :organisations
+      resources :organisation_units
+      resources :users
+      resources :device_configurations
       resources :devices
-      resources :event_template_lists
+      resources :event_triggers
       resources :event_templates
       resources :events
-      resources :organisation_units
-      resources :organisations
-      resources :users
       post 'uplink' => 'events#uplink'
     end
   end

@@ -30,11 +30,11 @@ class Api::V1::EventTemplatesController < ApplicationController
     ActiveRecord::Base.transaction do
       @event_template = EventTemplate.new(event_template_params)
       if @event_template.save
-        if params[:event_template][:organisation_unit_ids].present?
-          params[:event_template][:organisation_unit_ids].each do |ou_id|
-            EventTemplateOrganisationUnit.create!(event_template_id: @event_template.id, organisation_unit_id: ou_id)
-          end
-        end
+        # if params[:event_template][:organisation_unit_ids].present?
+        #   params[:event_template][:organisation_unit_ids].each do |ou_id|
+        #     EventTemplateOrganisationUnit.create!(event_template_id: @event_template.id, organisation_unit_id: ou_id)
+        #   end
+        # end
         render json: @event_template.to_json, status: :created
       else
         puts '=> @event_template.save failed!'
@@ -71,6 +71,6 @@ class Api::V1::EventTemplatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_template_params
-      params.require(:event_template).permit(:name, :position, :static_data, :delay, :interval, :number_of_times, :event_template_list_id)
+      params.require(:event_template).permit(:text, :acknowledged, :acknowledged_event_id, :timeout, :timeout_event_id, :notification_channel_id, :event_trigger_id)
     end
 end

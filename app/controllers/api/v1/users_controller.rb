@@ -23,7 +23,7 @@ class Api::V1::UsersController < ApplicationController
     #   @users = current_user.ou.us
     # when "Admin"
     #   @users = current_user.o.us
-    # when "Super-Admin"
+    # when "SuperAdmin"
     #   @users = User.all
     # else
     #   raise "User with email = \"#{current_user.email}\" has an invalid role!"
@@ -56,7 +56,7 @@ class Api::V1::UsersController < ApplicationController
         head :forbidden
         return
       end
-    when "Super-Admin"
+    when "SuperAdmin"
     else
       raise "User with email = \"#{current_user.email}\" has an invalid role!"
     end

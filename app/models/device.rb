@@ -3,7 +3,7 @@ class Device < ApplicationRecord
   belongs_to :device_type
   has_many :events
 
-  validates :name, :device_type, :dev_eui, presence: true
+  validates :name, :dev_eui, presence: true
 
   def o
     self.organisation
@@ -17,12 +17,12 @@ class Device < ApplicationRecord
     self.organisation_unit
   end
 
-  def event_template_list
-    EventTemplateList.find(self.event_template_list_id) if self.event_template_list_id.present?
+  def device_configuration
+    DeviceConfiguration.find(self.device_configuration_id) if self.device_configuration_id.present?
   end
 
-  def etl
-    self.event_template_list
+  def dc
+    self.device_configuration
   end
 
   def es

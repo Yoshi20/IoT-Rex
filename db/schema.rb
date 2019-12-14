@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_10_225100) do
+ActiveRecord::Schema.define(version: 2019_12_14_124300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,14 @@ ActiveRecord::Schema.define(version: 2019_12_10_225100) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "device_configurations", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "device_type_id"
+    t.bigint "organisation_unit_id"
+  end
+
   create_table "device_types", force: :cascade do |t|
     t.string "name"
     t.integer "number_of_buttons"
@@ -42,21 +50,12 @@ ActiveRecord::Schema.define(version: 2019_12_10_225100) do
     t.string "hw_version"
     t.string "fw_version"
     t.integer "battery"
+    t.bigint "device_configuration_id"
+    t.bigint "organisation_unit_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "event_template_list_id"
+    t.bigint "device_type_id"
     t.bigint "organisation_id"
-    t.bigint "device_type_id"
-    t.bigint "organisation_unit_id"
-  end
-
-  create_table "event_template_lists", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "channel"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "organisation_unit_id"
-    t.bigint "device_type_id"
   end
 
   create_table "event_template_organisation_units", id: false, force: :cascade do |t|
@@ -67,29 +66,48 @@ ActiveRecord::Schema.define(version: 2019_12_10_225100) do
   end
 
   create_table "event_templates", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "position"
-    t.string "static_data"
-    t.bigint "delay"
-    t.bigint "interval"
-    t.integer "number_of_times"
+    t.string "text"
+    t.boolean "acknowledged"
+    t.bigint "acknowledged_event_id"
+    t.bigint "timeout"
+    t.bigint "timeout_event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "event_template_list_id"
+    t.bigint "notification_channel_id"
+    t.bigint "event_trigger_id"
+  end
+
+  create_table "event_triggers", force: :cascade do |t|
+    t.integer "button_number"
+    t.integer "image_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "lora_message_type_id"
+    t.bigint "device_configuration_id"
   end
 
   create_table "events", force: :cascade do |t|
+    t.string "text"
     t.string "data"
-    t.bigint "live_time"
+    t.datetime "timeouts_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "device_id"
     t.bigint "event_template_id"
+    t.bigint "device_id"
   end
 
   create_table "jwt_blacklist", id: :serial, force: :cascade do |t|
     t.string "jti", null: false
     t.index ["jti"], name: "index_jwt_blacklist_on_jti"
+  end
+
+  create_table "lora_message_types", force: :cascade do |t|
+    t.string "message_id"
+    t.string "message_text"
+  end
+
+  create_table "notification_channels", force: :cascade do |t|
+    t.string "name"
   end
 
   create_table "organisation_units", force: :cascade do |t|
@@ -112,26 +130,42 @@ ActiveRecord::Schema.define(version: 2019_12_10_225100) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "name", default: "", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "locked_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "organisation_unit_id"
     t.bigint "role_id"
-    t.string "name"
+    t.bigint "organisation_unit_id"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "device_configurations", "device_types"
+  add_foreign_key "device_configurations", "organisation_units"
   add_foreign_key "devices", "device_types"
-  add_foreign_key "devices", "event_template_lists"
   add_foreign_key "devices", "organisations"
-  add_foreign_key "event_template_lists", "device_types"
-  add_foreign_key "event_template_lists", "organisation_units"
-  add_foreign_key "event_templates", "event_template_lists"
+  add_foreign_key "event_templates", "event_triggers"
+  add_foreign_key "event_templates", "notification_channels"
+  add_foreign_key "event_triggers", "device_configurations"
+  add_foreign_key "event_triggers", "lora_message_types"
   add_foreign_key "events", "devices"
   add_foreign_key "events", "event_templates"
   add_foreign_key "organisation_units", "organisations"
