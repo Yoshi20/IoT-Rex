@@ -82,6 +82,9 @@ class Api::V1::OrganisationUnitsController < ApplicationController
         @organisation_unit.errors.add(:name, "You can not delete the Administration organisation unit")
         render json: @organisation_unit.errors, status: :unprocessable_entity
       else
+        Device.where(organisation_unit_id: @organisation_unit.id).each do |d|
+          d.update(organisation_unit_id: nil)
+        end
         @organisation_unit.destroy
         head :no_content
       end

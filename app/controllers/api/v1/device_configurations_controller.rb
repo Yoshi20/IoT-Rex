@@ -59,8 +59,15 @@ class Api::V1::DeviceConfigurationsController < ApplicationController
   # DELETE /device_configurations/1
   # DELETE /device_configurations/1.json
   def destroy
-    @device_configuration.destroy
-    head :no_content
+    if !current_user.manager?
+      head :forbidden
+    else
+      Device.where(device_configuration_id: @device_configuration.id).each do |d|
+        d.update(device_configuration_id: nil)
+      end
+      @device_configuration.destroy
+      head :no_content
+    end
   end
 
   private
