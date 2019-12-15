@@ -8,7 +8,7 @@ class SessionsController < Devise::SessionsController
       only: [:id, :name, :email],
       include: {
         organisation: { only: [:id, :name] },
-        role: { only: [:id, :name, :rights] }
+        role: { only: [:id, :name] }
       }
     )
   end

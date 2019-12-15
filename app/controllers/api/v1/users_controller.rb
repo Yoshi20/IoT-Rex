@@ -32,7 +32,7 @@ class Api::V1::UsersController < ApplicationController
     #   only: [:id, :name, :email],
     #   include: {
     #     organisation_unit: { only: [:id, :name] },
-    #     role: { only: [:id, :name, :rights] }
+    #     role: { only: [:id, :name] }
     #   }
     # )
   end
@@ -63,7 +63,7 @@ class Api::V1::UsersController < ApplicationController
     render json: @user.as_json(
       only: [:id, :name, :email],
       include: {
-        role: { only: [:id, :name, :rights] }
+        role: { only: [:id, :name] }
       }
     )
   end
