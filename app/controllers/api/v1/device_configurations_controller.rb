@@ -42,10 +42,14 @@ class Api::V1::DeviceConfigurationsController < ApplicationController
   # PATCH/PUT /device_configurations/1
   # PATCH/PUT /device_configurations/1.json
   def update
-    if @device_configuration.update(device_configuration_params)
-      render json: @device_configuration.to_json, status: :ok
+    if !current_user.manager?
+      head :forbidden
     else
-      render json: @device_configuration.errors, status: :unprocessable_entity
+      if @device_configuration.update(device_configuration_params)
+        render json: @device_configuration.to_json, status: :ok
+      else
+        render json: @device_configuration.errors, status: :unprocessable_entity
+      end
     end
   end
 
