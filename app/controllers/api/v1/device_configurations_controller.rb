@@ -31,7 +31,10 @@ class Api::V1::DeviceConfigurationsController < ApplicationController
       head :forbidden
     else
       @device_configuration = DeviceConfiguration.new(device_configuration_params)
+      device = Device.find(params[:device_id])
+      @device_configuration.device_type = device.device_type
       if @device_configuration.save
+        device.update(device_configuration_id: @device_configuration.id)
         render json: @device_configuration.to_json, status: :created
       else
         render json: @device_configuration.errors, status: :unprocessable_entity
