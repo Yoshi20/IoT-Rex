@@ -33,7 +33,7 @@ en:
   users:
     mailer:
       welcome: "Welcome to IoT-Rex"
-      signed_up: "We've created your administrator user."
+      signed_up: "Your user was created by an administrator. You can now login with the following data."
       your_username: "Your username is:"
       your_password: "Your password is:"
       to_join: "To check out your dashboard, just follow %{link}."

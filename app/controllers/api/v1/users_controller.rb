@@ -80,11 +80,17 @@ class Api::V1::UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    if current_user.role.rights < Role.find(user_params[:role_id]).rights
+    if !current_user.manager?
+      head :forbidden
+    elsif current_user.role.rights <= Role.find(user_params[:role_id]).rights
       head :forbidden
     else
       @user = User.new(user_params)
+      pw = SecureRandom.urlsafe_base64(6)
+      @user.password = pw
+      @user.password_confirmation = pw
       if @user.save
+        UserMailer.with(user: @user, pw: pw).welcome_email.deliver_later
         render json: @user.to_json, status: :created
       else
         render json: @user.errors, status: :unprocessable_entity
