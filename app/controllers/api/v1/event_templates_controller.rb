@@ -71,6 +71,6 @@ class Api::V1::EventTemplatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_template_params
-      params.require(:event_template).permit(:text, :acknowledged, :acknowledged_event_id, :timeout, :timeout_event_id, :notification_channel_id, :event_trigger_id)
+      params.require(:event_template).permit(:text, :acknowledged_event_id, :timeout, :timeout_event_id, :notification_channel_id, :event_trigger_id)
     end
 end

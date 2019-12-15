@@ -2,7 +2,6 @@ class CreateEventTemplates < ActiveRecord::Migration[5.2]
   def change
     create_table :event_templates do |t|
       t.string :text
-      t.boolean :acknowledged
       t.bigint :acknowledged_event_id
       t.bigint :timeout
       t.bigint :timeout_event_id
