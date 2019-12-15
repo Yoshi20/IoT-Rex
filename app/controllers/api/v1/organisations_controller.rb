@@ -67,6 +67,7 @@ class Api::V1::OrganisationsController < ApplicationController
           if @organisation.save
             organisation_unit = OrganisationUnit.new
             organisation_unit.name = 'Administration'
+            organisation_unit.administration = true
             organisation_unit.organisation = @organisation
             if organisation_unit.save
               user = User.new

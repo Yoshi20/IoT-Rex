@@ -59,7 +59,7 @@ class Api::V1::OrganisationUnitsController < ApplicationController
     if !current_user.admin?
       head :forbidden
     else
-      if @organisation_unit.name == "Administration"
+      if @organisation_unit.administration
         @organisation_unit.errors.add(:name, "You can not update the Administration organisation unit")
         render json: @organisation_unit.errors, status: :unprocessable_entity
       else
@@ -78,7 +78,7 @@ class Api::V1::OrganisationUnitsController < ApplicationController
     if !current_user.admin?
       head :forbidden
     else
-      if @organisation_unit.name == "Administration"
+      if @organisation_unit.administration
         @organisation_unit.errors.add(:name, "You can not delete the Administration organisation unit")
         render json: @organisation_unit.errors, status: :unprocessable_entity
       else
