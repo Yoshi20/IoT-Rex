@@ -8,8 +8,8 @@ class CreateEvents < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    add_column :events, :event_template_id, :bigint
-    add_foreign_key :events, :event_templates
+    add_column :events, :event_configuration_id, :bigint
+    add_foreign_key :events, :event_configurations
     add_column :events, :device_id, :bigint
     add_foreign_key :events, :devices
   end

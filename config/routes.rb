@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       resources :device_configurations
       resources :devices
       resources :event_triggers
-      resources :event_templates
+      resources :event_configurations
       resources :events
       post 'uplink' => 'events#uplink'
     end

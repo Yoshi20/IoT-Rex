@@ -65,6 +65,6 @@ class Api::V1::EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:text, :data, :timeouts_at, :event_template_id, :device_id)
+      params.require(:event).permit(:text, :data, :timeouts_at, :event_configuration_id, :device_id)
     end
 end

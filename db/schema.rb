@@ -58,16 +58,15 @@ ActiveRecord::Schema.define(version: 2019_12_14_124300) do
     t.bigint "organisation_id"
   end
 
-  create_table "event_template_organisation_units", id: false, force: :cascade do |t|
-    t.bigint "event_template_id", null: false
+  create_table "event_configuration_organisation_units", id: false, force: :cascade do |t|
+    t.bigint "event_configuration_id", null: false
     t.bigint "organisation_unit_id", null: false
-    t.index ["event_template_id"], name: "index_event_template_organisation_units_on_event_template_id"
-    t.index ["organisation_unit_id"], name: "index_event_template_organisation_units_on_organisation_unit_id"
+    t.index ["event_configuration_id"], name: "index_event_configuration_organisation_units_on_event_configuration_id"
+    t.index ["organisation_unit_id"], name: "index_event_configuration_organisation_units_on_organisation_unit_id"
   end
 
-  create_table "event_templates", force: :cascade do |t|
+  create_table "event_configurations", force: :cascade do |t|
     t.string "text"
-    t.boolean "acknowledged"
     t.bigint "acknowledged_event_id"
     t.bigint "timeout"
     t.bigint "timeout_event_id"
@@ -92,7 +91,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_124300) do
     t.datetime "timeouts_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "event_template_id"
+    t.bigint "event_configuration_id"
     t.bigint "device_id"
   end
 
@@ -157,12 +156,12 @@ ActiveRecord::Schema.define(version: 2019_12_14_124300) do
   add_foreign_key "device_configurations", "organisation_units"
   add_foreign_key "devices", "device_types"
   add_foreign_key "devices", "organisations"
-  add_foreign_key "event_templates", "event_triggers"
-  add_foreign_key "event_templates", "notification_channels"
+  add_foreign_key "event_configurations", "event_triggers"
+  add_foreign_key "event_configurations", "notification_channels"
   add_foreign_key "event_triggers", "device_configurations"
   add_foreign_key "event_triggers", "lora_message_types"
   add_foreign_key "events", "devices"
-  add_foreign_key "events", "event_templates"
+  add_foreign_key "events", "event_configurations"
   add_foreign_key "organisation_units", "organisations"
   add_foreign_key "organisations", "contacts"
   add_foreign_key "users", "organisation_units"

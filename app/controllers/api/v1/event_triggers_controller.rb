@@ -30,32 +30,32 @@ class Api::V1::EventTriggersController < ApplicationController
     ActiveRecord::Base.transaction do
       @event_trigger = EventTrigger.new(event_trigger_params)
       if @event_trigger.save
-        if params[:event_templates].present?
+        if params[:event_configurations].present?
           ets = []
           # determine the size of the 2d array
-          number_of_rows = params[:event_templates].length
-          number_of_columns = params[:event_templates][0].length
-          # loop (bottom to top) through every possibilty and check if there's an event_template to create and an ack_event link to make
+          number_of_rows = params[:event_configurations].length
+          number_of_columns = params[:event_configurations][0].length
+          # loop (bottom to top) through every possibilty and check if there's an event_configuration to create and an ack_event link to make
           (number_of_rows-1).downto(0) do |r|
             ets_row = []
-            last_event_template_id = nil
+            last_event_configuration_id = nil
             (number_of_columns-1).downto(0) do |c|
-              et_param = params[:event_templates][r][c]
+              et_param = params[:event_configurations][r][c]
               et = nil
               if et_param.present?
-                et = EventTemplate.new()
+                et = EventConfiguration.new()
                 et.text = et_param[:text]
-                et.acknowledged_event_id = last_event_template_id
+                et.acknowledged_event_id = last_event_configuration_id
                 et.timeout = et_param[:timeout]
                 et.notification_channel_id = et_param[:notification_channel_id]
                 et.event_trigger = @event_trigger
                 et.save!
                 if et_param[:organisation_unit_ids].present?
                   et_param[:organisation_unit_ids].each do |ou_id|
-                    EventTemplateOrganisationUnit.create!(event_template_id: et.id, organisation_unit_id: ou_id)
+                    EventConfigurationOrganisationUnit.create!(event_configuration_id: et.id, organisation_unit_id: ou_id)
                   end
                 end
-                last_event_template_id = et.id
+                last_event_configuration_id = et.id
               end
               ets_row << et
             end
@@ -65,7 +65,7 @@ class Api::V1::EventTriggersController < ApplicationController
           # loop again (left to right) through every possibilty and check if there's a timeout_event link to make
           0.upto(number_of_columns-1) do |c|
             0.upto(number_of_rows-1) do |r|
-              et_param = params[:event_templates][r][c]
+              et_param = params[:event_configurations][r][c]
               if et_param.present? && et_param[:timeout].present?
                 et = ets[r][c]
                 puts et.inspect #blup

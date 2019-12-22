@@ -7,11 +7,11 @@ class Api::V1::DevicesController < ApplicationController
   def index
     case current_user.role.name
     when "Viewer", "User"
-      etl_ids = current_user.ou.ets.map { |et| etl.device_configuration_id }
-      @devices = Device.where(device_configuration_id: etl_ids.uniq)
+      dc_ids = current_user.ou.ecs.map { |ec| ec.device_configuration_id }
+      @devices = Device.where(device_configuration_id: dc_ids.uniq)
     when "Manager"
-      etl_ids = current_user.ou.ets.map { |et| etl.device_configuration_id }
-      @devices = Device.where(device_configuration_id: etl_ids.uniq).or(Device.where(organisation: current_user.o, device_configuration_id: nil))
+      dc_ids = current_user.ou.ecs.map { |ec| ec.device_configuration_id }
+      @devices = Device.where(device_configuration_id: dc_ids.uniq).or(Device.where(organisation: current_user.o, device_configuration_id: nil))
     when "Admin"
       @devices = current_user.o.ds
     when "SuperAdmin"
@@ -43,15 +43,15 @@ class Api::V1::DevicesController < ApplicationController
   def show
     case current_user.role.name
     when "Viewer", "User"
-      etl_ids = current_user.ou.ets.map { |et| etl.device_configuration_id }
-      devices = Device.where(device_configuration_id: etl_ids.uniq)
+      dc_ids = current_user.ou.ecs.map { |ec| ec.device_configuration_id }
+      devices = Device.where(device_configuration_id: dc_ids.uniq)
       if !devices.include?(@device)
         head :no_content
         return
       end
     when "Manager"
-      etl_ids = current_user.ou.ets.map { |et| etl.device_configuration_id }
-      devices = Device.where(device_configuration_id: etl_ids.uniq).or(Device.where(organisation: current_user.o, device_configuration_id: nil))
+      dc_ids = current_user.ou.ecs.map { |et| etl.device_configuration_id }
+      devices = Device.where(device_configuration_id: dc_ids.uniq).or(Device.where(organisation: current_user.o, device_configuration_id: nil))
       if !devices.include?(@device)
         head :no_content
         return
@@ -75,7 +75,7 @@ class Api::V1::DevicesController < ApplicationController
           only: [:id, :name],
           include: {
             organisation_unit: { only: [:id, :name] },
-            event_templates: { only: [:id, :name, :position, :static_data, :delay, :interval, :number_of_times] }
+            event_configurations: { only: [:id, :name, :position, :static_data, :delay, :interval, :number_of_times] }
           }
         },
       }
