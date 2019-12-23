@@ -75,7 +75,12 @@ class Api::V1::DevicesController < ApplicationController
           only: [:id, :name],
           include: {
             organisation_unit: { only: [:id, :name] },
-            event_configurations: { only: [:id, :name, :position, :static_data, :delay, :interval, :number_of_times] }
+            event_triggers: {
+              only: [:id, :button_number, :image_id],
+              include: {
+                lora_message_type: { only: [:message_id, :message_text] }
+              }
+            }
           }
         },
       }

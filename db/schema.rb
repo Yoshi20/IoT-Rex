@@ -58,11 +58,11 @@ ActiveRecord::Schema.define(version: 2019_12_14_124300) do
     t.bigint "organisation_id"
   end
 
-  create_table "event_configuration_organisation_units", id: false, force: :cascade do |t|
+  create_table "event_config_organisation_units", id: false, force: :cascade do |t|
     t.bigint "event_configuration_id", null: false
     t.bigint "organisation_unit_id", null: false
-    t.index ["event_configuration_id"], name: "index_event_configuration_organisation_units_on_event_configuration_id"
-    t.index ["organisation_unit_id"], name: "index_event_configuration_organisation_units_on_organisation_unit_id"
+    t.index ["event_configuration_id"], name: "index_event_config_organisation_units_on_event_configuration_id"
+    t.index ["organisation_unit_id"], name: "index_event_config_organisation_units_on_organisation_unit_id"
   end
 
   create_table "event_configurations", force: :cascade do |t|

@@ -1,11 +1,12 @@
 class OrganisationUnit < ApplicationRecord
   belongs_to :organisation
   has_many :device_types, dependent: :destroy
-  has_many :event_configuration_organisation_units
+  has_many :event_config_organisation_units
   has_many :users, dependent: :destroy
 
+  has_many :event_configurations, through: :event_config_organisation_units, dependent: :destroy
+
   has_many :events, through: :event_configurations, dependent: :destroy
-  has_many :event_configurations, through: :event_configuration_organisation_units, dependent: :destroy
 
   def o
     self.organisation
