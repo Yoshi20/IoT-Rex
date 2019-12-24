@@ -97,7 +97,7 @@ class Api::V1::EventsController < ApplicationController
         event = Event.new
         event.text = device.name + " - " + ec.text
         event.data = payload
-        event.timeouts_at = Time.now.to_i + ec.timeout unless ec.timeout.nil?
+        event.timeouts_at = Time.now + ec.timeout.seconds unless ec.timeout.nil?
         event.event_configuration = ec
         event.device = device
         event.save!
