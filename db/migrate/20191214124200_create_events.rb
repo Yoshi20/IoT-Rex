@@ -3,6 +3,7 @@ class CreateEvents < ActiveRecord::Migration[5.2]
     create_table :events do |t|
       t.string :text
       t.string :data
+      t.boolean :acknowledged, default: false
       t.datetime :timeouts_at
 
       t.timestamps
