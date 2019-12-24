@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_124300) do
 
   create_table "event_configurations", force: :cascade do |t|
     t.string "text"
+    t.integer "level"
     t.bigint "acknowledged_event_id"
     t.bigint "timeout"
     t.bigint "timeout_event_id"

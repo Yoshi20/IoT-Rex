@@ -54,7 +54,55 @@ class Api::V1::EventsController < ApplicationController
 
   # POST /uplink
   def uplink
-    render json: params.to_json, status: :ok
+    device = Device.find_by(dev_eui: params[:hardware_serial])
+    if device.nil?
+      puts "device is nil"
+      head :not_found
+      return
+    end
+    if device.device_configuration.nil?
+      puts "device_configuration is nil"
+      head :not_found
+      return
+    end
+    if !params[:payload_raw].present?
+      head :not_found
+      return
+    end
+    event_trigger = nil
+    payload = Base64.decode64(params[:payload_raw])
+    lora_message_id = payload[0...2]
+    case lora_message_id
+    # when "00"  # heartbeat
+    # when "20"  # any button clicked
+    # when "21"  # any button clicked with image ID
+    when "22"  # specific button clicked
+      button_number = payload[2...4].to_i(16) unless payload[2...4].nil?
+      event_trigger = device.device_configuration.event_triggers.find_by(button_number: button_number)
+    else
+      puts "lora_message_id: \"#{lora_message_id}\" is invalid"
+    end
+    if event_trigger.nil?
+      puts "event_trigger not found"
+      head :not_found
+      return
+    end
+    ActiveRecord::Base.transaction do
+      events = []
+      event_trigger.event_configurations.where(level: 1).each do |ec|
+        event = Event.new
+        event.text = device.name + " - " + ec.text
+        event.data = payload
+        event.timeouts_at = Time.now.to_i + ec.timeout unless ec.timeout.nil?
+        event.event_configuration = ec
+        event.device = device
+        event.save!
+        events << event
+      end
+      render json: events, status: :created
+    rescue => errors
+      render json: errors, status: :unprocessable_entity
+    end
   end
 
   private
