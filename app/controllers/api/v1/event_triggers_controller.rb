@@ -68,7 +68,6 @@ class Api::V1::EventTriggersController < ApplicationController
               et_param = params[:event_configurations][r][c]
               if et_param.present? && et_param[:timeout].present?
                 et = ets[r][c]
-                puts et.inspect #blup
                 # we found an event with a timeout -> check the next column and row for its timeout_event
                 (r+1).upto(number_of_rows-1) do |rr|
                   if ets[rr][c+1].present?
