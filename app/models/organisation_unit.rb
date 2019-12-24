@@ -5,7 +5,6 @@ class OrganisationUnit < ApplicationRecord
   has_many :users, dependent: :destroy
 
   has_many :event_configurations, through: :event_config_organisation_units, dependent: :destroy
-
   has_many :events, through: :event_configurations, dependent: :destroy
 
   def o
