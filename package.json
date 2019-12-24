@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/lab": "^4.0.0-alpha.37",
     "react-redux": "^7.1.3"
   }
 }

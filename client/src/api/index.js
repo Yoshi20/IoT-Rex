@@ -27,7 +27,6 @@ export async function apiGetUser(id) {
 }
 
 /* Organisations */
-
 export async function apiGetOrganisations() {
   return await axios.get(`/api/v1/organisations/`, {
     headers: {
@@ -55,6 +54,23 @@ export async function apiGetDevices() {
 
 export async function apiGetDevice(id) {
   return await axios.get(`/api/v1/devices/${id}`, {
+    headers: {
+      Authorization: api.authToken,
+    },
+  });
+}
+
+/* Events */
+export async function apiGetEvents() {
+  return await axios.get('/api/v1/events', {
+    headers: {
+      Authorization: api.authToken,
+    },
+  });
+}
+
+export async function apiGetEvent(id) {
+  return await axios.get(`/api/v1/events/${id}`, {
     headers: {
       Authorization: api.authToken,
     },

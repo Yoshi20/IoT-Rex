@@ -6,12 +6,14 @@ import user from './modules/user';
 import devices from './modules/devices';
 import organisations from './modules/organisations';
 import userInfo from './modules/userInfo';
+import events from './modules/events';
 
 const reducer = combineReducers({
   user,
   devices,
   organisations,
   userInfo,
+  events,
 });
 
 const configureStore = initialState => {

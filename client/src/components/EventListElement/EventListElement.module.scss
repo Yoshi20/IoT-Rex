@@ -1,0 +1,20 @@
+@import '../../styles/typography.scss';
+@import '../../styles/colors.scss';
+
+.eventListElement {
+  margin: 1rem 0;
+  user-select: none;
+
+  display: flex;
+
+  &:hover {
+    background-color: $accentColor1Dark;
+  }
+
+  &__text {
+    color: $primaryColor;
+    width: 100%;
+    font-size: 3rem;
+    margin: 0.5rem 3rem 0.5rem 1rem;
+  }
+}
