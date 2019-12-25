@@ -24,4 +24,11 @@
     color: $accentColor2;
     margin: 0.5rem 3rem 0.5rem 1rem;
   }
+
+  &__battery {
+    flex: 1;
+    font-size: 2rem;
+    color: $accentColor3;
+    margin: 0.5rem 3rem 0.5rem 1rem;
+  }
 }

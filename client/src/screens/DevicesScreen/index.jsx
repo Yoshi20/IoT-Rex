@@ -27,7 +27,8 @@ class DevicesScreen extends React.Component {
             <DeviceListElement
               key={i}
               name={device.name}
-              // type={device.device_type}
+              type={device.device_type.name}
+              battery={device.battery}
               id={device.id}
             />
           ))}

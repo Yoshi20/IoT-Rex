@@ -24,7 +24,7 @@ class Api::V1::DevicesController < ApplicationController
       raise "User with email = \"#{current_user.email}\" has an invalid role!"
     end
     render json: @devices.as_json(
-      only: [:id, :name, :device_type, :battery],
+      only: [:id, :name, :battery],
       include: {
         device_type: { only: [:id, :name] },
         organisation_unit: { only: [:id, :name] },
@@ -67,7 +67,7 @@ class Api::V1::DevicesController < ApplicationController
       raise "User with email = \"#{current_user.email}\" has an invalid role!"
     end
     render json: @device.as_json(
-      only: [:id, :name, :device_type, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery],
+      only: [:id, :name, :dev_eui, :app_eui, :app_key, :hw_version, :fw_version, :battery],
       include: {
         device_type: { only: [:id, :name, :number_of_buttons] },
         organisation_unit: { only: [:id, :name] },
