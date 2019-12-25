@@ -22,7 +22,7 @@ class EventsScreen extends React.Component {
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
-          <SiteHeader mainTitle="Events" />
+          <SiteHeader mainTitle="Events" subTitle={this.props.organisationName} />
           {this.props.events.map((event, i) => (
             <EventListElement
               key={i}
@@ -41,6 +41,7 @@ class EventsScreen extends React.Component {
 
 function mapStateToProps({ user, events }) {
   return {
+    organisationName: user.organisation.name,
     events: events.allEvents,
   };
 }

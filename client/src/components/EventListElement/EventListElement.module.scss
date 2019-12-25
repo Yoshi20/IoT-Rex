@@ -11,6 +11,13 @@
     background-color: $accentColor1Dark;
   }
 
+  &__time {
+    color: $accentColor2;
+    width: 6rem;
+    font-size: 3rem;
+    margin: 0.5rem 3rem 0.5rem 1rem;
+  }
+
   &__text {
     color: $primaryColor;
     width: 100%;
