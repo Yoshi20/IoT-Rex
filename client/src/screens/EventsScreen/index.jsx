@@ -6,7 +6,7 @@ import SiteHeader from '../../components/SiteHeader';
 import EventListElement from '../../components/EventListElement';
 
 /* Store */
-import { eventsGet } from '../../store/modules/events';
+import { eventsGet, eventAck } from '../../store/modules/events';
 
 /* Styles */
 import '../../styles/layout.scss';
@@ -28,6 +28,7 @@ class EventsScreen extends React.Component {
               key={i}
               text={event.text}
               time={Date.parse(event.created_at)}
+              sendAck={this.props.eventAck}
               id={event.id}
             />
           ))}
@@ -46,6 +47,7 @@ function mapStateToProps({ user, events }) {
 
 const mapDispatchToProps = {
   eventsGet,
+  eventAck,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventsScreen);

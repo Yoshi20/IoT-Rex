@@ -77,6 +77,18 @@ export async function apiGetEvent(id) {
   });
 }
 
+export async function apiAcknowledge(id) {
+  return await axios.patch(`/api/v1/acknowledge/${id}`, {
+    event: {
+      acknowledged: true,
+    },
+  }, {
+    headers: {
+      Authorization: api.authToken,
+    },
+  });
+}
+
 /* Function to connect the api with the Redux store.
    This is needed because we use the auth token for the requests */
 export default function configureApi(store) {

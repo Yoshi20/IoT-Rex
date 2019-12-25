@@ -1,4 +1,4 @@
-import { apiGetEvents, apiGetEvent } from '../../api';
+import { apiGetEvents, apiGetEvent, apiAcknowledge } from '../../api';
 
 /* Actions */
 const EVENTS_SET = 'EVENTS_SET';
@@ -49,6 +49,19 @@ export function eventGet(id) {
   return async dispatch => {
     try {
       const response = await apiGetEvent(id);
+      const event = response.data;
+      dispatch(setEvent(event));
+    } catch (e) {
+      console.log(e);
+      // throw new Error(e);
+    }
+  };
+}
+
+export function eventAck(id) {
+  return async dispatch => {
+    try {
+      const response = await apiAcknowledge(id);
       const event = response.data;
       dispatch(setEvent(event));
     } catch (e) {

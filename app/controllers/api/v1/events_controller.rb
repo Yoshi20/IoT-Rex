@@ -6,9 +6,9 @@ class Api::V1::EventsController < ApplicationController
   # GET /events.json
   def index
     if current_user.super_admin?
-      @events = Event.all.order(:id)
+      @events = Event.where(acknowledged: false).order(:id)
     else
-      @events = current_user.ou.events
+      @events = current_user.ou.events.where(acknowledged: false).order(:id)
     end
     render json: @events.to_json
   end
