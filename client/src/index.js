@@ -6,6 +6,8 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import configureApi from './api';
 
+import { EventTree, EventNode } from './screens/DeviceScreen/tree';
+
 /* Components */
 import AppRouter from './routers/AppRouter';
 
@@ -32,6 +34,15 @@ const store = configureStore();
 configureApi(store);
 
 store.dispatch(userLoad());
+
+/* Only for testing */
+// let tree = new EventTree(new EventNode());
+
+let node = new EventNode('Node1');
+node.addAcknowledgeEvent(new EventNode('Node2'));
+node.addTimeoutEvent(100, new EventNode('Node3'));
+
+console.log(node);
 
 ReactDOM.render(
   <Provider store={store}>
