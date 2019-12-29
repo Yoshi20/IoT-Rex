@@ -13,14 +13,27 @@ import '../../styles/layout.scss';
 // import styles from './EventsScreen.module.scss';
 
 class EventsScreen extends React.Component {
+  intervalID = 0;
+
+  pollEvents = () => {
+    this.intervalID = setTimeout(() => {
+      this.props.eventsGet(this.props.userOrganisationId);
+      this.pollEvents();
+    }, 10000);  // every 10 seconds
+  };
+
   componentDidMount() {
-    this.props.eventsGet(this.props.userOrganisationId);
+    this.pollEvents();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.userOrganisationId !== prevProps.userOrganisationId) {
       this.props.eventsGet(this.props.userOrganisationId);
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
   }
 
   render() {
