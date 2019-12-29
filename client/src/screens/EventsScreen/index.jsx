@@ -10,7 +10,7 @@ import { eventsGet, eventAck } from '../../store/modules/events';
 
 /* Styles */
 import '../../styles/layout.scss';
-// import styles from './EventsScreen.module.scss';
+import styles from './EventsScreen.module.scss';
 
 class EventsScreen extends React.Component {
   intervalID = 0;
@@ -42,15 +42,17 @@ class EventsScreen extends React.Component {
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
           <SiteHeader mainTitle="Events" subTitle={this.props.userOrganisationName} />
-          {this.props.events.map((event, i) => (
-            <EventListElement
-              key={i}
-              text={event.text}
-              time={Date.parse(event.created_at)}
-              sendAck={this.props.eventAck}
-              id={event.id}
-            />
-          ))}
+          <div className={styles.events}>
+            {this.props.events.map((event, i) => (
+              <EventListElement
+                key={i}
+                text={event.text}
+                time={Date.parse(event.created_at)}
+                sendAck={this.props.eventAck}
+                id={event.id}
+              />
+            ))}
+          </div>
         </div>
         <div className="screen_wrapper__right"></div>
       </div>

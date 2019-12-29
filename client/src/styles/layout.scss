@@ -22,3 +22,14 @@
     flex-direction: column;
   }
 }
+
+@media only screen and (max-width: 1440px) {
+  .screen_wrapper {
+    &__left,
+    &__right {
+      width: 4.3vw;
+    }
+    &__center {
+    }
+  }
+}

@@ -2,10 +2,12 @@
 @import '../../styles/colors.scss';
 
 .eventListElement {
-  margin: 1rem 0;
+  padding: 1rem;
+  border-bottom: 1px dashed #e1e1e1;
   user-select: none;
 
   display: flex;
+
 
   &:hover {
     background-color: $accentColor1Dark;
