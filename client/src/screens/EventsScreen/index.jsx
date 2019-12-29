@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 /* Components */
 import SiteHeader from '../../components/SiteHeader';
 import EventListElement from '../../components/EventListElement';
+import DoneIcon from '@material-ui/icons/Done';
 
 /* Store */
 import { eventsGet, eventAck } from '../../store/modules/events';
@@ -12,13 +13,23 @@ import { eventsGet, eventAck } from '../../store/modules/events';
 import '../../styles/layout.scss';
 import styles from './EventsScreen.module.scss';
 
+
+
+
+import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
+import '@sandstreamdev/react-swipeable-list/dist/styles.css';
+
+
+
+
+
+
 class EventsScreen extends React.Component {
   intervalID = 0;
 
   pollEvents = () => {
-    this.intervalID = setTimeout(() => {
+    this.intervalID = setInterval(() => {
       this.props.eventsGet(this.props.userOrganisationId);
-      this.pollEvents();
     }, 10000);  // every 10 seconds
   };
 
@@ -36,6 +47,15 @@ class EventsScreen extends React.Component {
     clearInterval(this.intervalID);
   }
 
+  swipeEvent = (e_id) => {
+    this.props.eventAck(e_id).then(() => {
+      this.props.eventsGet(this.props.userOrganisationId);
+      /* reset poll interval */
+      clearInterval(this.intervalID);
+      this.pollEvents();
+    })
+  }
+
   render() {
     return (
       <div className="screen_wrapper">
@@ -43,17 +63,44 @@ class EventsScreen extends React.Component {
         <div className="screen_wrapper__center">
           <SiteHeader mainTitle="Events" subTitle={this.props.userOrganisationName} />
           <div className={styles.events}>
-            {this.props.events.map((event, i) => (
-              <EventListElement
-                key={i}
-                text={event.text}
-                time={Date.parse(event.created_at)}
-                sendAck={this.props.eventAck}
-                id={event.id}
-              />
-            ))}
+            <SwipeableList
+              scrollStartThreshold={10}
+              swipeStartThreshold={10}
+              threshold={0.1}
+            >
+              {this.props.events.map((event, i) => (
+                  <SwipeableListItem
+                    key={i}
+                    swipeLeft={{
+                      content: (
+                        <div className={styles.contentRight}>
+                          <span><DoneIcon /></span>
+                        </div>
+                      ),
+                      action: () => {this.swipeEvent(event.id)}
+                    }}
+                    swipeRight={{
+                      content: (
+                        <div className={styles.contentLeft}>
+                          <span><DoneIcon /></span>
+                        </div>
+                      ),
+                      action: () => {this.swipeEvent(event.id)}
+                    }}
+                  >
+                    <EventListElement
+                      key={i}
+                      text={event.text}
+                      time={Date.parse(event.created_at)}
+                      sendAck={this.props.eventAck}
+                      id={event.id}
+                    />
+                  </SwipeableListItem>
+
+              ))}
+            </SwipeableList>
           </div>
-        </div>
+          </div>
         <div className="screen_wrapper__right"></div>
       </div>
     );

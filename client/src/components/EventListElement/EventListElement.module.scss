@@ -8,6 +8,8 @@
 
   display: flex;
 
+  background-color: $primaryBackgroundColor;
+  width: 100%;
 
   &:hover {
     background-color: $accentColor1Dark;

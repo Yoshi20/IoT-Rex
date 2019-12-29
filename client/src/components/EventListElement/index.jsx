@@ -20,11 +20,12 @@ export default function EventListElement({ time, text, sendAck, id }) {
   minutes = minutes < 10 ? '0' + minutes : minutes;
 
   return (
-    <div className={styles.eventListElement} id={"event_" + id} onClick={() =>
+    {/*<div className={styles.eventListElement} id={"event_" + id} onClick={() =>
       sendAck(id).then(() => {
-        document.getElementById("event_" + id).style = "display: none;";
-      })
-    }>
+       document.getElementById("event_" + id).style = "display: none;";
+     })
+   }>*/},
+    <div className={styles.eventListElement}>
       <div className={styles.eventListElement__time}>{hours}:{minutes}</div>
       <div className={styles.eventListElement__text}>{text}</div>
     </div>

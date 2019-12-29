@@ -1,5 +1,21 @@
 .events {
   overflow: auto;
   border: 2px solid #e1e1e1;
-  min-height: 20rem;
+}
+
+.contentLeft {
+  background-color: green;
+  color: white;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 4px 10%; // padding left/right same as swipe action threshold
+  border-bottom: 1px dashed #e1e1e1;
+}
+
+.contentRight {
+  composes: contentLeft;
+  background-color: green;
+  justify-content: flex-end;
 }
