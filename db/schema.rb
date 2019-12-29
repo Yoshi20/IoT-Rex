@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_124300) do
     t.string "text"
     t.string "data"
     t.boolean "acknowledged", default: false
+    t.datetime "acknowledged_at"
     t.datetime "timeouts_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
