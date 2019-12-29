@@ -22,7 +22,7 @@ class DashboardScreen extends React.Component {
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
-          <SiteHeader mainTitle="Dashboard" subTitle={this.props.organisationName} />
+          <SiteHeader mainTitle="Dashboard" subTitle={this.props.userOrganisationName} />
           <div className={style.dash_board_cards}>
             <DashBoardCard title="Geräte" icon={DeviceIcon} targetPath="/devices" />
             <DashBoardCard
@@ -41,7 +41,7 @@ class DashboardScreen extends React.Component {
 
 function mapStateToProps({ user }) {
   return {
-    organisationName: user.organisation.name,
+    userOrganisationName: user.organisation.name,
   };
 }
 

@@ -14,7 +14,13 @@ import '../../styles/layout.scss';
 
 class EventsScreen extends React.Component {
   componentDidMount() {
-    this.props.eventsGet();
+    this.props.eventsGet(this.props.userOrganisationId);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.userOrganisationId !== prevProps.userOrganisationId) {
+      this.props.eventsGet(this.props.userOrganisationId);
+    }
   }
 
   render() {
@@ -22,7 +28,7 @@ class EventsScreen extends React.Component {
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
-          <SiteHeader mainTitle="Events" subTitle={this.props.organisationName} />
+          <SiteHeader mainTitle="Events" subTitle={this.props.userOrganisationName} />
           {this.props.events.map((event, i) => (
             <EventListElement
               key={i}
@@ -41,7 +47,8 @@ class EventsScreen extends React.Component {
 
 function mapStateToProps({ user, events }) {
   return {
-    organisationName: user.organisation.name,
+    userOrganisationId: user.organisation.id,
+    userOrganisationName: user.organisation.name,
     events: events.allEvents,
   };
 }

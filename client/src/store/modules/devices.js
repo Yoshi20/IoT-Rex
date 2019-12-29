@@ -32,10 +32,10 @@ function setDevice(device) {
   return { type: DEVICE_SET, payload: device };
 }
 
-export function devicesGet() {
+export function devicesGet(o_id) {
   return async dispatch => {
     try {
-      const response = await apiGetDevices();
+      const response = await apiGetDevices(o_id);
       const devices = [...response.data];
       dispatch(setDevices(devices));
     } catch (e) {

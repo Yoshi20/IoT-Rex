@@ -30,7 +30,7 @@ class DeviceScreen extends React.Component {
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
-          <SiteHeader mainTitle={device.name} subTitle={this.props.organisationName} />
+          <SiteHeader mainTitle={device.name} subTitle={this.props.userOrganisationName} />
           <p className="dev_eui">{`Device EUI: ${device.dev_eui}`}</p>
           <p className="app_eui">{`APP EUI: ${device.app_eui}`}</p>
           <p className="app_key">{`APP KEY: ${device.app_key}`}</p>
@@ -46,7 +46,7 @@ class DeviceScreen extends React.Component {
 
 function mapStateToProps({ user, devices }) {
   return {
-    organisationName: user.organisation.name,
+    userOrganisationName: user.organisation.name,
     device: devices.selectedDevice,
   };
 }

@@ -14,7 +14,13 @@ import '../../styles/layout.scss';
 
 class DevicesScreen extends React.Component {
   componentDidMount() {
-    this.props.devicesGet();
+    this.props.devicesGet(this.props.userOrganisationId);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.userOrganisationId !== prevProps.userOrganisationId) {
+      this.props.devicesGet(this.props.userOrganisationId);
+    }
   }
 
   render() {
@@ -22,7 +28,7 @@ class DevicesScreen extends React.Component {
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
-          <SiteHeader mainTitle="Geräte Übersicht" subTitle={this.props.organisationName} />
+          <SiteHeader mainTitle="Geräte Übersicht" subTitle={this.props.userOrganisationName} />
           {this.props.devices.map((device, i) => (
             <DeviceListElement
               key={i}
@@ -42,7 +48,7 @@ class DevicesScreen extends React.Component {
 function mapStateToProps({ user, devices }) {
   return {
     userOrganisationId: user.organisation.id,
-    organisationName: user.organisation.name,
+    userOrganisationName: user.organisation.name,
     devices: devices.allDevices,
   };
 }

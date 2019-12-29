@@ -29,7 +29,7 @@ class UserScreen extends React.Component {
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
-          <SiteHeader mainTitle={user.name} subTitle={this.props.organisationName} />
+          <SiteHeader mainTitle={user.name} subTitle={this.props.userOrganisationName} />
           <p className={styles.email}>{`Email: ${user.email}`}</p>
           <p className={styles.role}>{`Role: ${user.role.name}`}</p>
         </div>
@@ -41,7 +41,7 @@ class UserScreen extends React.Component {
 
 function mapStateToProps({ user, userInfo }) {
   return {
-    organisationName: user.organisation.name,
+    userOrganisationName: user.organisation.name,
     user: userInfo,
   };
 }

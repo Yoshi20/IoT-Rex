@@ -32,10 +32,10 @@ function setEvent(event) {
   return { type: EVENT_SET, payload: event };
 }
 
-export function eventsGet() {
+export function eventsGet(o_id) {
   return async dispatch => {
     try {
-      const response = await apiGetEvents();
+      const response = await apiGetEvents(o_id);
       const events = [...response.data];
       dispatch(setEvents(events));
     } catch (e) {

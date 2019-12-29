@@ -6,7 +6,12 @@ class Api::V1::EventsController < ApplicationController
   # GET /events.json
   def index
     if current_user.super_admin?
-      @events = Event.where(acknowledged: false).order(:id)
+      if params[:organisation_id].present?
+        device_ids = Organisation.find(params[:organisation_id]).devices.map{|d| d.id}
+        @events = Event.where(acknowledged: false).where(device_id: device_ids).order(:id)
+      else
+        @events = Event.where(acknowledged: false).order(:id)
+      end
     else
       @events = current_user.ou.events.where(acknowledged: false).order(:id)
     end
