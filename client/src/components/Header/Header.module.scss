@@ -10,6 +10,15 @@
   align-items: center;
 }
 
+.time {
+  position: absolute;
+  right: 1rem;
+  text-align: right;
+  font-size: 2rem;
+  color: $accentColor2;
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 1440px) {
   .header_wrapper {
     height: 5rem;

@@ -7,17 +7,38 @@ import { connect } from 'react-redux';
 /* Store */
 
 /* Styles */
-import style from './Header.module.scss';
-
-// const styles = {
-
-// };
+import styles from './Header.module.scss';
 
 class Header extends React.Component {
-  render() {
-    // const { classes } = this.props;
+  intervalID = 0;
 
-    return <div className={style.header_wrapper}></div>;
+  constructor(props) {
+    super(props);
+    this.state = {
+      time: new Date().toLocaleString()
+    };
+  }
+
+  componentDidMount() {
+    this.intervalID = setInterval(() => {
+      this.setState({
+        time: new Date().toLocaleString()
+      })}, 1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
+  }
+
+  render() {
+    const hhmm = this.state.time.slice(this.state.time.length - 8, this.state.time.length - 3);
+    // const { classes } = this.props;
+    return (
+      <div className={styles.header_wrapper}>
+        <div className={styles.time}>{hhmm}</div>
+      </div>
+    );
   }
 }
 

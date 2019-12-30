@@ -62,6 +62,11 @@ class EventsScreen extends React.Component {
         <div className="screen_wrapper__left"></div>
         <div className="screen_wrapper__center">
           <SiteHeader mainTitle="Events" subTitle={this.props.userOrganisationName} />
+          {this.props.events.length > 0 && (
+            <div className={styles.eventListHeader}>
+              {(this.props.events.length > 1) ? (this.props.events.length + " Events übrig") : ("1 Event übrig")}
+            </div>
+          )}
           <div className={styles.events}>
             <SwipeableList
               scrollStartThreshold={10}
