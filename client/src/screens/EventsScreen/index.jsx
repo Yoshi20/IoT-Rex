@@ -13,16 +13,8 @@ import { eventsGet, eventAck } from '../../store/modules/events';
 import '../../styles/layout.scss';
 import styles from './EventsScreen.module.scss';
 
-
-
-
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
-
-
-
-
-
 
 class EventsScreen extends React.Component {
   intervalID = 0;
@@ -30,7 +22,7 @@ class EventsScreen extends React.Component {
   pollEvents = () => {
     this.intervalID = setInterval(() => {
       this.props.eventsGet(this.props.userOrganisationId);
-    }, 10000);  // every 10 seconds
+    }, 1000);  // every 1 seconds
   };
 
   componentDidMount() {
@@ -57,6 +49,7 @@ class EventsScreen extends React.Component {
   }
 
   render() {
+    let now = new Date();
     return (
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
@@ -92,16 +85,17 @@ class EventsScreen extends React.Component {
                       ),
                       action: () => {this.swipeEvent(event.id)}
                     }}
+                    blockSwipe={(event.timeouts_at > 0) && ((event.timeouts_at - now) < 0)}
                   >
                     <EventListElement
                       key={i}
                       text={event.text}
                       time={Date.parse(event.created_at)}
+                      timeout={Date.parse(event.timeouts_at)}
                       sendAck={this.props.eventAck}
                       id={event.id}
                     />
                   </SwipeableListItem>
-
               ))}
             </SwipeableList>
           </div>
