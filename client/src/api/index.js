@@ -79,9 +79,9 @@ export async function apiGetEvent(id) {
 
 export async function apiAcknowledge(id) {
   return await axios.patch(`/api/v1/acknowledge/${id}`, {
-    event: {
-      acknowledged: true,
-    },
+    // event: {
+    //   acknowledged: true,
+    // },
   }, {
     headers: {
       Authorization: api.authToken,

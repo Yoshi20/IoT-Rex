@@ -17,6 +17,8 @@ namespace :events do
         event.data = e.data
         event.timeouts_at = Time.now + ec.timeout.seconds unless ec.timeout.nil?
         event.level = ec.level
+        event.parent_event_id = e.id
+        event.sort_by_time = e.sort_by_time + 1/1000.0  # add 1ms
         event.event_configuration = ec
         event.device = d
         event.save!

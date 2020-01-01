@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       resources :event_configurations
       resources :events
       post 'uplink' => 'events#uplink'
-      patch 'acknowledge/:id' => 'events#update'
+      patch 'acknowledge/:id' => 'events#acknowledge'
     end
   end
 

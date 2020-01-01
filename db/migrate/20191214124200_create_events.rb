@@ -8,6 +8,8 @@ class CreateEvents < ActiveRecord::Migration[5.2]
       t.datetime :timeouts_at
       t.boolean :timeouted, default: false
       t.integer :level
+      t.bigint :parent_event_id
+      t.datetime :sort_by_time
 
       t.timestamps
     end

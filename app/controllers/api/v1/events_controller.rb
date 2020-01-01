@@ -1,6 +1,6 @@
 class Api::V1::EventsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :acknowledge, :destroy]
 
   # GET /events
   # GET /events.json
@@ -8,12 +8,12 @@ class Api::V1::EventsController < ApplicationController
     if current_user.super_admin?
       if params[:organisation_id].present?
         device_ids = Organisation.find(params[:organisation_id]).devices.map{|d| d.id}
-        @events = Event.where(acknowledged: false).where(device_id: device_ids).order(:id)
+        @events = Event.where(acknowledged: false).where(device_id: device_ids).order(:sort_by_time)
       else
-        @events = Event.where(acknowledged: false).order(:id)
+        @events = Event.where(acknowledged: false).order(:sort_by_time)
       end
     else
-      @events = current_user.ou.events.where(acknowledged: false).order(:id)
+      @events = current_user.ou.events.where(acknowledged: false).order(:sort_by_time)
     end
 
     # Check if there are timeouted events and handle them
@@ -27,6 +27,8 @@ class Api::V1::EventsController < ApplicationController
         event.data = e.data
         event.timeouts_at = Time.now + ec.timeout.seconds unless ec.timeout.nil?
         event.level = ec.level
+        event.parent_event_id = e.id
+        event.sort_by_time = e.sort_by_time + 1/1000.0  # add 1ms
         event.event_configuration = ec
         event.device = d
         event.save!
@@ -118,11 +120,13 @@ class Api::V1::EventsController < ApplicationController
     ActiveRecord::Base.transaction do
       events = []
       event_trigger.event_configurations.where(level: 1).each do |ec|
+        now = Time.now
         event = Event.new
         event.text = device.name + " - " + ec.text
         event.data = payload
-        event.timeouts_at = Time.now + ec.timeout.seconds unless ec.timeout.nil?
+        event.timeouts_at = now + ec.timeout.seconds unless ec.timeout.nil?
         event.level = ec.level
+        event.sort_by_time = now
         event.event_configuration = ec
         event.device = device
         event.save!
@@ -134,7 +138,26 @@ class Api::V1::EventsController < ApplicationController
     end
   end
 
+  # PATCH /acknowledge/1
+  def acknowledge
+    if @event.update(acknowledged: true)
+      ack_parent_event(@event)
+      render json: @event.to_json, status: :ok
+    else
+      render json: @event.errors, status: :unprocessable_entity
+    end
+  end
+
   private
+
+    def ack_parent_event(event)
+      if event.parent_event_id.present?
+        parent_event = Event.find(event.parent_event_id)
+        parent_event.update(acknowledged: true)
+        ack_parent_event(parent_event)
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_event
       @event = Event.find(params[:id])
@@ -142,6 +165,8 @@ class Api::V1::EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:text, :data, :acknowledged, :acknowledged_at, :timeouts_at, :timeouted, :level, :event_configuration_id, :device_id)
+      params.require(:event).permit(:text, :data, :acknowledged,
+        :acknowledged_at, :timeouts_at, :timeouted, :level, :parent_event_id,
+        :sort_by_time, :event_configuration_id, :device_id)
     end
 end
