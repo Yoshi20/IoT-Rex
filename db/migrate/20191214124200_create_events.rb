@@ -7,6 +7,7 @@ class CreateEvents < ActiveRecord::Migration[5.2]
       t.datetime :acknowledged_at
       t.datetime :timeouts_at
       t.boolean :timeouted, default: false
+      t.integer :level
 
       t.timestamps
     end

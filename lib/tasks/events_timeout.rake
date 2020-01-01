@@ -16,6 +16,7 @@ namespace :events do
         event.text = d.name + " - " + ec.text
         event.data = e.data
         event.timeouts_at = Time.now + ec.timeout.seconds unless ec.timeout.nil?
+        event.level = ec.level
         event.event_configuration = ec
         event.device = d
         event.save!

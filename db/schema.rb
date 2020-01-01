@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_124300) do
     t.datetime "acknowledged_at"
     t.datetime "timeouts_at"
     t.boolean "timeouted", default: false
+    t.integer "level"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "event_configuration_id"

@@ -15,7 +15,7 @@
     background-color: $accentColor1Dark;
   }
 
-  &__alarm {
+  &__icon {
     color: white;
     margin-top: 0.8rem;
   }
@@ -40,7 +40,7 @@
 
     &__text {
       position: absolute;
-      right: 3rem;
+      right: 6rem;
       bottom: 3rem;
     }
   }

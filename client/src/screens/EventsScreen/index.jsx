@@ -93,6 +93,7 @@ class EventsScreen extends React.Component {
                       time={Date.parse(event.created_at)}
                       timeout={Date.parse(event.timeouts_at)}
                       timeouted={event.timeouted}
+                      level={event.level}
                       sendAck={this.props.eventAck}
                       id={event.id}
                     />
