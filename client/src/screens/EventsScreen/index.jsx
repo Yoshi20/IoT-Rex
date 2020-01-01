@@ -85,13 +85,14 @@ class EventsScreen extends React.Component {
                       ),
                       action: () => {this.swipeEvent(event.id)}
                     }}
-                    blockSwipe={(event.timeouts_at > 0) && ((event.timeouts_at - now) < 0)}
+                    blockSwipe={event.timeouted}
                   >
                     <EventListElement
                       key={i}
                       text={event.text}
                       time={Date.parse(event.created_at)}
                       timeout={Date.parse(event.timeouts_at)}
+                      timeouted={event.timeouted}
                       sendAck={this.props.eventAck}
                       id={event.id}
                     />

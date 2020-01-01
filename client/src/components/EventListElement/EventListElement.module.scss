@@ -15,6 +15,11 @@
     background-color: $accentColor1Dark;
   }
 
+  &__alarm {
+    color: white;
+    margin-top: 0.8rem;
+  }
+
   &__time {
     color: $accentColor2;
     width: 6rem;

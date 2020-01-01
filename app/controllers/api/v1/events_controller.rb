@@ -15,6 +15,24 @@ class Api::V1::EventsController < ApplicationController
     else
       @events = current_user.ou.events.where(acknowledged: false).order(:id)
     end
+
+    # Check if there are timeouted events and handle them
+    @events.where("timeouted is false and timeouts_at < ?", Time.now).each do |e|
+      te_id = e.event_configuration.timeout_event_id
+      if te_id.present?
+        ec = EventConfiguration.find(te_id)
+        d = e.device
+        event = Event.new
+        event.text = d.name + " - " + ec.text
+        event.data = e.data
+        event.timeouts_at = Time.now + ec.timeout.seconds unless ec.timeout.nil?
+        event.event_configuration = ec
+        event.device = d
+        event.save!
+      end
+      e.update!(timeouted: true)
+    end
+
     render json: @events.to_json
   end
 
@@ -122,6 +140,6 @@ class Api::V1::EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:text, :data, :acknowledged, :acknowledged_at, :timeouts_at, :event_configuration_id, :device_id)
+      params.require(:event).permit(:text, :data, :acknowledged, :acknowledged_at, :timeouts_at, :timeouted, :event_configuration_id, :device_id)
     end
 end

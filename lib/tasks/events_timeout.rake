@@ -3,7 +3,7 @@ namespace :events do
   desc "Checks if there are timeouted events and handle them"
   task :timeout => :environment do
     # puts 'Get not acknowledged and timeouted events...'
-    events = Event.where("acknowledged is false and timeouts_at < ?", Time.now)
+    events = Event.where("timeouted is false and acknowledged is false and timeouts_at < ?", Time.now)
     # puts "  found #{events.count} events"
     events.each do |e|
       # check if there's a timeout_event
@@ -21,7 +21,7 @@ namespace :events do
         event.save!
         # puts '  new event created'
       end
-      e.update!(acknowledged: true)
+      e.update!(timeouted: true)
     end
     # puts 'done'
   end
