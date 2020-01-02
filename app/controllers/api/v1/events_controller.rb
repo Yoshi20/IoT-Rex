@@ -18,21 +18,7 @@ class Api::V1::EventsController < ApplicationController
 
     # Check if there are timeouted events and handle them
     @events.where("timeouted is false and timeouts_at < ?", Time.now).each do |e|
-      te_id = e.event_configuration.timeout_event_id
-      if te_id.present?
-        ec = EventConfiguration.find(te_id)
-        d = e.device
-        event = Event.new
-        event.text = d.name + " - " + ec.text
-        event.data = e.data
-        event.timeouts_at = Time.now + ec.timeout.seconds unless ec.timeout.nil?
-        event.level = ec.level
-        event.parent_event_id = e.id
-        event.sort_by_time = e.sort_by_time + 1/1000.0  # add 1ms
-        event.event_configuration = ec
-        event.device = d
-        event.save!
-      end
+      create_child_event(e, e.event_configuration.timeout_event_id)
       e.update!(timeouted: true)
     end
 
@@ -142,6 +128,7 @@ class Api::V1::EventsController < ApplicationController
   def acknowledge
     if @event.update(acknowledged: true)
       ack_parent_event(@event)
+      create_child_event(@event, @event.event_configuration.acknowledged_event_id)
       render json: @event.to_json, status: :ok
     else
       render json: @event.errors, status: :unprocessable_entity
@@ -149,6 +136,23 @@ class Api::V1::EventsController < ApplicationController
   end
 
   private
+
+    def create_child_event(parent_event, child_event_conf_id)
+      if child_event_conf_id.present?
+        ec = EventConfiguration.find(child_event_conf_id)
+        d = parent_event.device
+        event = Event.new
+        event.text = d.name + " - " + ec.text
+        event.data = parent_event.data
+        event.timeouts_at = Time.now + ec.timeout.seconds unless ec.timeout.nil?
+        event.level = ec.level
+        event.parent_event_id = parent_event.id
+        event.sort_by_time = parent_event.sort_by_time + 1/1000.0  # add 1ms
+        event.event_configuration = ec
+        event.device = d
+        event.save!
+      end
+    end
 
     def ack_parent_event(event)
       if event.parent_event_id.present?
