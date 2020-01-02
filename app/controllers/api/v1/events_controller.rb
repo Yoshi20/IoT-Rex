@@ -8,16 +8,16 @@ class Api::V1::EventsController < ApplicationController
     if current_user.super_admin?
       if params[:organisation_id].present?
         device_ids = Organisation.find(params[:organisation_id]).devices.map{|d| d.id}
-        @events = Event.where(acknowledged: false).where(device_id: device_ids).order(:sort_by_time)
+        @events = Event.where(completed: false).where(device_id: device_ids).order(:sort_by_time)
       else
-        @events = Event.where(acknowledged: false).order(:sort_by_time)
+        @events = Event.where(completed: false).order(:sort_by_time)
       end
     else
-      @events = current_user.ou.events.where(acknowledged: false).order(:sort_by_time)
+      @events = current_user.ou.events.where(completed: false).order(:sort_by_time)
     end
 
     # Check if there are timeouted events and handle them
-    @events.where("timeouted is false and timeouts_at < ?", Time.now).each do |e|
+    @events.where("acknowledged is false and timeouted is false and timeouts_at < ?", Time.now).each do |e|
       create_child_event(e, e.event_configuration.timeout_event_id)
       e.update!(timeouted: true)
     end
@@ -126,12 +126,21 @@ class Api::V1::EventsController < ApplicationController
 
   # PATCH /acknowledge/1
   def acknowledge
-    if @event.update(acknowledged: true)
-      ack_parent_event(@event)
-      create_child_event(@event, @event.event_configuration.acknowledged_event_id)
+    ActiveRecord::Base.transaction do
+      @event.acknowledged = true
+      @event.acknowledged_at = Time.now
+      # check if there's a child event to handle
+      if @event.event_configuration.acknowledged_event_id.present?
+        create_child_event(@event, @event.event_configuration.acknowledged_event_id)
+      else
+        # complete the event (and all parents) if there's no child event
+        @event.completed = true
+        complete_parent_event(@event)
+      end
+      @event.save!
       render json: @event.to_json, status: :ok
-    else
-      render json: @event.errors, status: :unprocessable_entity
+    rescue => errors
+      render json: errors, status: :unprocessable_entity
     end
   end
 
@@ -154,11 +163,11 @@ class Api::V1::EventsController < ApplicationController
       end
     end
 
-    def ack_parent_event(event)
+    def complete_parent_event(event)
       if event.parent_event_id.present?
         parent_event = Event.find(event.parent_event_id)
-        parent_event.update(acknowledged: true)
-        ack_parent_event(parent_event)
+        parent_event.update(completed: true)
+        complete_parent_event(parent_event)
       end
     end
 
@@ -169,7 +178,7 @@ class Api::V1::EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:text, :data, :acknowledged,
+      params.require(:event).permit(:text, :data, :completed, :acknowledged,
         :acknowledged_at, :timeouts_at, :timeouted, :level, :parent_event_id,
         :sort_by_time, :event_configuration_id, :device_id)
     end

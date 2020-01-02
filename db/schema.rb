@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_124300) do
   create_table "events", force: :cascade do |t|
     t.string "text"
     t.string "data"
+    t.boolean "completed", default: false
     t.boolean "acknowledged", default: false
     t.datetime "acknowledged_at"
     t.datetime "timeouts_at"

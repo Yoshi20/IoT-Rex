@@ -10,9 +10,4 @@ class Event < ApplicationRecord
     self.event_configuration
   end
 
-  def update(params)
-    self.acknowledged_at = Time.now if params[:acknowledged]
-    super(params)
-  end
-
 end
