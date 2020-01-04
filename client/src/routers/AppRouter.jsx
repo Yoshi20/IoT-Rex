@@ -12,6 +12,7 @@ import DashboardScreen from '../screens/DashboardScreen';
 import DevicesScreen from '../screens/DevicesScreen';
 import OrganisationScreen from '../screens/OrganisationScreen';
 import EventsScreen from '../screens/EventsScreen';
+import CompletedEventsScreen from '../screens/CompletedEventsScreen';
 import ZonesScreen from '../screens/ZonesScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import UserScreen from '../screens/UserScreen';
@@ -48,6 +49,9 @@ class AppRouter extends React.Component {
               </PrivateRoute>
               <PrivateRoute path="/events">
                 <EventsScreen />
+              </PrivateRoute>
+              <PrivateRoute path="/completedEvents">
+                <CompletedEventsScreen />
               </PrivateRoute>
               <PrivateRoute path="/zones">
                 <ZonesScreen />

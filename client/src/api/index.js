@@ -89,6 +89,15 @@ export async function apiAcknowledge(id) {
   });
 }
 
+/* CompletedEvents */
+export async function apiGetCompletedEvents(o_id) {
+  return await axios.get(`/api/v1/events?organisation_id=${o_id}&completed=1`, {
+    headers: {
+      Authorization: api.authToken,
+    },
+  });
+}
+
 /* Function to connect the api with the Redux store.
    This is needed because we use the auth token for the requests */
 export default function configureApi(store) {

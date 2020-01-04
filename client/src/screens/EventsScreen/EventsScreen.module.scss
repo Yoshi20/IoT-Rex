@@ -14,7 +14,7 @@
   border: 2px solid $primaryColor;
 }
 
-.contentLeft {
+.swipeContentLeft {
   background-color: green;
   color: white;
   height: 100%;
@@ -25,8 +25,12 @@
   border-bottom: 1px dashed $primaryColor;
 }
 
-.contentRight {
-  composes: contentLeft;
+.swipeContentRight {
+  composes: swipeContentLeft;
   background-color: green;
   justify-content: flex-end;
+}
+
+.buttonDiv {
+  text-align: center;
 }

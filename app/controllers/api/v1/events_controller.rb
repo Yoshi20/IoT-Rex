@@ -5,19 +5,20 @@ class Api::V1::EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
+    is_completed = params[:completed].present?
     if current_user.super_admin?
       if params[:organisation_id].present?
         device_ids = Organisation.find(params[:organisation_id]).devices.map{|d| d.id}
-        @events = Event.where(completed: false).where(device_id: device_ids).order(:sort_by_time)
+        @events = Event.where(completed: is_completed).where(device_id: device_ids).order(:sort_by_time)
       else
-        @events = Event.where(completed: false).order(:sort_by_time)
+        @events = Event.where(completed: is_completed).order(:sort_by_time)
       end
     else
-      @events = current_user.ou.events.where(completed: false).order(:sort_by_time)
+      @events = current_user.ou.events.where(completed: is_completed).order(:sort_by_time)
     end
 
     # Check if there are timeouted events and handle them
-    @events.where("acknowledged is false and timeouted is false and timeouts_at < ?", Time.now).each do |e|
+    @events.where("completed is false and acknowledged is false and timeouted is false and timeouts_at < ?", Time.now).each do |e|
       create_child_event(e, e.event_configuration.timeout_event_id)
       e.update!(timeouted: true)
     end

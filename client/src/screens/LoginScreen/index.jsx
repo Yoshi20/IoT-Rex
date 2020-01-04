@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 
 /* Components */
-import Button from '@material-ui/core/Button';
+import DefaultButton from '../../components/DefaultButton';
 import TextField from '@material-ui/core/TextField';
 
 /* Store */
@@ -18,8 +18,6 @@ import style from './LoginScreen.module.scss';
 const styles = {
   button: {
     marginTop: '8rem',
-    padding: '0 4rem',
-    width: '40rem',
   },
   textField: {
     marginTop: '4rem',
@@ -101,19 +99,15 @@ class LoginScreen extends React.Component {
               }}
             />
           </div>
-          <Button
-            variant="contained"
-            color="secondary"
-            classes={{
-              label: classes.resize,
-            }}
-            className={classes.button}
-            onClick={() => {
-              this.props.userLogin(eMail, password).then(() => history.replace('/'));
-            }}
-          >
-            Login
-          </Button>
+          <DefaultButton
+            text={"Login"}
+            style={styles.button}
+            onClick={
+              () => {
+                this.props.userLogin(eMail, password).then(() => history.replace('/'));
+              }
+            }
+          />
         </div>
       );
     }

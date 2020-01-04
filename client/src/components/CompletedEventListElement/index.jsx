@@ -13,9 +13,9 @@ import SubDirArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
 /* Store */
 
 /* Styles */
-import styles from './EventListElement.module.scss';
+import styles from './CompletedEventListElement.module.scss';
 
-export default function EventListElement({ text, time, acknowledged, acknowledged_at, timeout, timeouted, level, sendAck, id }) {
+export default function CompletedEventListElement({ text, time, acknowledged, acknowledged_at, timeout, timeouted, level, sendAck, id }) {
   let now = new Date();
   let date = new Date(time);
   let date_str = date.toLocaleString();
@@ -26,53 +26,48 @@ export default function EventListElement({ text, time, acknowledged, acknowledge
   else dt = Math.round((timeout - now)/1000)
 
   return (
-    {/*<div className={styles.eventListElement} id={"event_" + id} onClick={() =>
-      sendAck(id).then(() => {
-        document.getElementById("event_" + id).style = "display: none;";
-      })
-    }>*/},
     <div
-      className={styles.eventListElement}
+      className={styles.completedEventListElement}
       style={{
-        backgroundColor: ((acknowledged || timeouted) ? "#343B40" : ""),
+        backgroundColor: "#343B40",
         // "padding-left": ((level-1)*3+1) + "rem"
       }}
     >
       {/* Left icons */}
       {(timeouted) && (
-        <div className={styles.eventListElement__icon}><span><AlarmIcon /></span></div>
+        <div className={styles.completedEventListElement__icon}><span><AlarmIcon /></span></div>
       )}
       {(acknowledged && !timeouted) && (
-        <div className={styles.eventListElement__icon}><span><CheckCircleOutlineIcon /></span></div>
+        <div className={styles.completedEventListElement__icon}><span><CheckCircleOutlineIcon /></span></div>
       )}
       {(!acknowledged && !timeouted) && (
-        <div className={styles.eventListElement__icon}><span><ArrowForwardIcon /></span></div>
+        <div className={styles.completedEventListElement__icon}><span><ArrowForwardIcon /></span></div>
       )}
       {[...Array(level-1)].map((_, i) => (
-        <div key={i} className={styles.eventListElement__icon}><span><SubDirArrowRightIcon /></span></div>
+        <div key={i} className={styles.completedEventListElement__icon}><span><SubDirArrowRightIcon /></span></div>
       ))}
       {/* Event content */}
-      <div className={styles.eventListElement__time}>{hhmm}</div>
-      <div className={styles.eventListElement__text}>{text}</div>
+      <div className={styles.completedEventListElement__time}>{hhmm}</div>
+      <div className={styles.completedEventListElement__text}>{text}</div>
       {!isNaN(dt) && (
-        <div className={styles.eventListElement__timeout}>
+        <div className={styles.completedEventListElement__timeout}>
           {!timeouted && (
             <CircularProgress variant="static" color="inherit" thickness={5} value={dt*100/max_t} />
           )}
           {dt < 1000 && (
-            <div className={styles.eventListElement__timeout__text}>{dt + "s"}</div>
+            <div className={styles.completedEventListElement__timeout__text}>{dt + "s"}</div>
           )}
         </div>
       )}
       {/* Right icons */}
       {(timeouted) && (
-        <div className={styles.eventListElement__icon}><span><AlarmIcon /></span></div>
+        <div className={styles.completedEventListElement__icon}><span><AlarmIcon /></span></div>
       )}
       {(acknowledged && !timeouted) && (
-        <div className={styles.eventListElement__icon}><span><CheckCircleOutlineIcon /></span></div>
+        <div className={styles.completedEventListElement__icon}><span><CheckCircleOutlineIcon /></span></div>
       )}
       {(!acknowledged && !timeouted) && (
-        <div className={styles.eventListElement__icon}><span><ArrowBackIcon /></span></div>
+        <div className={styles.completedEventListElement__icon}><span><ArrowBackIcon /></span></div>
       )}
     </div>
   );

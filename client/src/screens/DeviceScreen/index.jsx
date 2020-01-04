@@ -6,11 +6,11 @@ import { withRouter } from 'react-router';
 import SiteHeader from '../../components/SiteHeader';
 
 /* Store */
-import { deviceGet, devicesGet } from '../../store/modules/devices';
+import { deviceGet } from '../../store/modules/devices';
 
 /* Styles */
 import '../../styles/layout.scss';
-import styles from './DeviceScreen.module.scss';
+// import styles from './DeviceScreen.module.scss';
 
 class DeviceScreen extends React.Component {
   componentDidMount() {

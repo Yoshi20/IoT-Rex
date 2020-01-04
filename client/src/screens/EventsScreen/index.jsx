@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 /* Components */
 import SiteHeader from '../../components/SiteHeader';
 import EventListElement from '../../components/EventListElement';
+import DefaultButton from '../../components/DefaultButton';
 import DoneIcon from '@material-ui/icons/Done';
 
 /* Store */
@@ -26,6 +28,7 @@ class EventsScreen extends React.Component {
   };
 
   componentDidMount() {
+    this.props.eventsGet(this.props.userOrganisationId);
     this.pollEvents();
   }
 
@@ -49,7 +52,6 @@ class EventsScreen extends React.Component {
   }
 
   render() {
-    let now = new Date();
     return (
       <div className="screen_wrapper">
         <div className="screen_wrapper__left"></div>
@@ -71,7 +73,7 @@ class EventsScreen extends React.Component {
                     key={i}
                     swipeLeft={{
                       content: (
-                        <div className={styles.contentRight}>
+                        <div className={styles.swipeContentRight}>
                           <span><DoneIcon /></span>
                         </div>
                       ),
@@ -79,7 +81,7 @@ class EventsScreen extends React.Component {
                     }}
                     swipeRight={{
                       content: (
-                        <div className={styles.contentLeft}>
+                        <div className={styles.swipeContentLeft}>
                           <span><DoneIcon /></span>
                         </div>
                       ),
@@ -103,7 +105,20 @@ class EventsScreen extends React.Component {
               ))}
             </SwipeableList>
           </div>
+          <div className={styles.buttonDiv}>
+            <DefaultButton
+              text={"Abgeschlossene Events"}
+              style={{
+                marginTop: '4rem'
+              }}
+              onClick={
+                () => {
+                  this.props.history.replace('/completedEvents')
+                }
+              }
+            />
           </div>
+        </div>
         <div className="screen_wrapper__right"></div>
       </div>
     );
@@ -123,4 +138,4 @@ const mapDispatchToProps = {
   eventAck,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EventsScreen));
