@@ -19,7 +19,7 @@ class Api::V1::EventsController < ApplicationController
 
     # Check if there are timeouted events and handle them
     @events.where("completed is false and acknowledged is false and timeouted is false and timeouts_at < ?", Time.now).each do |e|
-      create_child_event(e, e.event_configuration.timeout_event_id)
+      create_child_event(e, e.event_configuration.timeout_event_configuration_id)
       e.update!(timeouted: true)
     end
 
@@ -129,10 +129,11 @@ class Api::V1::EventsController < ApplicationController
   def acknowledge
     ActiveRecord::Base.transaction do
       @event.acknowledged = true
+      @event.acknowledged_by = current_user.name
       @event.acknowledged_at = Time.now
       # check if there's a child event to handle
-      if @event.event_configuration.acknowledged_event_id.present?
-        create_child_event(@event, @event.event_configuration.acknowledged_event_id)
+      if @event.event_configuration.acknowledged_event_configuration_id.present?
+        create_child_event(@event, @event.event_configuration.acknowledged_event_configuration_id)
       else
         # complete the event (and all parents) if there's no child event
         @event.completed = true
@@ -168,7 +169,7 @@ class Api::V1::EventsController < ApplicationController
       if event.parent_event_id.present?
         parent_event = Event.find(event.parent_event_id)
         parent_event.update(completed: true)
-        complete_parent_event(parent_event)
+        complete_parent_event(parent_event) # recursive function call
       end
     end
 
@@ -180,7 +181,8 @@ class Api::V1::EventsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
       params.require(:event).permit(:text, :data, :completed, :acknowledged,
-        :acknowledged_at, :timeouts_at, :timeouted, :level, :parent_event_id,
-        :sort_by_time, :event_configuration_id, :device_id)
+        :acknowledged_by, :acknowledged_at, :timeouts_at, :timeouted,
+        :level, :parent_event_id, :sort_by_time, :event_configuration_id,
+        :device_id)
     end
 end

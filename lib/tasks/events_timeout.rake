@@ -7,7 +7,7 @@ namespace :events do
     # puts "  found #{events.count} events"
     events.each do |e|
       # check if there's a timeout_event
-      te_id = e.event_configuration.timeout_event_id
+      te_id = e.event_configuration.timeout_event_configuration_id
       if te_id.present?
         ec = EventConfiguration.find(te_id)
         d = e.device

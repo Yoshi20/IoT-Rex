@@ -15,11 +15,13 @@ import SubDirArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
 /* Styles */
 import styles from './CompletedEventListElement.module.scss';
 
-export default function CompletedEventListElement({ text, time, acknowledged, acknowledged_at, timeout, timeouted, level, sendAck, id }) {
+export default function CompletedEventListElement({ text, time, acknowledged, acknowledged_by, acknowledged_at, timeout, timeouted, level, id }) {
   let now = new Date();
   let date = new Date(time);
   let date_str = date.toLocaleString();
   let hhmm = date_str.slice(date_str.length - 8, date_str.length - 3);
+  let ack_at_str = (new Date(acknowledged_at)).toLocaleString();
+  let ack_hhmm = ack_at_str.slice(ack_at_str.length - 8, ack_at_str.length - 3);
   let max_t = (timeout - date)/1000
   let dt = 0
   if (acknowledged) dt = Math.round((timeout - acknowledged_at)/1000)
@@ -49,6 +51,9 @@ export default function CompletedEventListElement({ text, time, acknowledged, ac
       {/* Event content */}
       <div className={styles.completedEventListElement__time}>{hhmm}</div>
       <div className={styles.completedEventListElement__text}>{text}</div>
+      {(acknowledged) && (
+        <div className={styles.completedEventListElement__name}>(von {acknowledged_by} um {ack_hhmm})</div>
+      )}
       {!isNaN(dt) && (
         <div className={styles.completedEventListElement__timeout}>
           {!timeouted && (

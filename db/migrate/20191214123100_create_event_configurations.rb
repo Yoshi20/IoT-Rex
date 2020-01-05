@@ -3,9 +3,9 @@ class CreateEventConfigurations < ActiveRecord::Migration[5.2]
     create_table :event_configurations do |t|
       t.string :text
       t.integer :level
-      t.bigint :acknowledged_event_id
+      t.bigint :acknowledged_event_configuration_id
       t.bigint :timeout
-      t.bigint :timeout_event_id
+      t.bigint :timeout_event_configuration_id
 
       t.timestamps
     end

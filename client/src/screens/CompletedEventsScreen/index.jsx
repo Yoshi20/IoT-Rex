@@ -56,11 +56,11 @@ class CompletedEventsScreen extends React.Component {
                 text={event.text}
                 time={Date.parse(event.created_at)}
                 acknowledged={event.acknowledged}
+                acknowledged_by={event.acknowledged_by}
                 acknowledged_at={Date.parse(event.acknowledged_at)}
                 timeout={Date.parse(event.timeouts_at)}
                 timeouted={event.timeouted}
                 level={event.level}
-                sendAck={this.props.completedEventAck}
                 id={event.id}
               />
             ))}

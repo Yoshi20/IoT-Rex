@@ -45,7 +45,7 @@ class Api::V1::EventTriggersController < ApplicationController
               if et_param.present?
                 et = EventConfiguration.new()
                 et.text = et_param[:text]
-                et.acknowledged_event_id = last_event_configuration_id
+                et.acknowledged_event_configuration_id = last_event_configuration_id
                 et.timeout = et_param[:timeout]
                 et.notification_channel_id = et_param[:notification_channel_id]
                 et.event_trigger = @event_trigger
@@ -71,7 +71,7 @@ class Api::V1::EventTriggersController < ApplicationController
                 # we found an event with a timeout -> check the next column and row for its timeout_event
                 (r+1).upto(number_of_rows-1) do |rr|
                   if ets[rr][c+1].present?
-                    et.timeout_event_id = ets[rr][c+1].id
+                    et.timeout_event_configuration_id = ets[rr][c+1].id
                     et.save!
                   end
                 end

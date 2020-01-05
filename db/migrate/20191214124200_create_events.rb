@@ -5,6 +5,7 @@ class CreateEvents < ActiveRecord::Migration[5.2]
       t.string :data
       t.boolean :completed, default: false
       t.boolean :acknowledged, default: false
+      t.string :acknowledged_by
       t.datetime :acknowledged_at
       t.datetime :timeouts_at
       t.boolean :timeouted, default: false

@@ -68,9 +68,9 @@ ActiveRecord::Schema.define(version: 2019_12_14_124300) do
   create_table "event_configurations", force: :cascade do |t|
     t.string "text"
     t.integer "level"
-    t.bigint "acknowledged_event_id"
+    t.bigint "acknowledged_event_configuration_id"
     t.bigint "timeout"
-    t.bigint "timeout_event_id"
+    t.bigint "timeout_event_configuration_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "notification_channel_id"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_124300) do
     t.string "data"
     t.boolean "completed", default: false
     t.boolean "acknowledged", default: false
+    t.string "acknowledged_by"
     t.datetime "acknowledged_at"
     t.datetime "timeouts_at"
     t.boolean "timeouted", default: false
