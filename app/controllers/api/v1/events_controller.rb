@@ -1,5 +1,5 @@
 class Api::V1::EventsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:uplink]
   before_action :set_event, only: [:show, :edit, :update, :acknowledge, :destroy]
 
   # GET /events
