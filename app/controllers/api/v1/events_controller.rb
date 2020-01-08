@@ -9,12 +9,12 @@ class Api::V1::EventsController < ApplicationController
     if current_user.super_admin?
       if params[:organisation_id].present?
         device_ids = Organisation.find(params[:organisation_id]).devices.map{|d| d.id}
-        @events = Event.where(completed: is_completed).where(device_id: device_ids)
+        @events = Event.where(completed: is_completed).where(device_id: device_ids).order(sort_by_time: (is_completed ? :desc : :asc))
       else
-        @events = Event.where(completed: is_completed)
+        @events = Event.where(completed: is_completed).order(sort_by_time: (is_completed ? :desc : :asc))
       end
     else
-      @events = current_user.ou.events.where(completed: is_completed)
+      @events = current_user.ou.events.where(completed: is_completed).order(sort_by_time: (is_completed ? :desc : :asc))
     end
 
     # Check if there are timeouted events and handle them
@@ -22,9 +22,6 @@ class Api::V1::EventsController < ApplicationController
       create_child_event(e, e.event_configuration.timeout_event_configuration_id)
       e.update!(timeouted: true)
     end
-
-    # order
-    @events.order(sort_by_time: (is_completed ? :desc : :asc))
 
     render json: @events.to_json
   end
