@@ -1,6 +1,11 @@
 @import '../../styles/typography.scss';
 @import '../../styles/colors.scss';
 
+.rotated {
+  transform: rotate(180deg);
+  margin-left: 5px;
+}
+
 .completedEventListElement {
   position: relative;
   padding: 1rem;
