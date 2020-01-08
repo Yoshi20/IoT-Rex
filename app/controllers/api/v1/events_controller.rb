@@ -87,7 +87,7 @@ class Api::V1::EventsController < ApplicationController
       return
     end
     event_trigger = nil
-    payload = Base64.decode64(params[:payload_raw])
+    payload = Base64.decode64(params[:payload_raw]).bytes.map{|b| sprintf("%02X", b)}.join
     lora_message_id = payload[0...2]
     case lora_message_id
     # when "00"  # heartbeat
