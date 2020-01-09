@@ -9,6 +9,11 @@
   &:active {
     top: 1px;
   }
+
+  &:first-of-type {
+    padding-top: 30.9%;
+    grid-column: 1 / span 2;
+  }
 }
 
 .dashBoardCard {

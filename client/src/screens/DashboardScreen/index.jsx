@@ -24,13 +24,13 @@ class DashboardScreen extends React.Component {
         <div className="screen_wrapper__center">
           <SiteHeader mainTitle="Dashboard" subTitle={this.props.userOrganisationName} />
           <div className={style.dash_board_cards}>
+            <DashBoardCard title="Events" icon={EventIcon} targetPath="/events" />
             <DashBoardCard title="Geräte" icon={DeviceIcon} targetPath="/devices" />
             <DashBoardCard
               title="Organisation"
               icon={OrganisationIcon}
               targetPath="/organisation"
             />
-            <DashBoardCard title="Events" icon={EventIcon} targetPath="/events" />
           </div>
         </div>
         <div className="screen_wrapper__right"></div>
